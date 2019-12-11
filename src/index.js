@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import moment from 'moment';
+window.Moment = moment;
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
