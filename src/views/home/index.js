@@ -4,13 +4,12 @@ import http from '../../utils/http';
 import { urls } from '../../utils/api';
 
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
-import LoginForm from './login';
 import src from '../../assets/img/login.png';
-export default class Login extends Component {
+export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      msg: '我是login'
+      msg: '我是home'
     };
     this.getData = this.getData.bind(this);
   }
@@ -30,16 +29,6 @@ export default class Login extends Component {
     });
   }
   render() {
-    return (
-      <div className="login">
-        <div className="login-left"></div>
-        {/* <div className="login-right"></div> */}
-        <img src={src} className="App-logo" alt="logo" />
-        <div className="login-main">
-          <h2>欢迎登录论文管理系统</h2>
-          <LoginForm />
-        </div>
-      </div>
-    );
+    return <div className="home">{this.state.msg}</div>;
   }
 }
