@@ -13,22 +13,31 @@ import { urls, noTokenReq } from './api';
 //   xsrfCookieName: 'xsrf-token' //当创建实例的时候配置默认配置
 // });
 
+// 字符串格式化
+String.prototype.format = function() {
+  // eslint-disable-line
+  let args = arguments;
+  return this.replace(/\{(\d+)\}/g, function(m, i) {
+    return args[i];
+  });
+};
+
 const service = axios.create({
   baseURL: urls.baseUrl,
   timeout: 30000
 });
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-axios.defaults.headers.common['X-Auth-Token'] = ''
+axios.defaults.headers.common['X-Auth-Token'] = '';
 /* 请求拦截 */
 service.interceptors.request.use(
   function(config) {
     // 需要带token的接口 请求带上token
     if (noTokenReq.indexOf(config.url) == -1) {
       // 验证浏览器localStorage缓存中是否存在token
-      let sToken = localStorage.getItem('sToken');
+      let sToken = sessionStorage.getItem('sToken');
       config.headers.common['X-Auth-Token'] = sToken;
 
-      return !!sToken;
+      // return !!sToken;
     } else {
       config.headers.common['X-Auth-Token'] = '';
       // return true;

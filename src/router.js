@@ -7,19 +7,18 @@ import Home from './views/home';
 const routes = [
   {
     path: '/',
-    component: Home,
+    component: Home
   },
   {
-    path: '/login', 
+    path: '/login',
     name: 'login',
-    component: Login,
+    component: Login
   },
   {
-    path: '/home', 
-    name:'home',
-    component: Home,
+    path: '/home',
+    name: 'home',
+    component: Home
   }
-]
+];
 
-
-export default routes
+export default routes;

@@ -16,7 +16,13 @@ export const urls = {
   baseUrl: baseUrl,
 
   // 登录
-  LOGIN: 'org-backend/student/paper/login'
+  LOGIN: 'org-backend/student/paper/login',
+
+  // 获取验证码
+  GETCODE: 'user-api/sendMsg/',
+
+  // 更改手机号
+  MOBILE_BIND: 'org-backend/student/paper/{0}/mobile'
 };
 
 // 不需要token的请求
