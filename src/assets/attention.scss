@@ -1,0 +1,24 @@
+.attention-header {
+  text-align: center;
+  font-size: 24px;
+  font-family: PingFang SC;
+  font-weight: bold;
+  color: rgba(51, 51, 51, 1);
+  opacity: 1;
+}
+.attention-content {
+  font-size: 14px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  line-height: 28px;
+  color: rgba(51, 51, 51, 1);
+  opacity: 1;
+}
+
+.attention-footer {
+  text-align: center;
+  button {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+}

@@ -76,7 +76,7 @@ class MobileBind extends React.Component {
         userInfo.mobileAck = true;
         localStorage.setItem('userInfo', JSON.stringify(userInfo));
         this.props.handleBindMobile(userInfo);
-        // http.postJson(urls.MOBILE_BIND, values, userInfo.id).then(res => {
+        // http.postJson(urls.MOBILE_BIND, values).then(res => {
         //   if (res) {
         //     // userInfo.mobile = values.newMobile
         //     // userInfo.mobileAck = true

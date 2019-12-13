@@ -10,6 +10,12 @@ import http from '@utils/http';
 import { urls } from '@utils/api';
 import verification from '@utils/verification';
 
+// connect方法的作用：将额外的props传递给组件，并返回新的组件，组件在该过程中不会受到影响
+import { connect } from 'react-redux';
+
+// 引入action
+import { setUserInfo } from '@store/actions.js';
+
 import '@assets/login.scss';
 import idCardUrl from '@assets/img/login-idCard.png';
 import passwordUrl from '@assets/img/login-password.png';
@@ -22,6 +28,9 @@ class LoginForm extends React.Component {
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+  componentDidMount() {
+    // let { setUserInfo } = this.props;
+  }
 
   handleSubmit = e => {
     e.preventDefault();
@@ -33,6 +42,7 @@ class LoginForm extends React.Component {
         http.postJson(urls.LOGIN, values).then(res => {
           if (res) {
             localStorage.setItem('userInfo', JSON.stringify(res.body));
+            setUserInfo(res.body);
             sessionStorage.setItem('sToken', res.body.token);
             // createHashHistory().push('/home');
             // 是否绑定手机号 and 是否确认了注意事项
@@ -103,3 +113,28 @@ class LoginForm extends React.Component {
 }
 
 export default Form.create({ name: 'normal_login' })(LoginForm);
+
+// mapStateToProps：将state映射到组件的props中
+// const mapStateToProps = (state) => {
+//   return {
+//     userInfo: state.userInfo,
+//   }
+// }
+
+// // mapDispatchToProps：将dispatch映射到组件的props中
+// const mapDispatchToProps = (dispatch, ownProps) => {
+//   return {
+//     setUserInfo (data) {
+//         // 如果不懂这里的逻辑可查看前面对redux-thunk的介绍
+//         dispatch(setUserInfo(data))
+//         // 执行setPageTitle会返回一个函数
+//         // 这正是redux-thunk的所用之处:异步action
+//         // 上行代码相当于
+//         /*dispatch((dispatch, getState) => {
+//             dispatch({ type: 'SET_PAGE_TITLE', data: data })
+//         )*/
+//     }
+//   }
+// }
+
+// export default connect(mapStateToProps, mapDispatchToProps)(Test)

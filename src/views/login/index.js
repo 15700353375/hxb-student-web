@@ -71,7 +71,7 @@ export default class Login extends Component {
   render() {
     let userInfo = this.state.userInfo;
     let sToken = sessionStorage.getItem('sToken');
-    let isShowMobile = userInfo.mobileAck;
+    // let isShowMobile = userInfo.mobileAck;
     let com = <LoginForm handleLogin={this.handleLogin} />;
     // 登录
     if (!sToken) {
@@ -87,13 +87,17 @@ export default class Login extends Component {
         com = <MobileBind handleBindMobile={this.handleBindMobile} />;
       }
     }
+    let atten;
+    if (userInfo && !userInfo.notesAck) {
+      atten = <Attention />;
+    }
     return (
       <div className="login">
         <div className="login-left"></div>
         {/* <div className="login-right"></div> */}
         <img src={src} className="App-logo" alt="logo" />
         <div className="login-main">{com}</div>
-        <Attention></Attention>
+        {atten}
       </div>
     );
   }
