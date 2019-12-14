@@ -31,7 +31,7 @@ updateTitle = (props) => {
     routes.forEach(route => {
       if (route.path === history.location.pathname) {
           if(!sessionStorage.getItem('sToken')){
-            createHashHistory().push('/login')
+            createHashHistory().push('/login');
           }          
       }
     })
