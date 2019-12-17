@@ -5,6 +5,7 @@ import Login from './views/login';
 import Main from './views/main';
 import Home from './views/home';
 import AddPaper from './views/dissertation/addPaper';
+import Paper from './views/dissertation/paper';
 import Defense from './views/dissertation/defense';
 import Topic from './views/topic';
 
@@ -38,6 +39,11 @@ const routes = [
         path: '/main/addPaper',
         name: 'addPaper',
         component: AddPaper
+      },
+      {
+        path: '/main/paper',
+        name: 'paper',
+        component: Paper
       },
       {
         path: '/main/defense',
