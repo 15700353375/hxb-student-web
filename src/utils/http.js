@@ -4,6 +4,7 @@ import qs from 'qs';
 // import {notification} from 'antd';
 import { message } from 'antd';
 import { urls, noTokenReq } from './api';
+import common from '@utils/common';
 // noTokenReq
 // 创建axios实例
 // const service = axios.create({
@@ -13,22 +14,31 @@ import { urls, noTokenReq } from './api';
 //   xsrfCookieName: 'xsrf-token' //当创建实例的时候配置默认配置
 // });
 
+// 字符串格式化
+String.prototype.format = function() {
+  // eslint-disable-line
+  let args = arguments;
+  return this.replace(/\{(\d+)\}/g, function(m, i) {
+    return args[i];
+  });
+};
+
 const service = axios.create({
   baseURL: urls.baseUrl,
   timeout: 30000
 });
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-axios.defaults.headers.common['X-Auth-Token'] = ''
+axios.defaults.headers.common['X-Auth-Token'] = '';
 /* 请求拦截 */
 service.interceptors.request.use(
   function(config) {
     // 需要带token的接口 请求带上token
     if (noTokenReq.indexOf(config.url) == -1) {
       // 验证浏览器localStorage缓存中是否存在token
-      let sToken = localStorage.getItem('sToken');
+      let sToken = sessionStorage.getItem('sToken');
       config.headers.common['X-Auth-Token'] = sToken;
 
-      return !!sToken;
+      // return !!sToken;
     } else {
       config.headers.common['X-Auth-Token'] = '';
       // return true;
@@ -57,6 +67,10 @@ service.interceptors.response.use(
     // 正常返回
     if (res.code === '000000') {
       return res;
+    } else if (res.code === '000301') {
+      common.loginOut();
+
+      return Promise.reject(res.message);
     } else {
       return Promise.reject(res.message);
     }

@@ -16,7 +16,46 @@ export const urls = {
   baseUrl: baseUrl,
 
   // 登录
-  LOGIN: 'org-backend/student/paper/login'
+  LOGIN: 'org-backend1/student/paper/login',
+
+  // 获取验证码
+  GETCODE: 'user-api/sendMsg/',
+
+  // 更改手机号
+  MOBILE_BIND: 'org-backend1/student/paper/mobile',
+
+  // 注意事项确认
+  NOTES_ACK: 'org-backend1/student/paper/notes/ack',
+
+  // 确认手机号
+  MOBILE_ACK: 'org-backend1/student/paper/mobile/ack',
+
+  // 学生老师
+  PAPER_TEACHER: 'org-backend1/student/paper/teachers',
+
+  // 论文阶段
+  PAPER_STEP: 'org-backend1/student/paper/step',
+
+  // 论文选题
+  PAPER_TOPIC_SELECT: 'org-backend1/student/paper/topic/select',
+
+  // 论文题目
+  PAPER_TOPICS: 'org-backend1/student/paper/topics',
+
+  // 学生的论文选题
+  PAPER_TOPIC: 'org-backend1/student/paper/topic',
+
+  // 更新论文选题大纲
+  PAPER_TOPIC_OUTLINE: 'org-backend1/student/paper/topic/outline',
+
+  // // 获取签名新
+  // GETOSSSIGNATURE: 'hxb-backend/token/oos/signature',
+
+  // 上传签名
+  GETOSSSIGNATURE: 'org-backend1/student/paper/upload/signature',
+
+  // 下载模板
+  PAPER_DOWNLOAD: 'org-backend1/student/paper/download'
 };
 
 // 不需要token的请求

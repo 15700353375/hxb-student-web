@@ -1,3 +1,4 @@
+html,
 body {
   margin: 0;
   /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -6,9 +7,68 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: PingFang SC;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  /* back */
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.text-center {
+  text-align: center;
+}
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
+.padding-left-right-60 {
+  padding: 0 60px;
+}
+
+.margin-T20 {
+  margin-top: 20px;
+}
+.margin-R20 {
+  margin-right: 20px;
+}
+.margin-L20 {
+  margin-right: 20px;
+}
+.margin-B20 {
+  margin-bottom: 20px;
+}
+.clearfix::after {
+  content: '.';
+  clear: both;
+  display: block;
+  overflow: hidden;
+  font-size: 0;
+  height: 0;
+}
+.clearfix {
+  zoom: 1;
+}
+
+/* // 两行 */
+.text-ellipsis2 {
+  word-break: break-all;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  /*! autoprefixer: off */
+  -webkit-box-orient: vertical;
+  /*! autoprefixer: on */
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.text-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
