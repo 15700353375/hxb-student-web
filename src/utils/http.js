@@ -4,6 +4,7 @@ import qs from 'qs';
 // import {notification} from 'antd';
 import { message } from 'antd';
 import { urls, noTokenReq } from './api';
+import common from '@utils/common';
 // noTokenReq
 // 创建axios实例
 // const service = axios.create({
@@ -66,6 +67,10 @@ service.interceptors.response.use(
     // 正常返回
     if (res.code === '000000') {
       return res;
+    } else if (res.code === '000301') {
+      common.loginOut();
+
+      return Promise.reject(res.message);
     } else {
       return Promise.reject(res.message);
     }

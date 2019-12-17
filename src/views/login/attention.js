@@ -37,7 +37,6 @@ export default class Attention extends React.Component {
   }
 
   handleOk = e => {
-    console.log(e);
     let userInfo = JSON.parse(localStorage.getItem('userInfo'));
     this.setState({
       loading: true

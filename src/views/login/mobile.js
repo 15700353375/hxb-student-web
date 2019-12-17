@@ -26,7 +26,7 @@ export default class Mobile extends React.Component {
       if (res) {
         userInfo.mobileAck = true;
         localStorage.setItem('userInfo', JSON.stringify(userInfo));
-        createHashHistory().push('/home');
+        createHashHistory().push('/main/home');
       }
       this.setState({
         loading: false

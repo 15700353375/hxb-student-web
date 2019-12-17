@@ -9,14 +9,36 @@ import defaultState from './state.js';
 function userInfo(state = defaultState.userInfo, action) {
   // 不同的action有不同的处理逻辑
   switch (action.type) {
-    case 'SET_PAGE_TITLE':
-      return action.data;
+    case 'SET_USERINFO':
+      return action.userInfo;
+    default:
+      return state;
+  }
+}
+// 一个reducer就是一个函数
+function currentRoute(state = defaultState.currentRoute, action) {
+  // 不同的action有不同的处理逻辑
+  switch (action.type) {
+    case 'SET_ROUTES':
+      return action.currentRoute;
     default:
       return state;
   }
 }
 
+// 一个reducer就是一个函数
+function topic(state = defaultState.topic, action) {
+  // 不同的action有不同的处理逻辑
+  switch (action.type) {
+    case 'SET_TOPIC':
+      return action.topic;
+    default:
+      return state;
+  }
+}
 // 导出所有reducer
 export default combineReducers({
-  userInfo
+  userInfo,
+  currentRoute,
+  topic
 });

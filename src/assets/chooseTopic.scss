@@ -1,0 +1,153 @@
+.chooseTopic {
+  padding: 30px;
+  box-sizing: border-box;
+  background: #fff;
+  font-family: PingFang SC;
+  .topic-title {
+    height: 33px;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 48px;
+    color: rgba(51, 51, 51, 1);
+    opacity: 1;
+    margin-bottom: 20px;
+    span {
+      margin-left: 20px;
+      height: 22px;
+      font-size: 16px;
+      font-weight: bold;
+      line-height: 32px;
+      color: rgba(51, 51, 51, 1);
+      opacity: 1;
+    }
+  }
+  .btn {
+    text-align: right;
+  }
+}
+
+.topicStatus {
+  font-family: PingFang SC;
+  .topicStatus-top {
+    background: #fff;
+    padding: 30px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    .topic-top {
+      border-bottom: 1px solid rgba(238, 238, 238, 1);
+      padding-bottom: 20px;
+      img {
+        width: 48px;
+        height: 48px;
+        margin-right: 20px;
+        float: left;
+      }
+      .topic-status {
+        float: left;
+        height: 42px;
+        font-size: 30px;
+        font-weight: bold;
+        line-height: 48px;
+        color: rgba(63, 141, 255, 1);
+        opacity: 1;
+        &.status1 {
+          color: #ee4816;
+        }
+        &.status2 {
+          color: #14bf6b;
+        }
+      }
+      .timer {
+        float: right;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 48px;
+        color: rgba(51, 51, 51, 1);
+        opacity: 1;
+      }
+    }
+    .user-block-bottom {
+      padding-top: 20px;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 32px;
+      color: rgba(51, 51, 51, 1);
+      opacity: 1;
+      .teacher-name {
+        float: left;
+        width: 240px;
+      }
+      .teacher-mobile {
+        float: left;
+        width: 180px;
+        img {
+          width: 24px;
+          height: 24px;
+          margin-left: 30px;
+          margin-right: 10px;
+        }
+      }
+    }
+    .reason {
+      position: relative;
+      margin-top: 20px;
+      .reason-tit {
+        width: 50px;
+        position: absolute;
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 28px;
+        color: rgba(51, 51, 51, 1);
+        opacity: 1;
+      }
+      .reason-content {
+        float: left;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 28px;
+        color: rgba(51, 51, 51, 1);
+        opacity: 1;
+        margin-left: 50px;
+      }
+    }
+  }
+  .topicStatus-content {
+    background: #fff;
+    padding: 30px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    margin-top: 20px;
+    .tit {
+      font-size: 24px;
+      font-weight: bold;
+      line-height: 33px;
+      color: rgba(51, 51, 51, 1);
+      opacity: 1;
+      margin-bottom: 20px;
+    }
+    .topic-title {
+      height: 40px;
+      background: rgba(245, 245, 245, 1);
+      opacity: 1;
+      border-radius: 4px;
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20px;
+      color: rgba(51, 51, 51, 1);
+      margin-bottom: 40px;
+    }
+    .topic-content {
+      background: rgba(245, 245, 245, 1);
+      opacity: 1;
+      border-radius: 8px;
+      padding: 20px;
+      font-size: 14px;
+      font-family: PingFang SC;
+      font-weight: 400;
+      line-height: 28px;
+      color: rgba(51, 51, 51, 1);
+      opacity: 1;
+    }
+  }
+}

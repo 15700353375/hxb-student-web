@@ -14,6 +14,8 @@ import '@assets/login.scss';
 import img_mobile from '@assets/img/mobile.png';
 import img_code from '@assets/img/code.png';
 
+import { connect } from 'react-redux';
+import { setUserInfo } from '@store/actions';
 class MobileBind extends React.Component {
   constructor(props) {
     super(props);
@@ -32,7 +34,6 @@ class MobileBind extends React.Component {
 
   /* 获取验证码 */
   getCode(e) {
-    // e.preventDefault();
     this.props.form.validateFields(['newMobile'], (err, values) => {
       if (!err) {
         http.get(urls.GETCODE + values.newMobile).then(res => {
@@ -76,6 +77,7 @@ class MobileBind extends React.Component {
         userInfo.mobileAck = true;
         localStorage.setItem('userInfo', JSON.stringify(userInfo));
         this.props.handleBindMobile(userInfo);
+        this.props.dispatch(setUserInfo(userInfo));
         // http.postJson(urls.MOBILE_BIND, values).then(res => {
         //   if (res) {
         //     // userInfo.mobile = values.newMobile
@@ -155,4 +157,5 @@ class MobileBind extends React.Component {
   }
 }
 
-export default Form.create({ name: 'normal_mobile' })(MobileBind);
+const comp = connect()(MobileBind);
+export default Form.create({ name: 'normal_mobile' })(comp);
