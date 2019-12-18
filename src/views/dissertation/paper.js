@@ -15,14 +15,12 @@ import verification from '@utils/verification';
 
 // connect方法的作用：将额外的props传递给组件，并返回新的组件，组件在该过程中不会受到影响
 import { connect } from 'react-redux';
-import { setUserInfo } from '@store/actions';
 
 import '@assets/paper.scss';
 import Topic from './topic';
 import UpPaper from './upPaper';
 import PaperStatus from './paperStatus';
 import UploadHistory from './uploadHistory';
-
 class Paper extends React.Component {
   constructor(props) {
     super(props);
@@ -30,24 +28,51 @@ class Paper extends React.Component {
       loading: false,
       topicList: [],
       topic: {},
-      isEdit: false
+      showAddPaper: false,
+      refresh: false
     };
-
+    this.addUpComp = this.addUpComp.bind(this);
+    this.upSuccess = this.upSuccess.bind(this);
   }
-  componentWillMount() {
-    console.log(this.props);
+  componentWillMount() {}
+
+  addUpComp() {
+    this.setState({
+      showAddPaper: true
+    });
   }
 
+  upSuccess() {
+    this.child.getData();
+    this.child2.getData();
+    this.setState({
+      showAddPaper: false
+    });
+  }
+
+  onRef = ref => {
+    this.child = ref;
+  };
+  onRefeash = ref => {
+    this.child2 = ref;
+  };
 
   render() {
+    let comp;
+    if (this.state.showAddPaper) {
+      comp = <UpPaper upSuccess={this.upSuccess} />;
+    }
     return (
       <div className="addPaper">
-        <PaperStatus />
-        {/* <Topic /> */}
-        <div>
-          {/* <UpPaper /> */}
+        <PaperStatus
+          addUpComp={this.addUpComp}
+          onRefeash={this.onRefeash.bind(this)}
+        />
+        <div className="margin-T20">
+          <Topic />
         </div>
-        <UploadHistory/>
+        {comp}
+        <UploadHistory onRef={this.onRef.bind(this)} />
       </div>
     );
   }

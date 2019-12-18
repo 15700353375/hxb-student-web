@@ -18,8 +18,12 @@ history.listen((location, action) => {
   let hasRoute = routes.findIndex(item => {
     return item.path == location.pathname;
   });
-  if (hasRoute > -1 && !sessionStorage.getItem('sToken')) {
+  if (!sessionStorage.getItem('sToken')) {
     createHashHistory().push('/login');
+  }
+  let sToken = sessionStorage.getItem('sToken');
+  if (location.pathname == '/login' && sToken) {
+    createHashHistory().push('/main/home');
   }
 });
 
@@ -43,6 +47,15 @@ class App extends React.Component {
     //   if (route.path === history.location.pathname) {
     if (!sessionStorage.getItem('sToken')) {
       createHashHistory().push('/login');
+    } else {
+      let sToken = sessionStorage.getItem('sToken');
+      if (
+        (history.location.pathname == '/login' ||
+          history.location.pathname == '/') &&
+        sToken
+      ) {
+        createHashHistory().push('/main/home');
+      }
     }
     //   }
     // });

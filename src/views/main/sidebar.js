@@ -3,7 +3,7 @@ import '@assets/sideBar.scss';
 import http from '../../utils/http';
 import { urls } from '../../utils/api';
 import { connect } from 'react-redux';
-import homeUrl from '@assets/img/home.png';
+import { Button } from 'antd';
 import store from '@store';
 
 import { createHashHistory } from 'history'; // 是hash路由 history路由 自己根据需求来定
@@ -42,11 +42,9 @@ class SideBar extends Component {
         }
       ]
     };
-    this.goHome = this.goHome.bind(this);
+    this.getData = this.getData.bind(this);
 
     store.subscribe(() => {
-      console.log('state状态改变了，新状态如下');
-      console.log(store.getState());
       let state = store.getState();
       this.setState({
         currentRoute: state.currentRoute
@@ -54,26 +52,44 @@ class SideBar extends Component {
     });
   }
   componentDidMount() {
+    this.getData();
     this.setState({
       currentRoute: this.props.currentRoute
     });
   }
 
-  goHome() {
-    createHashHistory().push('/home');
+  getData() {
+    http.get(urls.PAPER_DOWNLOAD).then(res => {
+      if (res) {
+        this.setState({
+          list: res.body.files
+        });
+      }
+    });
   }
 
   render() {
     const list = this.state.list;
     const listItems = list.map((item, index) => (
-      <li key={index}>{item.name}</li>
+      // <li key={index}>
+      //   <a href={item.value} download={item.value}>
+      //     {item.key}
+      //   </a>
+      // </li>
+      <a key={index} href={item.value} download={item.value}>
+        <Button>{item.key}</Button>
+      </a>
     ));
     let attention = this.state.attention;
     let current = attention[0];
     let currentRoute = this.state.currentRoute;
     if (currentRoute && currentRoute.pathname == '/main/topic') {
       current = attention[1];
-    } else if (currentRoute && currentRoute.pathname == '/main/addPaper') {
+    } else if (
+      currentRoute &&
+      (currentRoute.pathname.toLowerCase().indexOf('paper') > -1 ||
+        currentRoute.pathname.indexOf('defence') > -1)
+    ) {
       current = attention[2];
     }
 
@@ -97,7 +113,7 @@ class SideBar extends Component {
             <span>下载专区</span>
           </div>
           <div className="sidebar-content clearfix">
-            <ul>{listItems}</ul>
+            <div className="downList clearfix">{listItems}</div>
           </div>
         </div>
       </div>

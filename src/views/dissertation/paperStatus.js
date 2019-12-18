@@ -30,9 +30,9 @@ class PaperStatus extends React.Component {
     this.state = {
       loading: false,
       thesisSupervisionTeacher: {
-          name: '张三',
-          mobile: 15700353375,
-          qq: 1154818557
+        name: '',
+        mobile: '',
+        qq: ''
       },
       topic: {}
     };
@@ -42,21 +42,25 @@ class PaperStatus extends React.Component {
   }
 
   componentDidMount() {
-    // this.getTeacher();
-    // this.getData();
+    this.props.onRefeash(this);
+    this.getTeacher();
+    this.getData();
   }
 
   getTeacher() {
     http.get(urls.PAPER_TEACHER).then(res => {
       if (res) {
         this.setState({
-          thesisSupervisionTeacher: res.body.thesisSupervisionTeacher
+          thesisSupervisionTeacher:
+            res.body.thesisSupervisionTeacher ||
+            this.state.thesisSupervisionTeacher
         });
       }
     });
   }
 
   getData() {
+    // debugger;
     http.get(urls.PAPER_TOPIC).then(res => {
       if (res) {
         this.setState({
@@ -64,6 +68,10 @@ class PaperStatus extends React.Component {
         });
         localStorage.setItem('topic', JSON.stringify(res.body));
         this.props.dispatch(setTopic(res.body));
+        // 如果是审核不通过，告诉父组件去显示上传论文的组件
+        if (res.body.paperStatus == 2 || res.body.paperStatus == 4) {
+          this.props.addUpComp();
+        }
       }
     });
   }
@@ -78,27 +86,29 @@ class PaperStatus extends React.Component {
     };
     userInfo = this.props.userInfo || userInfo;
     let thesisSupervisionTeacher = this.state.thesisSupervisionTeacher;
-    // let topic = this.state.topic;
-    let topic = {
-        status: 1,
-        statusShow: '待审核',
-        firstDraftEndDatetime: '2019-12-30'
-    }
+    let topic = this.state.topic;
+
+    // 0待提交 1待审核  2驳回 3审核通过 4不通过
     let url = waitUrl;
-    if (topic.status == 0) {
+    let status = 0;
+    if (topic.paperStatus <= 1) {
       url = waitUrl;
-    } else if (topic.status == 1) {
+      status = 0;
+    } else if (topic.paperStatus == 2 || topic.paperStatus == 4) {
       url = noPassUrl;
-    } else if (topic.status == 2) {
+      status = 1;
+    } else if (topic.paperStatus == 3) {
       url = passUrl;
+      status = 2;
     }
+
     return (
       <div className="topicStatus">
         <div className="topicStatus-top">
           <div className="topic-top clearfix">
             <img src={url} />
-            <span className={`topic-status status${topic.status}`}>
-              {topic.statusShow}
+            <span className={`topic-status status${status}`}>
+              {topic.paperStatusShow}
             </span>
             <span className="timer">
               提交日期：{topic.firstDraftEndDatetime}
@@ -117,35 +127,16 @@ class PaperStatus extends React.Component {
               {thesisSupervisionTeacher.qq}
             </div>
           </div>
-          {topic.status == 1 ? (
+          {status == 1 ? (
             <div className="reason">
               <div className="clearfix">
-                <div className="reason-tit">原因：</div>
-                <div className="reason-content text-ellipsis2">
-                  {topic.noPassReason}
+                <div className="reason-tit paper-reason-tit">修改意见：</div>
+                <div className="reason-content paper-reason-content text-ellipsis2">
+                  {topic.paperAdvice}
                 </div>
-              </div>
-              <div className="text-right margin-T20">
-                <Button
-                  type="primary"
-                  className="margin-R20"
-                  ghost
-                  onClick={this.props.handleChoose}
-                >
-                  重新选题
-                </Button>
-                <Button type="primary" ghost onClick={this.editOutLine}>
-                  编辑大纲
-                </Button>
               </div>
             </div>
           ) : null}
-        </div>
-        <div className="topicStatus-content">
-          <div className="tit">当前题目</div>
-          <div className="topic-title">{topic.title}</div>
-          <div className="tit">大纲</div>
-          <div className="topic-content">{topic.outline}</div>
         </div>
       </div>
     );

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import '@assets/paper.scss';
+
 class Topic extends React.Component {
   constructor(props) {
     super(props);

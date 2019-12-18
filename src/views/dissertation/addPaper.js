@@ -15,7 +15,6 @@ import verification from '@utils/verification';
 
 // connect方法的作用：将额外的props传递给组件，并返回新的组件，组件在该过程中不会受到影响
 import { connect } from 'react-redux';
-import { setUserInfo } from '@store/actions';
 
 import '@assets/paper.scss';
 import Topic from './topic';
@@ -30,6 +29,7 @@ class AddPaper extends React.Component {
       topic: {},
       isEdit: false
     };
+    this.upSuccess = this.upSuccess.bind(this);
     // this.getData = this.getData.bind(this);
     // this.handleChoose = this.handleChoose.bind(this);
     // this.chooseSuccess = this.chooseSuccess.bind(this);
@@ -68,12 +68,16 @@ class AddPaper extends React.Component {
   //   });
   // }
 
+  upSuccess() {
+    createHashHistory().push('/main/paper');
+  }
+
   render() {
     return (
       <div className="addPaper">
         <Topic />
         <div>
-          <UpPaper />
+          <UpPaper upSuccess={this.upSuccess} />;
         </div>
       </div>
     );

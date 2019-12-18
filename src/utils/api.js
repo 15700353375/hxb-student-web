@@ -51,11 +51,26 @@ export const urls = {
   // // 获取签名新
   // GETOSSSIGNATURE: 'hxb-backend/token/oos/signature',
 
+  // 获取上传URL
+  // GETOSSSIGNATURE: 'org-backend1/student/paper/upload/url',
+
   // 上传签名
   GETOSSSIGNATURE: 'org-backend1/student/paper/upload/signature',
 
   // 下载模板
-  PAPER_DOWNLOAD: 'org-backend1/student/paper/download'
+  PAPER_DOWNLOAD: 'org-backend1/student/paper/download',
+
+  // 提交论文
+  PAPER: 'org-backend1/student/paper',
+
+  // 提交论文历史
+  PAPER_HISTORY: 'org-backend1/student/paper/history',
+
+  // 线下答辩问题
+  ANSWER_QUESTION: 'org-backend1/student/paper/online/answer/questions',
+
+  // 提交线下答辩
+  ONLINE_ANSWER: 'org-backend1/student/paper/online/answer'
 };
 
 // 不需要token的请求

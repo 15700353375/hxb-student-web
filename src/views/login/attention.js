@@ -45,7 +45,7 @@ export default class Attention extends React.Component {
       if (res) {
         userInfo.notesAck = true;
         localStorage.setItem('userInfo', JSON.stringify(userInfo));
-        createHashHistory().push('/home');
+        createHashHistory().push('/main/home');
       }
       this.setState({
         loading: false

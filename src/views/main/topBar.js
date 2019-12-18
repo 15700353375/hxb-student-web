@@ -5,6 +5,7 @@ import http from '../../utils/http';
 import { urls } from '../../utils/api';
 import { connect } from 'react-redux';
 import homeUrl from '@assets/img/home.png';
+import avatarUrl from '@assets/img/avatar.png';
 import store from '@store';
 import { createHashHistory } from 'history'; // 是hash路由 history路由 自己根据需求来定
 const history = createHashHistory();
@@ -18,8 +19,6 @@ class TopBar extends Component {
     this.goHome = this.goHome.bind(this);
     this.loginOut = this.loginOut.bind(this);
     store.subscribe(() => {
-      console.log('state状态改变了，新状态如下');
-      console.log(store.getState());
       let state = store.getState();
       this.setState({
         currentRoute: state.currentRoute
@@ -69,7 +68,7 @@ class TopBar extends Component {
         {leftComp}
         <span className="topbar-title">论文管理系统</span>
         <div className="topbar-user">
-          <img className="topbar-icon-home" alt="home" />
+          <img className="topbar-icon-home" src={avatarUrl} alt="home" />
           {/* <span>{userInfo.name}</span> */}
           <Dropdown overlay={menu} placement="bottomRight">
             <span>{userInfo.name}</span>

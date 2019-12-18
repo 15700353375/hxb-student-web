@@ -8,7 +8,9 @@ import { Button } from 'antd';
 import http from '@utils/http';
 import { urls } from '@utils/api';
 import { createHashHistory } from 'history';
-export default class Mobile extends React.Component {
+import { connect } from 'react-redux';
+import { setUserInfo } from '@store/actions';
+class Mobile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,8 +27,10 @@ export default class Mobile extends React.Component {
     http.put(urls.MOBILE_ACK, null).then(res => {
       if (res) {
         userInfo.mobileAck = true;
+        // createHashHistory().push('/main/home');
         localStorage.setItem('userInfo', JSON.stringify(userInfo));
-        createHashHistory().push('/main/home');
+        this.props.handleBindMobile(userInfo);
+        this.props.dispatch(setUserInfo(userInfo));
       }
       this.setState({
         loading: false
@@ -41,7 +45,7 @@ export default class Mobile extends React.Component {
         <div className="mobile-tips">
           为保障您及时接收通知，请确认您的手机号是否正确
         </div>
-        <div className="mobile-text">15700353375</div>
+        <div className="mobile-text">{this.props.userInfo.mobile}</div>
         <Button
           block
           size="large"
@@ -59,3 +63,7 @@ export default class Mobile extends React.Component {
     );
   }
 }
+const mapStateToProps = state => ({
+  userInfo: state.userInfo
+});
+export default connect(mapStateToProps)(Mobile);

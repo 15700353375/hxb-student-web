@@ -15,7 +15,7 @@ import verification from '@utils/verification';
 
 // connect方法的作用：将额外的props传递给组件，并返回新的组件，组件在该过程中不会受到影响
 import { connect } from 'react-redux';
-import { setUserInfo } from '@store/actions';
+import { setTopic } from '@store/actions';
 
 import '@assets/chooseTopic.scss';
 import ChooseTopic from './chooseTopic';
@@ -41,11 +41,13 @@ class Topic extends React.Component {
   }
 
   getData() {
-    http.get(urls.PAPER_STEP).then(res => {
+    http.get(urls.PAPER_TOPIC).then(res => {
       if (res) {
         this.setState({
-          topic: res.body.steps[0]
+          topic: res.body
         });
+        localStorage.setItem('topic', JSON.stringify(res.body));
+        this.props.dispatch(setTopic(res.body));
       }
     });
   }
@@ -59,7 +61,6 @@ class Topic extends React.Component {
     });
   }
   chooseSuccess() {
-    debugger;
     let topic = this.state.topic;
     topic.status = 1;
     this.setState({
@@ -73,7 +74,7 @@ class Topic extends React.Component {
     let topic = this.state.topic;
     let isEdit = this.state.isEdit;
     if (topic) {
-      if (topic.status == 0) {
+      if (!topic.status) {
         comp = <ChooseTopic edit={isEdit} chooseSuccess={this.chooseSuccess} />;
       } else {
         comp = <TopicStatus handleChoose={this.handleChoose} />;
@@ -83,6 +84,7 @@ class Topic extends React.Component {
   }
 }
 const mapStateToProps = state => ({
-  userInfo: state.userInfo
+  userInfo: state.userInfo,
+  topic: state.topic
 });
 export default connect(mapStateToProps)(Topic);

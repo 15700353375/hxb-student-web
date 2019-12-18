@@ -19,13 +19,12 @@ import store from '@store/index';
 import { createHashHistory } from 'history';
 import { connect } from 'react-redux';
 import { setUserInfo } from '@store/actions';
-
+import bgUrl from '@assets/img/login_bg.png';
 class Login extends Component {
   // const Login = ({ dispatch }) => {
   constructor(props) {
     super(props);
     this.state = {
-      msg: '我是login',
       sToken: null,
       userInfo: null,
       goChangeMobile: false,
@@ -123,7 +122,11 @@ class Login extends Component {
     }
     if (this.state.showMobile) {
       com = (
-        <Mobile mobile={userInfo.mobile} goBindMobile={this.goBindMobile} />
+        <Mobile
+          mobile={userInfo.mobile}
+          goBindMobile={this.goBindMobile}
+          handleBindMobile={this.handleBindMobile}
+        />
       );
     }
     if (this.state.showLogin) {
@@ -135,7 +138,9 @@ class Login extends Component {
     }
     return (
       <div className="login">
-        <div className="login-left"></div>
+        <div className="login-left">
+          <img src={bgUrl} />
+        </div>
         {/* <div className="login-right"></div> */}
         <img src={src} className="App-logo" alt="logo" />
         <div className="login-main">{com}</div>

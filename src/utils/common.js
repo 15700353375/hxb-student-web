@@ -13,7 +13,6 @@ export default {
 
   // 图片上传
   handleUpload(files) {
-    debugger;
     if (!files) return;
     let type = files.type; // 文件的类型，判断是否是图片
     let size = files.size; // 文件的大小，判断图片的大小
@@ -30,6 +29,11 @@ export default {
       //   reject(imgUrl);
       // }
 
+      // let objectName = 'paper/' + new Date().getTime() + files.name;
+      // let params = {
+      //   objectName: objectName
+      // };
+      imgUrl = `paper/${new Date().getTime()}_` + files.name;
       // 获取签名
       http.get(urls.GETOSSSIGNATURE).then(res => {
         if (res) {
@@ -37,10 +41,11 @@ export default {
           ossData.append('OSSAccessKeyId', res.body.OSSAccessKeyId);
           ossData.append('policy', res.body.policy);
           ossData.append('Signature', res.body.Signature);
-          ossData.append('key', 'images/studentInfo/' + '111.name');
+          ossData.append('key', imgUrl);
           ossData.append('file', files);
+          ossData.append('success_action_status', '200');
           $.ajax({
-            url: 'https://hxbang.oss-cn-shanghai.aliyuncs.com/',
+            url: res.body.action,
             type: 'POST',
             data: ossData,
             dataType: 'xml', // 这里加个对返回内容的类型指定
@@ -49,10 +54,7 @@ export default {
             contentType: false, // 避免服务器不能正常解析文件
             filename: 'file',
             success: function(ret) {
-              debugger;
-              // imgUrl =
-              //   res.body.host + 'images/studentInfo/' + res.body.fileName;
-              // resolve(imgUrl);
+              resolve(imgUrl);
             },
             error: function(xhr) {
               imgUrl = null;

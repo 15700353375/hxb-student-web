@@ -12,6 +12,7 @@ import { createHashHistory } from 'history';
 import http from '@utils/http';
 import { urls } from '@utils/api';
 import verification from '@utils/verification';
+// status 0 待审核 1 失败 2成功
 
 // connect方法的作用：将额外的props传递给组件，并返回新的组件，组件在该过程中不会受到影响
 import { connect } from 'react-redux';
@@ -29,7 +30,11 @@ class TopicStatus extends React.Component {
     super(props);
     this.state = {
       loading: false,
-      thesisSupervisionTeacher: {},
+      thesisSupervisionTeacher: {
+        name: '',
+        mobile: '',
+        qq: ''
+      },
       topic: {}
     };
     this.getData = this.getData.bind(this);
@@ -46,7 +51,9 @@ class TopicStatus extends React.Component {
     http.get(urls.PAPER_TEACHER).then(res => {
       if (res) {
         this.setState({
-          thesisSupervisionTeacher: res.body.thesisSupervisionTeacher
+          thesisSupervisionTeacher:
+            res.body.thesisSupervisionTeacher ||
+            this.state.thesisSupervisionTeacher
         });
       }
     });

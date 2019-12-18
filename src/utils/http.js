@@ -92,13 +92,14 @@ const http = {
 /* ********************* 封装get请求 ************************** */
 
 http.get = function(url, data) {
-  let params = qs.stringify(data);
+  // let params = qs.stringify(data);
+  // let params = data;
   url =
     arguments.length > 2
       ? url.format(...[].slice.call(arguments).slice(2))
       : url;
   return service
-    .get(url, params)
+    .get(url, { params: data })
     .then(res => {
       return res;
     })

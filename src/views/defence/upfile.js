@@ -17,13 +17,13 @@ class UpFile extends React.Component {
     super(props);
     this.state = {
       fileUrl: '',
+      templateUrl: '',
       loading: false
     };
     this.postData = this.postData.bind(this);
+    this.downLoad = this.downLoad.bind(this);
   }
-  componentDidMount() {
-    console.log(222222222222, this.props);
-  }
+  componentDidMount() {}
   postData() {
     this.setState({
       btnLoading: true
@@ -31,19 +31,22 @@ class UpFile extends React.Component {
     let params = {
       path: this.state.fileUrl
     };
-    http.postJson(urls.PAPER, params).then(res => {
+    http.postJson(urls.ONLINE_ANSWER, params).then(res => {
       if (res) {
         message.success('上传成功');
       }
       this.setState({
         btnLoading: false
       });
-      if (this.props.upSuccess) {
-        this.props.upSuccess();
-      } else {
-        createHashHistory().push('/main/paper');
-      }
+      this.props.upSuccess();
     });
+  }
+
+  downLoad() {
+    let alink = document.createElement('a');
+    alink.download = '答辩模板'; //文件名,大部分浏览器兼容,IE10及以下不兼容
+    alink.href = this.props.answerTemplateUrl;
+    alink.click(); //自动点击
   }
 
   render() {
@@ -92,7 +95,15 @@ class UpFile extends React.Component {
       }
     };
     return (
-      <div>
+      <div className="basicInfo margin-T20">
+        <div className="basicInfo-block">
+          <div className="tit tit2">
+            答辩稿上传
+            <Button type="primary" ghost onClick={this.downLoad}>
+              下载答辩模板
+            </Button>
+          </div>
+        </div>
         <Spin tip="Loading..." spinning={this.state.loading}>
           <Dragger {...props}>
             <p className="ant-upload-drag-icon">

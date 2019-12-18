@@ -4,8 +4,7 @@ import '@assets/user.scss';
 
 import http from '../../utils/http';
 import { urls } from '../../utils/api';
-
-import homeUrl from '@assets/img/home.png';
+import avatarUrl from '@assets/img/avatar.png';
 import qqUrl from '@assets/img/qq.png';
 import phoneUrl from '@assets/img/phone.png';
 
@@ -13,8 +12,16 @@ class User extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      schoolManager: {},
-      thesisSupervisionTeacher: {}
+      schoolManager: {
+        mobile: '',
+        name: '',
+        qq: ''
+      },
+      thesisSupervisionTeacher: {
+        mobile: '',
+        name: '',
+        qq: ''
+      }
     };
     this.getData = this.getData.bind(this);
   }
@@ -27,8 +34,10 @@ class User extends React.Component {
     http.get(urls.PAPER_TEACHER).then(res => {
       if (res) {
         this.setState({
-          thesisSupervisionTeacher: res.body.thesisSupervisionTeacher,
-          schoolManager: res.body.schoolManager
+          thesisSupervisionTeacher:
+            res.body.thesisSupervisionTeacher ||
+            this.state.thesisSupervisionTeacher,
+          schoolManager: res.body.schoolManager || this.state.schoolManager
         });
       }
     });
@@ -43,7 +52,7 @@ class User extends React.Component {
     return (
       <div className="user-block">
         <div className="user-block-top clearfix">
-          <img src={homeUrl} alt="home" />
+          <img src={avatarUrl} alt="home" />
           <div className="user-con">
             <div className="user-name">
               学员{userInfo.name}，欢迎登陆论文管理系统

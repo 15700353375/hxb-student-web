@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Button } from 'antd';
 import '@assets/paper.scss';
 import UpFile from './upfile';
@@ -14,12 +13,11 @@ class UpPaper extends React.Component {
     };
     this.downLoadPaper = this.downLoadPaper.bind(this);
     this.downLoadCover = this.downLoadCover.bind(this);
+    this.upSuccess = this.upSuccess.bind(this);
   }
-  // componentDidMount() {
-  //   debugger;
-  // }
-
-  // this.PAPER_DOWNLOAD
+  componentDidMount() {
+    console.log(111111111111, this.props);
+  }
 
   componentWillMount() {
     this.getData();
@@ -50,11 +48,15 @@ class UpPaper extends React.Component {
     alink.click(); //自动点击
   }
 
+  upSuccess() {
+    this.props.upSuccess();
+  }
+
   render() {
     return (
       <div className="upPaper">
         <div className="tit">
-          当前题目
+          论文上传
           <Button type="primary" ghost onClick={this.downLoadPaper}>
             下载论文写作规范
           </Button>
@@ -75,15 +77,11 @@ class UpPaper extends React.Component {
           清楚地标示出来
         </div>
         <div className="upFile">
-          <UpFile />
+          <UpFile upSuccess={this.upSuccess} />
         </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  userInfo: state.userInfo,
-  topic: state.topic
-});
-export default connect(mapStateToProps)(UpPaper);
+export default UpPaper;

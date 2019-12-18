@@ -7,7 +7,7 @@ import store from '@store';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import src from '../../assets/img/login.png';
 import { Switch, Route } from 'react-router-dom';
-
+import { setTopic } from '@store/actions';
 import TopBar from './topBar';
 import SideBar from './sidebar';
 
@@ -23,17 +23,17 @@ class Main extends Component {
     // this.getData();
     let data = store.getState();
     console.log(this.props, data);
-    // debugger;
+    this.getData();
   }
 
   getData() {
-    let data = {
-      idCard: '510304199110301510',
-      password: '301510'
-    };
-    http.postJson(urls.LOGIN, data).then(res => {
+    http.get(urls.PAPER_TOPIC).then(res => {
       if (res) {
-        debugger;
+        this.setState({
+          topic: res.body
+        });
+        localStorage.setItem('topic', JSON.stringify(res.body));
+        this.props.dispatch(setTopic(res.body));
       }
     });
   }

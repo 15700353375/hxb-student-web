@@ -23,7 +23,7 @@ class MobileBind extends React.Component {
       loading: false,
       // 是否可点击获取验证码
       flag: true,
-      timer: 10
+      timer: 60
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getCode = this.getCode.bind(this);
@@ -38,7 +38,6 @@ class MobileBind extends React.Component {
       if (!err) {
         http.get(urls.GETCODE + values.newMobile).then(res => {
           if (res) {
-            debugger;
             this.dealTime();
           }
         });
@@ -58,7 +57,7 @@ class MobileBind extends React.Component {
       if (timer <= 0) {
         clearInterval(timers);
         this.setState({
-          timer: 10,
+          timer: 60,
           flag: true
         });
       }
@@ -72,22 +71,25 @@ class MobileBind extends React.Component {
         // this.setState({
         //   loading: true
         // });
-        let userInfo = JSON.parse(localStorage.getItem('userInfo'));
-        userInfo.mobile = values.newMobile;
-        userInfo.mobileAck = true;
-        localStorage.setItem('userInfo', JSON.stringify(userInfo));
-        this.props.handleBindMobile(userInfo);
-        this.props.dispatch(setUserInfo(userInfo));
-        // http.postJson(urls.MOBILE_BIND, values).then(res => {
-        //   if (res) {
-        //     // userInfo.mobile = values.newMobile
-        //     // userInfo.mobileAck = true
-        //     // localStorage.setItem(JSON.stringify())
-        //   }
-        //   this.setState({
-        //     loading: false
-        //   });
-        // });
+        // let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+        // userInfo.mobile = values.newMobile;
+        // userInfo.mobileAck = true;
+        // localStorage.setItem('userInfo', JSON.stringify(userInfo));
+        // this.props.handleBindMobile(userInfo);
+        // this.props.dispatch(setUserInfo(userInfo));
+        http.put(urls.MOBILE_BIND, values).then(res => {
+          if (res) {
+            let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+            userInfo.mobile = values.newMobile;
+            userInfo.mobileAck = true;
+            localStorage.setItem('userInfo', JSON.stringify(userInfo));
+            this.props.handleBindMobile(userInfo);
+            this.props.dispatch(setUserInfo(userInfo));
+          }
+          this.setState({
+            loading: false
+          });
+        });
       }
     });
   };

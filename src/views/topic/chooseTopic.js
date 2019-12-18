@@ -138,8 +138,6 @@ class ChooseTopic extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const validator_idCard = verification.validator_idCard;
-    const validator_login_password = verification.validator_login_password;
     let userInfo = {
       majorName: ''
     };
@@ -157,7 +155,7 @@ class ChooseTopic extends React.Component {
           <Form.Item>
             {getFieldDecorator('titleId', {})(
               <Select
-                disabled={this.props.edit}
+                disabled={this.props.edit == true}
                 size="large"
                 placeholder="请选择题目"
                 onChange={this.handleChange}
@@ -176,7 +174,7 @@ class ChooseTopic extends React.Component {
           <Form.Item>
             {getFieldDecorator('title', {})(
               <Input
-                disabled={this.props.edit}
+                disabled={this.props.edit == true}
                 size="large"
                 placeholder="请输入题目"
               />

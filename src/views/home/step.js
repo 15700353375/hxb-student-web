@@ -5,7 +5,7 @@ import '@assets/step.scss';
 import http from '../../utils/http';
 import { urls } from '../../utils/api';
 
-import { Steps, Divider, Icon, Button } from 'antd';
+import { Steps, Button } from 'antd';
 
 const { Step } = Steps;
 
@@ -15,12 +15,15 @@ class User extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentObj: null,
       current: 0,
       steps: []
     };
     this.getData = this.getData.bind(this);
-    this.goChooseExer = this.goChooseExer.bind(this);
-    // this.goStep = this.goStep.bind(this);
+    this.goChoose = this.goChoose.bind(this);
+    this.goStep = this.goStep.bind(this);
+    this.dealText = this.dealText.bind(this);
+    this.dealData = this.dealData.bind(this);
   }
 
   componentDidMount() {
@@ -28,16 +31,49 @@ class User extends React.Component {
   }
 
   /* 去选题 */
-  goChooseExer() {
-    createHashHistory().push('/main/topic');
+  goChoose() {
+    if (this.state.currentObj.step == 1) {
+      createHashHistory().push('/main/topic');
+    } else if (this.state.currentObj.step == 2) {
+      if (!this.state.currentObj.childStatus) {
+        createHashHistory().push('/main/addPaper');
+      } else if (this.state.currentObj.childStatus == 2) {
+        createHashHistory().push('/main/paper');
+      }
+    } else if (this.state.currentObj.step == 3) {
+      // 1、等待答辩 2、待回答 3、待评定 4、合格 5、不合格
+      createHashHistory().push('/main/defence');
+    }
   }
-  goStep(index) {
+
+  dealText() {
+    let text = '';
+    if (this.state.currentObj.step == 1) {
+      text = '去选题';
+      if (this.state.currentObj.childStatus == 1) {
+        text = '查看原因并修改';
+      }
+    } else if (this.state.currentObj.step == 2) {
+      text = '上传论文';
+      if (this.state.currentObj.childStatus == 2) {
+        text = '查看原因并修改';
+      }
+    }
+
+    return text;
+  }
+  goStep(index, status) {
     switch (index) {
-      case 0:
+      case 1:
         createHashHistory().push('/main/topic');
         break;
-      case 1:
-        createHashHistory().push('/main/addPaper');
+      case 2:
+        status > 0
+          ? createHashHistory().push('/main/paper')
+          : createHashHistory().push('/main/addPaper');
+        break;
+      case 3:
+        createHashHistory().push('/main/defence');
         break;
 
       default:
@@ -51,66 +87,102 @@ class User extends React.Component {
         this.setState({
           steps: res.body.steps
         });
+        this.dealData(res.body.steps);
+      }
+    });
+  }
+
+  /* 获取到当前阶段和状态 */
+  dealData(data) {
+    data.forEach(item => {
+      if (item.status == 2) {
+        this.setState({
+          currentObj: item
+        });
+        console.log(item);
       }
     });
   }
   render() {
     let current = this.state.current;
     let steps = this.state.steps;
+    let currentObj = this.state.currentObj;
+    let btn;
+    if (currentObj) {
+      if (currentObj.step == 1) {
+        if (currentObj.childStatus == null) {
+          btn = (
+            <Button className="btn" type="primary" onClick={this.goChoose}>
+              去选题
+            </Button>
+          );
+        } else if (currentObj.childStatus == 1) {
+          btn = (
+            <Button className="btn" type="primary" onClick={this.goChoose}>
+              查看原因并修改
+            </Button>
+          );
+        }
+      } else if (currentObj.step == 2) {
+        if (currentObj.childStatus == null) {
+          btn = (
+            <Button className="btn" type="primary" onClick={this.goChoose}>
+              上传论文
+            </Button>
+          );
+        } else if (currentObj.childStatus == 2) {
+          btn = (
+            <Button className="btn" type="primary" onClick={this.goChoose}>
+              查看原因并修改
+            </Button>
+          );
+        }
+      } else if (currentObj.step == 3) {
+        if (currentObj.childStatus == 2) {
+          btn = (
+            <Button className="btn" type="primary" onClick={this.goChoose}>
+              上传答辩稿
+            </Button>
+          );
+        } else if (currentObj.childStatus == 5) {
+          btn = (
+            <Button className="btn" type="primary" onClick={this.goChoose}>
+              查看原因
+            </Button>
+          );
+        }
+      }
+    }
+
     return (
       <div className="step-block">
         <div className="step-title">论文阶段</div>
         <Steps labelPlacement="vertical" current={current}>
           {steps.map((item, index) => (
             <Step
-              status={item.status > 1 ? 'finish' : 'wait'}
+              status={
+                item.status < 2
+                  ? 'wait'
+                  : item.status == 2
+                  ? 'process'
+                  : 'finish'
+              }
               key={index}
               title={item.name}
-              onClick={this.goStep.bind(this, index)}
+              // onClick={this.goStep.bind(this, item.step, item.status)}
               description={item.stepDescription}
             />
           ))}
         </Steps>
 
         <div className="status-block">
-          <div className="status-list">
-            <div className="tit">你还没有选题哦</div>
-            <div className="con">离选题结束还有X天X小时，快去选题吧~</div>
-            {steps.length && steps[0].status <= 1 ? (
-              <Button
-                className="btn"
-                type="primary"
-                onClick={this.goChooseExer}
-              >
-                去选题
-              </Button>
-            ) : null}
-          </div>
-          <div className="status-list">
-            <div className="tit">你的选题大纲待老师审核</div>
-            <div className="con">请耐心等待</div>
-          </div>
-          <div className="status-list">
-            <div className="tit">你还没有选题哦</div>
-            <div className="con">离选题结束还有X天X小时，快去选题吧~</div>
-            <Button className="btn" type="primary">
-              去选题
-            </Button>
-          </div>
-          <div className="status-list">
-            <div className="tit">你还没有选题哦</div>
-            <div className="con">离选题结束还有X天X小时，快去选题吧~</div>
-            <Button className="btn" type="primary">
-              去选题
-            </Button>
-          </div>
-          <div className="status-list">
-            <div className="tit">你还没有选题哦</div>
-            <div className="con">离选题结束还有X天X小时，快去选题吧~</div>
-            <Button className="btn" type="primary">
-              去选题
-            </Button>
-          </div>
+          {currentObj ? (
+            <div className="status-list">
+              <div className="tit">{currentObj.guide}</div>
+              <div className="con">{currentObj.guideDescription}</div>
+              {btn}
+            </div>
+          ) : null}
         </div>
       </div>
     );
