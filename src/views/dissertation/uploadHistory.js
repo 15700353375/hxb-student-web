@@ -34,6 +34,7 @@ export default class UploadHistory extends React.Component {
     data.forEach(item => {
       item.submitAt = Moment(item.submitAt).format('YYYY-MM-DD HH:mm');
       item['stepStatus'] = this.dealStatus(item.status);
+      item.downUrl = decodeURI(item.downUrl);
       let t = item.downUrl.split('?')[0].split('/');
       let n = t[t.length - 1].split('_');
       item['docName'] = n[1];
@@ -92,7 +93,13 @@ export default class UploadHistory extends React.Component {
                   </div>
                 }
                 status={item.stepStatus}
-                description={item.advice}
+                description={
+                  item.advice ? (
+                    <span>
+                      <b>修改意见：</b> {item.advice}
+                    </span>
+                  ) : null
+                }
               />
             ))}
           </Steps>

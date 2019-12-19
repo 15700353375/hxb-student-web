@@ -10,6 +10,7 @@ import { urls } from '@utils/api';
 import { createHashHistory } from 'history';
 import { connect } from 'react-redux';
 import { setUserInfo } from '@store/actions';
+import common from '@utils/common';
 class Mobile extends React.Component {
   constructor(props) {
     super(props);
@@ -17,6 +18,11 @@ class Mobile extends React.Component {
       loading: false
     };
     this.sureMobile = this.sureMobile.bind(this);
+    this.loginOut = this.loginOut.bind(this);
+  }
+
+  loginOut() {
+    common.loginOut();
   }
 
   sureMobile() {
@@ -59,6 +65,11 @@ class Mobile extends React.Component {
         <Button block size="large" type="primary" onClick={this.sureMobile}>
           确认手机号
         </Button>
+        <div className="margin-T10">
+          <Button type="link" onClick={this.loginOut}>
+            退出登录
+          </Button>
+        </div>
       </div>
     );
   }

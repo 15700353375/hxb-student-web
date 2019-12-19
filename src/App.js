@@ -1,6 +1,5 @@
 import React from 'react';
-import { Router, BrowserRouter } from 'react-router';
-import { renderRoutes } from 'react-router-config';
+import { Router } from 'react-router';
 // import { Route, Switch, Redirect } from 'react-router-dom';
 import { createHashHistory } from 'history'; // 是hash路由 history路由 自己根据需求来定
 const history = createHashHistory();
@@ -15,17 +14,38 @@ import store from './store/index.js';
 history.listen((location, action) => {
   store.dispatch(setRoutes(location));
   // 判断是否存在这个路由
-  let hasRoute = routes.findIndex(item => {
-    return item.path == location.pathname;
-  });
-  if (!sessionStorage.getItem('sToken')) {
+  // let hasRoute = routes.findIndex(item => {
+  //   return item.path == location.pathname;
+  // });
+  // if (!sessionStorage.getItem('sToken')) {
+  //   createHashHistory().push('/login');
+  // }
+  // let sToken = sessionStorage.getItem('sToken');
+  // if (location.pathname == '/login' && sToken) {
+  //   createHashHistory().push('/main/home');
+  // }
+  routeInterception();
+});
+
+/* 路由拦截 */
+function routeInterception() {
+  // 判断是否有登录信息和确认注意事项  如果没有  跳转到登录页面  如果有 正常路由
+  // let current = history.location.pathname;
+  let sToken = sessionStorage.getItem('sToken');
+  let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  if (
+    sToken &&
+    userInfo &&
+    userInfo.notesAck == true &&
+    userInfo.mobileAck == true
+  ) {
+    if (location.pathname == '/login' || location.hash == '#/') {
+      createHashHistory().push('/main/home');
+    }
+  } else {
     createHashHistory().push('/login');
   }
-  let sToken = sessionStorage.getItem('sToken');
-  if (location.pathname == '/login' && sToken) {
-    createHashHistory().push('/main/home');
-  }
-});
+}
 
 class App extends React.Component {
   constructor(props) {
@@ -34,32 +54,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.updateTitle(this.props);
+    routeInterception();
   }
 
-  componentWillUpdate(nextProps) {
-    this.updateTitle(nextProps);
-  }
-
-  updateTitle = props => {
-    // debugger;
-    // routes.forEach(route => {
-    //   if (route.path === history.location.pathname) {
-    if (!sessionStorage.getItem('sToken')) {
-      createHashHistory().push('/login');
-    } else {
-      let sToken = sessionStorage.getItem('sToken');
-      if (
-        (history.location.pathname == '/login' ||
-          history.location.pathname == '/') &&
-        sToken
-      ) {
-        createHashHistory().push('/main/home');
-      }
-    }
-    //   }
-    // });
-  };
+  componentWillUpdate(nextProps) {}
 
   render() {
     return (

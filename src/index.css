@@ -30,7 +30,9 @@ code {
 .padding-left-right-60 {
   padding: 0 60px;
 }
-
+.margin-T10 {
+  margin-top: 10px;
+}
 .margin-T20 {
   margin-top: 20px;
 }

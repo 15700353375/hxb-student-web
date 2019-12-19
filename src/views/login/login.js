@@ -42,6 +42,11 @@ class LoginForm extends React.Component {
             localStorage.setItem('userInfo', JSON.stringify(res.body));
             this.props.dispatch(setUserInfo(res.body));
             sessionStorage.setItem('sToken', res.body.token);
+            if (res.body) {
+              if (res.body.mobileAck && res.body.notesAck) {
+                createHashHistory().push('/main/home');
+              }
+            }
           }
           this.setState({
             loading: false

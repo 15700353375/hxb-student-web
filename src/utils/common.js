@@ -3,11 +3,14 @@ import { urls } from '@utils/api';
 import { createHashHistory } from 'history'; // 是hash路由 history路由 自己根据需求来定
 const history = createHashHistory();
 import $ from 'jquery';
+import store from '../store/index.js';
+import { setUserInfo } from '@store/actions';
 export default {
   /* 退出登录 */
   loginOut() {
     sessionStorage.removeItem('sToken');
     localStorage.removeItem('userInfo');
+    store.dispatch(setUserInfo(null));
     history.push('/login');
   },
 

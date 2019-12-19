@@ -144,12 +144,6 @@ class User extends React.Component {
               上传答辩稿
             </Button>
           );
-        } else if (currentObj.childStatus == 5) {
-          btn = (
-            <Button className="btn" type="primary" onClick={this.goChoose}>
-              查看原因
-            </Button>
-          );
         }
       }
     }

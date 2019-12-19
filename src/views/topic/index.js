@@ -54,7 +54,7 @@ class Topic extends React.Component {
 
   handleChoose(data) {
     let topic = this.state.topic;
-    topic.status = 0;
+    topic.status = null;
     this.setState({
       isEdit: data,
       topic
@@ -74,7 +74,7 @@ class Topic extends React.Component {
     let topic = this.state.topic;
     let isEdit = this.state.isEdit;
     if (topic) {
-      if (!topic.status) {
+      if (topic.status == null) {
         comp = <ChooseTopic edit={isEdit} chooseSuccess={this.chooseSuccess} />;
       } else {
         comp = <TopicStatus handleChoose={this.handleChoose} />;

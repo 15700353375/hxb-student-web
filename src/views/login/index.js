@@ -44,7 +44,7 @@ class Login extends Component {
       this.setState(
         {
           userInfo: state.userInfo,
-          sToken: state.userInfo.token
+          sToken: state.userInfo ? state.userInfo.token : ''
         },
         function() {
           this.matchComp();
@@ -63,11 +63,15 @@ class Login extends Component {
       });
     } else {
       if (state.userInfo.mobile && !state.goChangeMobile) {
-        this.setState({
-          showLogin: false,
-          showMobile: true,
-          showBindMobile: false
-        });
+        if (!state.userInfo.mobileAck) {
+          this.setState({
+            showLogin: false,
+            showMobile: true,
+            showBindMobile: false
+          });
+        } else {
+          // createHashHistory().push('/main/home');
+        }
       } else {
         this.setState({
           showLogin: false,
@@ -75,29 +79,53 @@ class Login extends Component {
           showBindMobile: true
         });
       }
+      if (localStorage.getItem('goChangeMobile')) {
+        this.setState({
+          showLogin: false,
+          showMobile: false,
+          showBindMobile: true
+        });
+      }
+      if (state.userInfo.mobileAck) {
+        this.setState({
+          showNote: !state.userInfo.notesAck
+        });
+      }
     }
   }
 
   componentWillMount() {
-    // this.setState(
-    //   {
-    //     userInfo: this.props.userInfo,
-    //     sToken: this.props.userInfo ? this.props.userInfo.token : ''
-    //   },
-    //   function() {
-    //     // this.matchComp();
-    //   }
-    // );
+    this.setState(
+      {
+        userInfo: this.props.userInfo,
+        sToken: this.props.userInfo ? this.props.userInfo.token : ''
+      },
+      function() {
+        this.matchComp();
+      }
+    );
   }
 
   /* 绑定手机号成功 */
   handleBindMobile(data) {
-    if (this.state.userInfo.notesAck) {
-      createHashHistory().push('/main/home');
+    if (data) {
+      if (this.state.userInfo.notesAck) {
+        createHashHistory().push('/main/home');
+      } else {
+        this.setState({
+          showNote: true
+        });
+      }
     } else {
-      this.setState({
-        showNote: true
-      });
+      localStorage.removeItem('goChangeMobile');
+      this.setState(
+        {
+          goChangeMobile: false
+        },
+        function() {
+          this.matchComp();
+        }
+      );
     }
   }
 
@@ -108,6 +136,7 @@ class Login extends Component {
         goChangeMobile: true
       },
       function() {
+        localStorage.setItem('goChangeMobile', true);
         this.matchComp();
       }
     );
@@ -115,12 +144,11 @@ class Login extends Component {
 
   render() {
     let userInfo = this.state.userInfo;
-    let sToken = sessionStorage.getItem('sToken');
     let com = <LoginForm />;
     if (this.state.showBindMobile) {
       com = <MobileBind handleBindMobile={this.handleBindMobile} />;
     }
-    if (this.state.showMobile) {
+    if (this.state.showMobile && userInfo) {
       com = (
         <Mobile
           mobile={userInfo.mobile}

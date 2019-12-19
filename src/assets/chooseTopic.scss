@@ -3,15 +3,21 @@
   box-sizing: border-box;
   background: #fff;
   font-family: PingFang SC;
+  .ant-radio-group {
+    width: 100%;
+    .ant-radio-wrapper {
+      float: left;
+      margin-top: 15px;
+    }
+  }
   .topic-title {
-    height: 33px;
     font-size: 24px;
     font-weight: bold;
     line-height: 48px;
     color: rgba(51, 51, 51, 1);
     opacity: 1;
     margin-bottom: 20px;
-    span {
+    .title-little {
       margin-left: 20px;
       height: 22px;
       font-size: 16px;
@@ -132,7 +138,6 @@
       margin-bottom: 20px;
     }
     .topic-title {
-      height: 40px;
       background: rgba(245, 245, 245, 1);
       opacity: 1;
       border-radius: 4px;

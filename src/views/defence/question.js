@@ -31,8 +31,9 @@ export default class Question extends React.Component {
         <div className="basicInfo-block">
           <div className="tit tit2">问题详情</div>
           {list.map((item, index) => (
-            <div className="topic-tit margin-T20" key={index}>
-              {item}
+            <div className="topic-tit margin-T20 clearfix" key={index}>
+              <div className="question-index">问题{index + 1}:</div>
+              <div className="question-content">{item}</div>
             </div>
           ))}
         </div>

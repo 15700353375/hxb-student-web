@@ -28,6 +28,7 @@ class MobileBind extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getCode = this.getCode.bind(this);
     this.dealTime = this.dealTime.bind(this);
+    this.goBack = this.goBack.bind(this);
   }
 
   componentDidMount() {}
@@ -36,7 +37,7 @@ class MobileBind extends React.Component {
   getCode(e) {
     this.props.form.validateFields(['newMobile'], (err, values) => {
       if (!err) {
-        http.get(urls.GETCODE + values.newMobile).then(res => {
+        http.post(urls.GETCODE, { mobile: values.newMobile }).then(res => {
           if (res) {
             this.dealTime();
           }
@@ -85,6 +86,7 @@ class MobileBind extends React.Component {
             localStorage.setItem('userInfo', JSON.stringify(userInfo));
             this.props.handleBindMobile(userInfo);
             this.props.dispatch(setUserInfo(userInfo));
+            localStorage.removeItem('goChangeMobile');
           }
           this.setState({
             loading: false
@@ -93,6 +95,10 @@ class MobileBind extends React.Component {
       }
     });
   };
+
+  goBack() {
+    this.props.handleBindMobile();
+  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -142,6 +148,18 @@ class MobileBind extends React.Component {
             )}
           </Form.Item>
           <Form.Item className="login-btn">
+            <Button
+              block
+              size="large"
+              type="primary"
+              ghost
+              className="login-form-button"
+              onClick={this.goBack}
+            >
+              上一步
+            </Button>
+          </Form.Item>
+          <Form.Item>
             <Button
               block
               size="large"
