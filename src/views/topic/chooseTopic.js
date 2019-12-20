@@ -39,6 +39,14 @@ class ChooseTopic extends React.Component {
     }
   }
 
+  // 加上我
+  componentWillReceiveProps = nextProps => {
+    console.log(nextProps);
+    // this.setState({
+    //   smallCar: nextProps.smallCar
+    // });
+  };
+
   getTopic() {
     http.get(urls.PAPER_TOPIC).then(res => {
       if (res) {
@@ -234,7 +242,8 @@ class ChooseTopic extends React.Component {
   }
 }
 const mapStateToProps = state => ({
-  userInfo: state.userInfo
+  userInfo: state.userInfo,
+  topic: state.topic
 });
 const Comp = connect(mapStateToProps)(ChooseTopic);
 export default Form.create({

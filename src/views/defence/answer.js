@@ -5,6 +5,7 @@ import '@assets/defence.scss';
 import wordUrl from '@assets/img/word.png';
 import http from '@utils/http';
 import { urls } from '@utils/api';
+import common from '@utils/common';
 class Answer extends React.Component {
   constructor(props) {
     super(props);
@@ -46,7 +47,9 @@ class Answer extends React.Component {
           </div>
           <div className="topic-file">
             <img src={wordUrl} />
-            <span>(文件名)</span>
+            <span>
+              ({common.dealUrl(this.props.topic.onlineDefenseDownUrl)})
+            </span>
             <a
               download={this.props.topic.onlineDefenseDownUrl}
               href={this.props.topic.onlineDefenseDownUrl}

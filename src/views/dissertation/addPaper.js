@@ -77,7 +77,7 @@ class AddPaper extends React.Component {
       <div className="addPaper">
         <Topic />
         <div>
-          <UpPaper upSuccess={this.upSuccess} />;
+          <UpPaper upSuccess={this.upSuccess} />
         </div>
       </div>
     );

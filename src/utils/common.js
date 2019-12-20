@@ -14,11 +14,19 @@ export default {
     history.push('/login');
   },
 
+  // 处理文件名
+  dealUrl(url) {
+    let newUrl = decodeURI(url);
+    let t = newUrl.split('?')[0].split('/');
+    let n = t[t.length - 1].split('_');
+    return n[n.length - 1];
+  },
+
   // 图片上传
   handleUpload(files) {
     if (!files) return;
-    let type = files.type; // 文件的类型，判断是否是图片
-    let size = files.size; // 文件的大小，判断图片的大小
+    // let type = files.type; // 文件的类型，判断是否是图片
+    // let size = files.size; // 文件的大小，判断图片的大小
     let imgUrl = '';
     return new Promise((resolve, reject) => {
       // if ('image/jpeg, image/png, image/jpg'.indexOf(type) == -1) {
@@ -46,7 +54,6 @@ export default {
           ossData.append('Signature', res.body.Signature);
           ossData.append('key', imgUrl);
           ossData.append('file', files);
-          ossData.append('success_action_status', '200');
           $.ajax({
             url: res.body.action,
             type: 'POST',

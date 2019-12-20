@@ -94,14 +94,26 @@ class User extends React.Component {
 
   /* 获取到当前阶段和状态 */
   dealData(data) {
+    let flag = false;
     data.forEach(item => {
-      if (item.status == 2) {
+      if (item.status == 2 || (item.step == 4 && item.status > 2)) {
+        flag = true;
         this.setState({
           currentObj: item
         });
         console.log(item);
       }
     });
+    if (flag == false) {
+      data.forEach(item => {
+        if (item.status > 2) {
+          this.setState({
+            currentObj: item
+          });
+          console.log(item);
+        }
+      });
+    }
   }
   render() {
     let current = this.state.current;
@@ -110,10 +122,12 @@ class User extends React.Component {
     let btn;
     if (currentObj) {
       if (currentObj.step == 1) {
-        if (currentObj.childStatus == null) {
+        if (currentObj.childStatus == null || !this.props.topic.outline) {
           btn = (
             <Button className="btn" type="primary" onClick={this.goChoose}>
-              去选题
+              {this.props.topic.title && !this.props.topic.outline
+                ? '编辑大纲'
+                : '去选题'}
             </Button>
           );
         } else if (currentObj.childStatus == 1) {
@@ -183,7 +197,8 @@ class User extends React.Component {
   }
 }
 const mapStateToProps = state => ({
-  userInfo: state.userInfo
+  userInfo: state.userInfo,
+  topic: state.topic
 });
 
 export default connect(mapStateToProps)(User);

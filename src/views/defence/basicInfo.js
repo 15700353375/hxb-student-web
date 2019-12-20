@@ -6,6 +6,7 @@ import phoneUrl from '@assets/img/phone.png';
 import wordUrl from '@assets/img/word.png';
 import http from '@utils/http';
 import { urls } from '@utils/api';
+import common from '@utils/common';
 class BasicInfo extends React.Component {
   constructor(props) {
     super(props);
@@ -59,7 +60,7 @@ class BasicInfo extends React.Component {
           <div className="tit">当前题目定稿文件</div>
           <div className="topic-file">
             <img src={wordUrl} />
-            <span>(文件名)</span>
+            <span>({common.dealUrl(this.props.topic.finalDraftDownUrl)})</span>
             <a
               download={this.props.topic.finalDraftDownUrl}
               href={this.props.topic.finalDraftDownUrl}

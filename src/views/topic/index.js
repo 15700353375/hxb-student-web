@@ -28,7 +28,8 @@ class Topic extends React.Component {
       loading: false,
       topicList: [],
       topic: {},
-      isEdit: false
+      isEdit: false,
+      showOldTopic: false
     };
     this.getData = this.getData.bind(this);
     this.handleChoose = this.handleChoose.bind(this);
@@ -38,16 +39,29 @@ class Topic extends React.Component {
     console.log(this.props);
     // let { setUserInfo } = this.props;
     this.getData();
+
+    if (
+      this.props.topic &&
+      this.props.topic.title &&
+      !this.props.topic.outline
+    ) {
+      this.setState({
+        isEdit: true
+      });
+    }
   }
 
   getData() {
     http.get(urls.PAPER_TOPIC).then(res => {
       if (res) {
+        localStorage.setItem('topic', JSON.stringify(res.body));
+        this.props.dispatch(setTopic(res.body));
+        if (!this.props.topic.outline) {
+          res.body.status = null;
+        }
         this.setState({
           topic: res.body
         });
-        localStorage.setItem('topic', JSON.stringify(res.body));
-        this.props.dispatch(setTopic(res.body));
       }
     });
   }
@@ -73,6 +87,7 @@ class Topic extends React.Component {
     let comp;
     let topic = this.state.topic;
     let isEdit = this.state.isEdit;
+    // let showOldTopic = this.state.showOldTopic;
     if (topic) {
       if (topic.status == null) {
         comp = <ChooseTopic edit={isEdit} chooseSuccess={this.chooseSuccess} />;
