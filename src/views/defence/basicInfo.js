@@ -22,7 +22,6 @@ class BasicInfo extends React.Component {
 
   componentDidMount() {
     this.getTeacher();
-    // this.getData();
   }
 
   getTeacher() {

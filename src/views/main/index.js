@@ -3,9 +3,6 @@ import '../../assets/login.scss';
 import http from '../../utils/http';
 import { urls } from '../../utils/api';
 import { connect } from 'react-redux';
-import store from '@store';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
-import src from '../../assets/img/login.png';
 import { Switch, Route } from 'react-router-dom';
 import { setTopic } from '@store/actions';
 import TopBar from './topBar';
@@ -20,9 +17,6 @@ class Main extends Component {
     this.getData = this.getData.bind(this);
   }
   componentDidMount() {
-    // this.getData();
-    let data = store.getState();
-    console.log(this.props, data);
     this.getData();
   }
 
@@ -61,10 +55,7 @@ function RouteWithSubRoutes(route) {
     <Route
       path={route.path}
       render={props => {
-        return (
-          // pass the sub-routes down to keep nesting
-          <route.component {...props} key={props} routes={route.routes} />
-        );
+        return <route.component {...props} key={props} routes={route.routes} />;
       }}
     />
   );

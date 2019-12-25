@@ -1,18 +1,9 @@
 /*
  * author: Arya
- * description: 上传论文
+ * description: 论文
  * time: 2019-12-17
  */
 import React from 'react';
-import { Form, Input, Button, Select, message, Modal } from 'antd';
-const { Option } = Select;
-const { TextArea } = Input;
-const { confirm } = Modal;
-import { createHashHistory } from 'history';
-import http from '@utils/http';
-import { urls } from '@utils/api';
-import verification from '@utils/verification';
-
 // connect方法的作用：将额外的props传递给组件，并返回新的组件，组件在该过程中不会受到影响
 import { connect } from 'react-redux';
 
@@ -25,11 +16,7 @@ class Paper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false,
-      topicList: [],
-      topic: {},
-      showAddPaper: false,
-      refresh: false
+      showAddPaper: false
     };
     this.addUpComp = this.addUpComp.bind(this);
     this.upSuccess = this.upSuccess.bind(this);

@@ -1,17 +1,11 @@
 /*
  * author: Arya
- * description: 登录页面
+ * description: 选题主页
  * time: 2019-12-12
  */
 import React from 'react';
-import { Form, Input, Button, Select, message, Modal } from 'antd';
-const { Option } = Select;
-const { TextArea } = Input;
-const { confirm } = Modal;
-import { createHashHistory } from 'history';
 import http from '@utils/http';
 import { urls } from '@utils/api';
-import verification from '@utils/verification';
 
 // connect方法的作用：将额外的props传递给组件，并返回新的组件，组件在该过程中不会受到影响
 import { connect } from 'react-redux';
@@ -36,8 +30,6 @@ class Topic extends React.Component {
     this.chooseSuccess = this.chooseSuccess.bind(this);
   }
   componentWillMount() {
-    console.log(this.props);
-    // let { setUserInfo } = this.props;
     this.getData();
 
     if (
@@ -87,7 +79,6 @@ class Topic extends React.Component {
     let comp;
     let topic = this.state.topic;
     let isEdit = this.state.isEdit;
-    // let showOldTopic = this.state.showOldTopic;
     if (topic) {
       if (topic.status == null) {
         comp = <ChooseTopic edit={isEdit} chooseSuccess={this.chooseSuccess} />;

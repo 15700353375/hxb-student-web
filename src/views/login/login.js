@@ -1,6 +1,6 @@
 /*
  * author: Arya
- * description: 登录页面
+ * description: 登录表单组件
  * time: 2019-12-12
  */
 import React from 'react';
@@ -26,9 +26,7 @@ class LoginForm extends React.Component {
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  componentDidMount() {
-    // let { setUserInfo } = this.props;
-  }
+  componentDidMount() {}
 
   handleSubmit = e => {
     e.preventDefault();

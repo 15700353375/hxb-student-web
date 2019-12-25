@@ -11,18 +11,14 @@ class Answer extends React.Component {
     super(props);
     this.state = {};
     this.getTeacher = this.getTeacher.bind(this);
-    this.downLoad = this.downLoad.bind(this);
   }
 
-  componentDidMount() {
-    // this.getTeacher();
-    // this.getData();
-  }
+  componentDidMount() {}
 
-  downLoad() {
+  downLoad(ind) {
     let alink = document.createElement('a');
     alink.download = '答辩模板'; //文件名,大部分浏览器兼容,IE10及以下不兼容
-    alink.href = this.props.answerTemplateUrl;
+    alink.href = this.props.templateUrl[ind];
     alink.click(); //自动点击
   }
 
@@ -41,8 +37,16 @@ class Answer extends React.Component {
         <div className="basicInfo-block">
           <div className="tit tit2">
             答辩稿上传
-            <Button type="primary" ghost onClick={this.downLoad}>
+            <Button type="primary" ghost onClick={this.downLoad.bind(this, 0)}>
               下载答辩模板
+            </Button>
+            <Button
+              type="primary"
+              className="margin-L20"
+              ghost
+              onClick={this.downLoad.bind(this, 1)}
+            >
+              下载答辩技巧
             </Button>
           </div>
           <div className="topic-file">

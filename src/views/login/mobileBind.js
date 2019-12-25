@@ -1,11 +1,10 @@
 /*
  * author: Arya
- * description: 确认手机号
+ * description: 绑定手机号
  * time: 2019-12-12
  */
 import React from 'react';
 import { Form, Input, Button } from 'antd';
-import { createHashHistory } from 'history';
 import http from '@utils/http';
 import { urls } from '@utils/api';
 import verification from '@utils/verification';
@@ -69,15 +68,9 @@ class MobileBind extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // this.setState({
-        //   loading: true
-        // });
-        // let userInfo = JSON.parse(localStorage.getItem('userInfo'));
-        // userInfo.mobile = values.newMobile;
-        // userInfo.mobileAck = true;
-        // localStorage.setItem('userInfo', JSON.stringify(userInfo));
-        // this.props.handleBindMobile(userInfo);
-        // this.props.dispatch(setUserInfo(userInfo));
+        this.setState({
+          loading: true
+        });
         http.put(urls.MOBILE_BIND, values).then(res => {
           if (res) {
             let userInfo = JSON.parse(localStorage.getItem('userInfo'));

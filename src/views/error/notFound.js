@@ -1,4 +1,5 @@
 import React from 'react';
+
 class NotFound extends React.Component {
   constructor(props) {
     super(props);
@@ -7,9 +8,11 @@ class NotFound extends React.Component {
 
   render() {
     return (
-      <h2>not found router</h2>
-    )
+      <div>
+        <h2>找不到这个页面</h2>
+      </div>
+    );
   }
 }
 
-export default NotFound
+export default NotFound;

@@ -7,7 +7,6 @@ import React from 'react';
 import { Button } from 'antd';
 import http from '@utils/http';
 import { urls } from '@utils/api';
-import { createHashHistory } from 'history';
 import { connect } from 'react-redux';
 import { setUserInfo } from '@store/actions';
 import common from '@utils/common';
@@ -33,7 +32,6 @@ class Mobile extends React.Component {
     http.put(urls.MOBILE_ACK, null).then(res => {
       if (res) {
         userInfo.mobileAck = true;
-        // createHashHistory().push('/main/home');
         localStorage.setItem('userInfo', JSON.stringify(userInfo));
         this.props.handleBindMobile(userInfo);
         this.props.dispatch(setUserInfo(userInfo));

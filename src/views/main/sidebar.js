@@ -7,7 +7,6 @@ import { Button } from 'antd';
 import store from '@store';
 
 import { createHashHistory } from 'history'; // 是hash路由 history路由 自己根据需求来定
-const history = createHashHistory();
 class SideBar extends Component {
   constructor(props) {
     super(props);
@@ -96,11 +95,6 @@ class SideBar extends Component {
   render() {
     const list = this.state.list;
     const listItems = list.map((item, index) => (
-      // <li key={index}>
-      //   <a href={item.value} download={item.value}>
-      //     {item.key}
-      //   </a>
-      // </li>
       <a key={index} href={item.value} download={item.value}>
         <Button>{item.key}</Button>
       </a>

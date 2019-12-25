@@ -55,7 +55,7 @@ class User extends React.Component {
           <img src={avatarUrl} alt="home" />
           <div className="user-con">
             <div className="user-name">
-              学员{userInfo.name}，欢迎登陆论文管理系统
+              学员{userInfo.name}，欢迎登录论文管理系统
             </div>
             <div className="user-major">专业: {userInfo.majorName}</div>
           </div>

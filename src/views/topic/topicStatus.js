@@ -4,14 +4,9 @@
  * time: 2019-12-12
  */
 import React from 'react';
-import { Form, Input, Button, Select, message, Modal } from 'antd';
-const { Option } = Select;
-const { TextArea } = Input;
-const { confirm } = Modal;
-import { createHashHistory } from 'history';
+import { Button } from 'antd';
 import http from '@utils/http';
 import { urls } from '@utils/api';
-import verification from '@utils/verification';
 // status 0 待审核 1 失败 2成功
 
 // connect方法的作用：将额外的props传递给组件，并返回新的组件，组件在该过程中不会受到影响

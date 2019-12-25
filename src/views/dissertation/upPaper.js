@@ -1,23 +1,23 @@
+/*
+ * author: Arya
+ * description: 上传论文
+ * time: 2019-12-20
+ */
 import React from 'react';
 import { Button } from 'antd';
 import '@assets/paper.scss';
-import UpFile from './upfile';
+import UpFile from '@components/upFile';
 import http from '@utils/http';
 import { urls } from '@utils/api';
 class UpPaper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      templateUrl1: '',
-      templateUrl2: ''
+      templateUrl: []
     };
-    this.downLoadPaper = this.downLoadPaper.bind(this);
-    this.downLoadCover = this.downLoadCover.bind(this);
     this.upSuccess = this.upSuccess.bind(this);
   }
-  componentDidMount() {
-    console.log(111111111111, this.props);
-  }
+  componentDidMount() {}
 
   componentWillMount() {
     this.getData();
@@ -27,24 +27,16 @@ class UpPaper extends React.Component {
     http.get(urls.PAPER_DOWNLOAD).then(res => {
       if (res) {
         this.setState({
-          templateUrl1: res.body.files[2].value,
-          templateUrl2: res.body.files[3].value
+          templateUrl: [res.body.files[2].value, res.body.files[3].value]
         });
       }
     });
   }
 
-  downLoadPaper() {
+  downLoad(ind) {
     let alink = document.createElement('a');
     alink.download = '论文写作规范'; //文件名,大部分浏览器兼容,IE10及以下不兼容
-    alink.href = this.state.templateUrl1;
-    alink.click(); //自动点击
-  }
-
-  downLoadCover() {
-    let alink = document.createElement('a');
-    alink.download = '论文封面'; //文件名,大部分浏览器兼容,IE10及以下不兼容
-    alink.href = this.state.templateUrl2;
+    alink.href = this.state.templateUrl[ind];
     alink.click(); //自动点击
   }
 
@@ -57,16 +49,16 @@ class UpPaper extends React.Component {
       <div className="upPaper">
         <div className="tit">
           论文上传
-          <Button type="primary" ghost onClick={this.downLoadPaper}>
+          <Button type="primary" ghost onClick={this.downLoad.bind(this, 0)}>
             下载论文写作规范
           </Button>
           <Button
             type="primary"
             className="margin-R20"
             ghost
-            onClick={this.downLoadCover}
+            onClick={this.downLoad.bind(this, 1)}
           >
-            下载论文封面
+            下载论文样板
           </Button>
         </div>
         <div className="upPaper-tips">
@@ -77,7 +69,7 @@ class UpPaper extends React.Component {
           清楚地标示出来
         </div>
         <div className="upFile">
-          <UpFile upSuccess={this.upSuccess} />
+          <UpFile upUrl="PAPER" upSuccess={this.upSuccess} />
         </div>
       </div>
     );

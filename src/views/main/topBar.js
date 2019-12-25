@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import { Menu, Dropdown, Button } from 'antd';
+import { Menu, Dropdown } from 'antd';
 import '@assets/home.scss';
-import http from '../../utils/http';
-import { urls } from '../../utils/api';
 import { connect } from 'react-redux';
 import homeUrl from '@assets/img/home.png';
 import avatarUrl from '@assets/img/avatar.png';
 import store from '@store';
 import { createHashHistory } from 'history'; // 是hash路由 history路由 自己根据需求来定
-const history = createHashHistory();
 import common from '@utils/common';
 class TopBar extends Component {
   constructor(props) {

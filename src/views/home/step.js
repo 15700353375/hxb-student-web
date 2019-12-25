@@ -101,7 +101,6 @@ class User extends React.Component {
         this.setState({
           currentObj: item
         });
-        console.log(item);
       }
     });
     if (flag == false) {
@@ -110,7 +109,6 @@ class User extends React.Component {
           this.setState({
             currentObj: item
           });
-          console.log(item);
         }
       });
     }

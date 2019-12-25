@@ -1,13 +1,10 @@
 /*
  * author: Arya
- * description: 登录表单
+ * description: 登录主页面
  * time: 2019-12-12
  */
 
 import React, { Component } from 'react';
-
-import http from '@utils/http';
-import { urls } from '@utils/api';
 
 import LoginForm from './login';
 import Mobile from './mobile';
@@ -18,10 +15,8 @@ import src from '@assets/img/login.png';
 import store from '@store/index';
 import { createHashHistory } from 'history';
 import { connect } from 'react-redux';
-import { setUserInfo } from '@store/actions';
 import bgUrl from '@assets/img/login_bg.png';
 class Login extends Component {
-  // const Login = ({ dispatch }) => {
   constructor(props) {
     super(props);
     this.state = {
@@ -38,8 +33,6 @@ class Login extends Component {
     this.matchComp = this.matchComp.bind(this);
 
     store.subscribe(() => {
-      console.log('state状态改变了，新状态如下');
-      console.log(store.getState());
       let state = store.getState();
       this.setState(
         {
@@ -169,7 +162,6 @@ class Login extends Component {
         <div className="login-left">
           <img src={bgUrl} />
         </div>
-        {/* <div className="login-right"></div> */}
         <img src={src} className="App-logo" alt="logo" />
         <div className="login-main">{com}</div>
         {atten}

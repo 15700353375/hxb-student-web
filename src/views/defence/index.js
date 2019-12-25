@@ -15,7 +15,7 @@ import { setTopic } from '@store/actions';
 import '@assets/paper.scss';
 import BasicInfo from './basicInfo';
 import Question from './question';
-import UpFile from './upfile';
+import Upfile from './upfile';
 import Answer from './answer';
 // import UploadHistory from './uploadHistory';
 class Defence extends React.Component {
@@ -25,7 +25,7 @@ class Defence extends React.Component {
       loading: false,
       topicList: [],
       topic: {},
-      answerTemplateUrl: '',
+      templateUrl: [],
       hasAnswer: false
     };
     this.getTemplate = this.getTemplate.bind(this);
@@ -47,7 +47,7 @@ class Defence extends React.Component {
     http.get(urls.PAPER_DOWNLOAD).then(res => {
       if (res) {
         this.setState({
-          answerTemplateUrl: res.body.files[4].value
+          templateUrl: [res.body.files[4].value, res.body.files[5].value]
         });
       }
     });
@@ -80,12 +80,12 @@ class Defence extends React.Component {
   render() {
     let comp;
     if (this.state.hasAnswer) {
-      comp = <Answer answerTemplateUrl={this.state.answerTemplateUrl} />;
+      comp = <Answer templateUrl={this.state.templateUrl} />;
     } else {
       comp = (
-        <UpFile
+        <Upfile
           upSuccess={this.upSuccess}
-          answerTemplateUrl={this.state.answerTemplateUrl}
+          templateUrl={this.state.templateUrl}
         />
       );
     }

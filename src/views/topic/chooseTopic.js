@@ -39,14 +39,6 @@ class ChooseTopic extends React.Component {
     }
   }
 
-  // 加上我
-  componentWillReceiveProps = nextProps => {
-    console.log(nextProps);
-    // this.setState({
-    //   smallCar: nextProps.smallCar
-    // });
-  };
-
   getTopic() {
     http.get(urls.PAPER_TOPIC).then(res => {
       if (res) {
@@ -127,7 +119,6 @@ class ChooseTopic extends React.Component {
     this.setState({
       loading: true
     });
-    console.log(values);
     http.postJson(urls.PAPER_TOPIC_SELECT, values).then(res => {
       if (res) {
         this.props.chooseSuccess();
@@ -248,13 +239,4 @@ const mapStateToProps = state => ({
 const Comp = connect(mapStateToProps)(ChooseTopic);
 export default Form.create({
   name: 'normal_login'
-  // onValuesChange(props, values) {
-  //   if (values.title) {
-  //     props.form.setFieldsValue({
-  //       titleId: null
-  //     });
-  //   }
-  // 表单域改变时触发actions方法，控制isEdit为true
-  // props.actions.changeCarEvaluate();
-  // }
 })(Comp);

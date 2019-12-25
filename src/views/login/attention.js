@@ -105,8 +105,6 @@ export default class Attention extends React.Component {
           <br />
           (九)毕业论文模板、毕业论文格式及规范、毕业论文示例、毕业论文管理办法详情见附件,请学生仔细阅读,学生必须按照格式及规范撰写论。
         </p>
-        {/* <p>Some contents...</p>
-        <p>Some contents...</p> */}
       </Modal>
     );
   }

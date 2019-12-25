@@ -8,6 +8,7 @@ import AddPaper from './views/dissertation/addPaper';
 import Paper from './views/dissertation/paper';
 import Defence from './views/defence';
 import Topic from './views/topic';
+// import NotFound from './views/error/notFound';
 
 const routes = [
   // {
@@ -19,6 +20,11 @@ const routes = [
     name: 'login',
     component: Login
   },
+  // {
+  //   path: '/notFound',
+  //   name: 'notFound',
+  //   component: NotFound
+  // },
   {
     path: '/main',
     name: 'main',
