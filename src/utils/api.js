@@ -70,7 +70,10 @@ export const urls = {
   ANSWER_QUESTION: 'org-backend/student/paper/online/answer/questions',
 
   // 提交线下答辩
-  ONLINE_ANSWER: 'org-backend/student/paper/online/answer'
+  ONLINE_ANSWER: 'org-backend/student/paper/online/answer',
+
+  // 下载学生专属文件
+  DOWN_SELF: 'org-backend/student/paper/down/self'
 };
 
 // 不需要token的请求
