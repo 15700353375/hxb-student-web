@@ -1,6 +1,6 @@
 /*
  * author: Arya
- * description: 上传文件
+ * description: 上传答辩文件-组件
  * time: 2019-12-17
  */
 import React from 'react';

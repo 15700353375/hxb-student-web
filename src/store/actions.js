@@ -1,3 +1,9 @@
+/*
+ * @Author:      Arya
+ * @DateTime:    2019-12-30
+ * @Description: redux actions
+ */
+
 export const setUserInfo = userInfo => ({
   type: 'SET_USERINFO',
   userInfo

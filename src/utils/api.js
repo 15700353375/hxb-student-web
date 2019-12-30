@@ -1,3 +1,9 @@
+/*
+ * @Author:      Arya
+ * @DateTime:    2019-12-30
+ * @Description: api接口
+ */
+
 let baseUrl = 'http://192.168.0.12:9130/';
 
 if (process.env.NODE_ENV === 'production') {

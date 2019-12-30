@@ -1,6 +1,6 @@
 /*
  * author: Arya
- * description: 登录页面
+ * description: 题目选择结构状态组件
  * time: 2019-12-12
  */
 import React from 'react';
@@ -114,9 +114,7 @@ class TopicStatus extends React.Component {
             <div className="reason">
               <div className="clearfix">
                 <div className="reason-tit">原因：</div>
-                <div className="reason-content text-ellipsis2">
-                  {topic.noPassReason}
-                </div>
+                <div className="reason-content">{topic.noPassReason}</div>
               </div>
               <div className="text-right margin-T20">
                 <Button

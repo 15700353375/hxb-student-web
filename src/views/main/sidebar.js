@@ -1,3 +1,9 @@
+/*
+ * @Author:      Arya
+ * @DateTime:    2019-12-30
+ * @Description: 右侧侧边栏
+ */
+
 import React, { Component } from 'react';
 import '@assets/sideBar.scss';
 import http from '../../utils/http';
@@ -8,6 +14,8 @@ import store from '@store';
 
 import { createHashHistory } from 'history'; // 是hash路由 history路由 自己根据需求来定
 const history = createHashHistory();
+// 路由切换-获取我的文件
+
 class SideBar extends Component {
   constructor(props) {
     super(props);
@@ -68,11 +76,14 @@ class SideBar extends Component {
       });
     });
   }
-  componentDidMount() {
+  componentWillMount() {
     // 路由切换-获取我的文件
     history.listen((location, action) => {
+      if (location.pathname == '/login') return;
       this.getSelfFile();
     });
+  }
+  componentDidMount() {
     this.getData();
     this.getSelfFile();
     this.setState({
@@ -157,11 +168,6 @@ class SideBar extends Component {
                 )}
               </div>
             ))}
-
-            {/* <div className="fileList">
-              毕业论文成绩评定表
-              <a>待老师上传</a>
-            </div> */}
           </div>
         </div>
         <div className="sidebar-block">

@@ -1,3 +1,9 @@
+/*
+ * @Author:      Arya
+ * @DateTime:    2019-12-30
+ * @Description: 答辩-老师提问组件
+ */
+
 import React from 'react';
 import http from '@utils/http';
 import { urls } from '@utils/api';

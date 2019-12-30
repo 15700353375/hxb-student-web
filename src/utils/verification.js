@@ -1,7 +1,13 @@
-// 正则规则
+/*
+ * @Author:      Arya
+ * @DateTime:    2019-12-30
+ * @Description: 表单验证、正则
+ */
+
 const reg_idCard = /^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)$/;
 const reg_mobile = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
 var reg_code = /^[0-9]{4}$/;
+
 export default {
   // 验证身份证号
   validator_idCard(rule, value, callback) {
