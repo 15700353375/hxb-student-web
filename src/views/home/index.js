@@ -1,3 +1,9 @@
+/*
+ * @Author:      Arya
+ * @DateTime:    2019-12-30
+ * @Description: 首页-主页面
+ */
+
 import React from 'react';
 import { connect } from 'react-redux';
 import User from './user';

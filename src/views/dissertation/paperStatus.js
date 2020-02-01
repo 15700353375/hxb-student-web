@@ -1,6 +1,6 @@
 /*
  * author: Arya
- * description: 登录页面
+ * description: 论文结果
  * time: 2019-12-12
  */
 import React from 'react';

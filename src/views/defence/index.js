@@ -1,10 +1,9 @@
 /*
- * author: Arya
- * description: 上传论文
- * time: 2019-12-17
+ * @Author:      Arya
+ * @DateTime:    2019-12-30
+ * @Description: 答辩-主页面
  */
 import React from 'react';
-import { Form, Input, Button, Select, message, Modal } from 'antd';
 import http from '@utils/http';
 import { urls } from '@utils/api';
 

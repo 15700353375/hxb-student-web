@@ -1,3 +1,9 @@
+/*
+ * @Author:      Arya
+ * @DateTime:    2019-12-30
+ * @Description: 首页主页面
+ */
+
 import React, { Component } from 'react';
 import '../../assets/login.scss';
 import http from '../../utils/http';
@@ -11,9 +17,7 @@ import SideBar from './sidebar';
 class Main extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      msg: '我是home'
-    };
+    this.state = {};
     this.getData = this.getData.bind(this);
   }
   componentDidMount() {

@@ -15,6 +15,8 @@ import img_code from '@assets/img/code.png';
 
 import { connect } from 'react-redux';
 import { setUserInfo } from '@store/actions';
+
+let timers;
 class MobileBind extends React.Component {
   constructor(props) {
     super(props);
@@ -31,6 +33,9 @@ class MobileBind extends React.Component {
   }
 
   componentDidMount() {}
+  componentWillUnmount() {
+    clearInterval(timers);
+  }
 
   /* 获取验证码 */
   getCode(e) {
@@ -49,7 +54,7 @@ class MobileBind extends React.Component {
     this.setState({
       flag: false
     });
-    let timers = setInterval(() => {
+    timers = setInterval(() => {
       let timer = this.state.timer;
       this.setState({
         timer: timer - 1

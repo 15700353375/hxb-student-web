@@ -1,3 +1,9 @@
+/*
+ * @Author:      Arya
+ * @DateTime:    2019-12-30
+ * @Description: 首页-步骤组件
+ */
+
 import React from 'react';
 import { connect } from 'react-redux';
 import '@assets/step.scss';

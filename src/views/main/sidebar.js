@@ -1,3 +1,9 @@
+/*
+ * @Author:      Arya
+ * @DateTime:    2019-12-30
+ * @Description: 右侧侧边栏
+ */
+
 import React, { Component } from 'react';
 import '@assets/sideBar.scss';
 import http from '../../utils/http';
@@ -7,6 +13,9 @@ import { Button } from 'antd';
 import store from '@store';
 
 import { createHashHistory } from 'history'; // 是hash路由 history路由 自己根据需求来定
+const history = createHashHistory();
+// 路由切换-获取我的文件
+
 class SideBar extends Component {
   constructor(props) {
     super(props);
@@ -54,19 +63,11 @@ class SideBar extends Component {
           3、如需论文帮助，请联系指导老师。`
         }
       ],
-      list: [
-        {
-          name: '论文选题表'
-        },
-        {
-          name: '论文任务书'
-        },
-        {
-          name: '论文网上答辩模板'
-        }
-      ]
+      list: [],
+      selfFileList: []
     };
     this.getData = this.getData.bind(this);
+    this.getSelfFile = this.getSelfFile.bind(this);
 
     store.subscribe(() => {
       let state = store.getState();
@@ -75,10 +76,28 @@ class SideBar extends Component {
       });
     });
   }
+  componentWillMount() {
+    // 路由切换-获取我的文件
+    history.listen((location, action) => {
+      if (location.pathname == '/login') return;
+      this.getSelfFile();
+    });
+  }
   componentDidMount() {
     this.getData();
+    this.getSelfFile();
     this.setState({
       currentRoute: this.props.currentRoute
+    });
+  }
+
+  getSelfFile() {
+    http.get(urls.DOWN_SELF).then(res => {
+      if (res) {
+        this.setState({
+          selfFileList: res.body.files
+        });
+      }
     });
   }
 
@@ -93,6 +112,7 @@ class SideBar extends Component {
   }
 
   render() {
+    const selfFileList = this.state.selfFileList;
     const list = this.state.list;
     const listItems = list.map((item, index) => (
       <a key={index} href={item.value} download={item.value}>
@@ -130,6 +150,25 @@ class SideBar extends Component {
             className="sidebar-content"
             dangerouslySetInnerHTML={createMarkup()}
           ></div>
+        </div>
+        <div className="sidebar-block">
+          <div className="sidebar-block-title">
+            <span>我的文件</span>
+          </div>
+          <div className="sidebar-content clearfix">
+            {selfFileList.map((item, index) => (
+              <div className="fileList" key={index}>
+                {item.key}
+                {item.value ? (
+                  <a download={item.value} href={item.value}>
+                    下载
+                  </a>
+                ) : (
+                  <span>待老师上传</span>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
         <div className="sidebar-block">
           <div className="sidebar-block-title">

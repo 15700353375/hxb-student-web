@@ -1,28 +1,28 @@
 /*
  * author: Arya
- * description: 登录页面
+ * description: 题目选择结构状态组件
  * time: 2019-12-12
  */
-import React from 'react';
-import { Button } from 'antd';
-import http from '@utils/http';
-import { urls } from '@utils/api';
+import React from 'react'
+import { Button } from 'antd'
+import http from '@utils/http'
+import { urls } from '@utils/api'
 // status 0 待审核 1 失败 2成功
 
 // connect方法的作用：将额外的props传递给组件，并返回新的组件，组件在该过程中不会受到影响
-import { connect } from 'react-redux';
-import { setTopic } from '@store/actions';
+import { connect } from 'react-redux'
+import { setTopic } from '@store/actions'
 
-import '@assets/chooseTopic.scss';
-import waitUrl from '@assets/img/wait.png';
-import noPassUrl from '@assets/img/noPass.png';
-import passUrl from '@assets/img/pass.png';
-import qqUrl from '@assets/img/qq.png';
-import phoneUrl from '@assets/img/phone.png';
+import '@assets/chooseTopic.scss'
+import waitUrl from '@assets/img/wait.png'
+import noPassUrl from '@assets/img/noPass.png'
+import passUrl from '@assets/img/pass.png'
+import qqUrl from '@assets/img/qq.png'
+import phoneUrl from '@assets/img/phone.png'
 
 class TopicStatus extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       loading: false,
       thesisSupervisionTeacher: {
@@ -31,15 +31,15 @@ class TopicStatus extends React.Component {
         qq: ''
       },
       topic: {}
-    };
-    this.getData = this.getData.bind(this);
-    this.getTeacher = this.getTeacher.bind(this);
-    this.editOutLine = this.editOutLine.bind(this);
+    }
+    this.getData = this.getData.bind(this)
+    this.getTeacher = this.getTeacher.bind(this)
+    this.editOutLine = this.editOutLine.bind(this)
   }
 
   componentDidMount() {
-    this.getTeacher();
-    this.getData();
+    this.getTeacher()
+    this.getData()
   }
 
   getTeacher() {
@@ -49,9 +49,9 @@ class TopicStatus extends React.Component {
           thesisSupervisionTeacher:
             res.body.thesisSupervisionTeacher ||
             this.state.thesisSupervisionTeacher
-        });
+        })
       }
-    });
+    })
   }
 
   getData() {
@@ -59,31 +59,31 @@ class TopicStatus extends React.Component {
       if (res) {
         this.setState({
           topic: res.body
-        });
-        localStorage.setItem('topic', JSON.stringify(res.body));
-        this.props.dispatch(setTopic(res.body));
+        })
+        localStorage.setItem('topic', JSON.stringify(res.body))
+        this.props.dispatch(setTopic(res.body))
       }
-    });
+    })
   }
 
   editOutLine() {
-    this.props.handleChoose(true);
+    this.props.handleChoose(true)
   }
 
   render() {
     let userInfo = {
       majorName: ''
-    };
-    userInfo = this.props.userInfo || userInfo;
-    let thesisSupervisionTeacher = this.state.thesisSupervisionTeacher;
-    let topic = this.state.topic;
-    let url = waitUrl;
+    }
+    userInfo = this.props.userInfo || userInfo
+    let thesisSupervisionTeacher = this.state.thesisSupervisionTeacher
+    let topic = this.state.topic
+    let url = waitUrl
     if (topic.status == 0) {
-      url = waitUrl;
+      url = waitUrl
     } else if (topic.status == 1) {
-      url = noPassUrl;
+      url = noPassUrl
     } else if (topic.status == 2) {
-      url = passUrl;
+      url = passUrl
     }
     return (
       <div className="topicStatus">
@@ -114,9 +114,7 @@ class TopicStatus extends React.Component {
             <div className="reason">
               <div className="clearfix">
                 <div className="reason-tit">原因：</div>
-                <div className="reason-content">
-                  {topic.noPassReason}
-                </div>
+                <div className="reason-content">{topic.noPassReason}</div>
               </div>
               <div className="text-right margin-T20">
                 <Button
@@ -141,10 +139,10 @@ class TopicStatus extends React.Component {
           <div className="topic-content">{topic.outline}</div>
         </div>
       </div>
-    );
+    )
   }
 }
 const mapStateToProps = state => ({
   userInfo: state.userInfo
-});
-export default connect(mapStateToProps)(TopicStatus);
+})
+export default connect(mapStateToProps)(TopicStatus)

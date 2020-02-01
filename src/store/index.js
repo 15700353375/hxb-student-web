@@ -1,4 +1,8 @@
-// index.js
+/*
+ * @Author:      Arya
+ * @DateTime:    2019-12-30
+ * @Description: redux store
+ */
 
 // applyMiddleware: redux通过该函数来使用中间件
 // createStore: 用于创建store实例

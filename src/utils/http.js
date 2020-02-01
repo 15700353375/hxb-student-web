@@ -1,11 +1,15 @@
+/*
+ * @Author:      Arya
+ * @DateTime:    2019-12-30
+ * @Description: 统一请求或返回API层
+ */
+
 import axios from 'axios';
 import qs from 'qs';
-// import * as apiUrl from './ApiURL';
-// import {notification} from 'antd';
 import { message } from 'antd';
 import { urls, noTokenReq } from './api';
 import common from '@utils/common';
-// noTokenReq
+
 // 创建axios实例
 // const service = axios.create({
 //   baseURL: urls.baseUrl, // api的base_url  Vue项目可以根据 process.env.BASE_API，React可以在这里定义
@@ -29,6 +33,7 @@ const service = axios.create({
 });
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers.common['X-Auth-Token'] = '';
+
 /* 请求拦截 */
 service.interceptors.request.use(
   function(config) {
@@ -51,6 +56,17 @@ service.interceptors.request.use(
   }
 );
 
+// 需要退出的状态码
+const exitCode = [
+  '000301',
+  '000302',
+  '000303',
+  '000304',
+  '999997',
+  '999998',
+  '999999'
+];
+
 /* 响应拦截 */
 service.interceptors.response.use(
   response => {
@@ -67,9 +83,8 @@ service.interceptors.response.use(
     // 正常返回
     if (res.code === '000000') {
       return res;
-    } else if (res.code === '000301') {
+    } else if (exitCode.indexOf(res.code) > -1) {
       common.loginOut();
-
       return Promise.reject(res.message);
     } else {
       return Promise.reject(res.message);
@@ -183,14 +198,5 @@ http.delete = function(url, data) {
       message.error(error);
     });
 };
-
-// axios.defaults.baseURL = urls.baseUrl;
-
-// axios.defaults.timeout = 120000;
-// axios.defaults.headers.common['X-Client-Type'] = 'hxb';
-// axios.defaults.headers.common['X-Client-Version'] = '1.0.0';
-// axios.defaults.paramsSerializer = function(params) {
-//   return qs.stringify(params, { arrayFormat: 'repeat' });
-// };
 
 export default http;
