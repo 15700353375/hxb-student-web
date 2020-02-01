@@ -25,6 +25,7 @@ class TopicStatus extends React.Component {
     super(props)
     this.state = {
       loading: false,
+      isOpen: false,
       thesisSupervisionTeacher: {
         name: '',
         mobile: '',
@@ -35,6 +36,7 @@ class TopicStatus extends React.Component {
     this.getData = this.getData.bind(this)
     this.getTeacher = this.getTeacher.bind(this)
     this.editOutLine = this.editOutLine.bind(this)
+    this.changeOutline = this.changeOutline.bind(this)
   }
 
   componentDidMount() {
@@ -70,7 +72,14 @@ class TopicStatus extends React.Component {
     this.props.handleChoose(true)
   }
 
+  changeOutline() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    })
+  }
+
   render() {
+    let isOpen = this.state.isOpen
     let userInfo = {
       majorName: ''
     }
@@ -135,8 +144,15 @@ class TopicStatus extends React.Component {
         <div className="topicStatus-content">
           <div className="tit">当前题目</div>
           <div className="topic-title">{topic.title}</div>
-          <div className="tit">大纲</div>
-          <div className="topic-content">{topic.outline}</div>
+          <div className="tit">
+            大纲
+            <a onClick={this.changeOutline}>{!isOpen ? '打开' : '关闭'}</a>
+          </div>
+          <div className="topic-content">
+            <div className={`${!isOpen ? 'text-ellipsis3' : null}`}>
+              {topic.outline}
+            </div>
+          </div>
         </div>
       </div>
     )

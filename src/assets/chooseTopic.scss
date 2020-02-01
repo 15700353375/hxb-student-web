@@ -136,6 +136,14 @@
       color: rgba(51, 51, 51, 1);
       opacity: 1;
       margin-bottom: 20px;
+      a {
+        float: right;
+        height: 20px;
+        font-size: 14px;
+        font-weight: 400;
+        color: rgba(63, 141, 255, 1);
+        opacity: 1;
+      }
     }
     .topic-title {
       background: rgba(245, 245, 245, 1);

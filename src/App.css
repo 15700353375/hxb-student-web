@@ -42,3 +42,33 @@
   height: 100%;
   overflow-y: auto;
 }
+
+.text-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* // 两行 */
+.text-ellipsis2 {
+  word-break: break-all;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  /*! autoprefixer: off */
+  -webkit-box-orient: vertical;
+  /*! autoprefixer: on */
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+/* 三行 */
+.text-ellipsis3 {
+  word-break: break-all;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  /*! autoprefixer: off */
+  -webkit-box-orient: vertical;
+  /*! autoprefixer: on */
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
