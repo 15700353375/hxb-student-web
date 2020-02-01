@@ -119,7 +119,7 @@ class PaperStatus extends React.Component {
             <div className="reason">
               <div className="clearfix">
                 <div className="reason-tit paper-reason-tit">修改意见：</div>
-                <div className="reason-content paper-reason-content text-ellipsis2">
+                <div className="reason-content paper-reason-content">
                   {topic.paperAdvice}
                 </div>
               </div>

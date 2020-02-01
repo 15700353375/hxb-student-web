@@ -8,7 +8,8 @@ if (process.env.NODE_ENV === 'production') {
   // 开发环境
   // baseUrl = 'http://api.huixuebang.com/'
   // baseUrl = 'http://192.168.0.38:9130/'
-  baseUrl = 'http://192.168.0.12:9130/';
+  baseUrl = 'http://api.huixuebang.com/';
+  // baseUrl = 'http://192.168.0.12:9130/';
   // baseUrl = '/api/';
 }
 

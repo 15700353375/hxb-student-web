@@ -110,11 +110,11 @@ class TopicStatus extends React.Component {
               {thesisSupervisionTeacher.qq}
             </div>
           </div>
-          {topic.status == 1 ? (
+          {topic.status != 1 ? (
             <div className="reason">
               <div className="clearfix">
                 <div className="reason-tit">原因：</div>
-                <div className="reason-content text-ellipsis2">
+                <div className="reason-content">
                   {topic.noPassReason}
                 </div>
               </div>
