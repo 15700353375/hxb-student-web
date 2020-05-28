@@ -1,18 +1,24 @@
-import React from 'react';
-import { Router } from 'react-router';
+import React from 'react'
+import { Router } from 'react-router'
 // import { Route, Switch, Redirect } from 'react-router-dom';
-import { createHashHistory } from 'history'; // 是hash路由 history路由 自己根据需求来定
-const history = createHashHistory();
-import './App.css';
+import { createHashHistory } from 'history' // 是hash路由 history路由 自己根据需求来定
+const history = createHashHistory()
+import './App.css'
+import moment from 'moment'
+import qs from 'qs'
+import _ from 'lodash'
+import { Switch, Route } from 'react-router-dom'
 
-import { Switch, Route } from 'react-router-dom';
+import routes from './router'
+import { setRoutes } from '@store/actions'
+import store from './store/index.js'
 
-import routes from './router';
-import { setRoutes } from '@store/actions';
-import store from './store/index.js';
+window.Moment = moment
+window.qs = qs
+window._ = _
 // 监听路由;
 history.listen((location, action) => {
-  store.dispatch(setRoutes(location));
+  store.dispatch(setRoutes(location))
   // 判断是否存在这个路由
   // let hasRoute = routes.findIndex(item => {
   //   return item.path == location.pathname;
@@ -24,15 +30,15 @@ history.listen((location, action) => {
   // if (location.pathname == '/login' && sToken) {
   //   createHashHistory().push('/main/home');
   // }
-  routeInterception();
-});
+  routeInterception()
+})
 
 /* 路由拦截 */
 function routeInterception() {
   // 判断是否有登录信息和确认注意事项  如果没有  跳转到登录页面  如果有 正常路由
   // let current = history.location.pathname;
-  let sToken = sessionStorage.getItem('sToken');
-  let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+  let sToken = sessionStorage.getItem('sToken')
+  let userInfo = JSON.parse(localStorage.getItem('userInfo'))
   if (
     sToken &&
     userInfo &&
@@ -40,21 +46,21 @@ function routeInterception() {
     userInfo.mobileAck == true
   ) {
     if (location.pathname == '/login' || location.hash == '#/') {
-      createHashHistory().push('/main/home');
+      createHashHistory().push('/main/home')
     }
   } else {
-    createHashHistory().push('/login');
+    createHashHistory().push('/login')
   }
 }
 
 class App extends React.Component {
   constructor(props) {
-    super(props);
-    this.state = {};
+    super(props)
+    this.state = {}
   }
 
   componentDidMount() {
-    routeInterception();
+    routeInterception()
   }
 
   componentWillUpdate(nextProps) {}
@@ -92,7 +98,7 @@ class App extends React.Component {
           </Switch> */}
         </div>
       </Router>
-    );
+    )
   }
 }
 
@@ -104,9 +110,9 @@ function RouteWithSubRoutes(route) {
         return (
           // pass the sub-routes down to keep nesting
           <route.component {...props} routes={route.routes} />
-        );
+        )
       }}
     />
-  );
+  )
 }
-export default App;
+export default App

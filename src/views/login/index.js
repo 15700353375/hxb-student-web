@@ -4,21 +4,21 @@
  * time: 2019-12-12
  */
 
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-import LoginForm from './login';
-import Mobile from './mobile';
-import MobileBind from './mobileBind';
-import Attention from './attention';
-import '@assets/login.scss';
-import src from '@assets/img/login.png';
-import store from '@store/index';
-import { createHashHistory } from 'history';
-import { connect } from 'react-redux';
-import bgUrl from '@assets/img/login_bg.png';
+import LoginForm from './login'
+import Mobile from './mobile'
+import MobileBind from './mobileBind'
+import Attention from './attention'
+import '@assets/login.scss'
+import src from '@assets/img/login.png'
+import store from '@store/index'
+import { createHashHistory } from 'history'
+import { connect } from 'react-redux'
+import bgUrl from '@assets/img/login_bg.png'
 class Login extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       sToken: null,
       userInfo: null,
@@ -27,33 +27,33 @@ class Login extends Component {
       showMobile: false,
       showLogin: false,
       showNote: false
-    };
-    this.handleBindMobile = this.handleBindMobile.bind(this);
-    this.goBindMobile = this.goBindMobile.bind(this);
-    this.matchComp = this.matchComp.bind(this);
+    }
+    this.handleBindMobile = this.handleBindMobile.bind(this)
+    this.goBindMobile = this.goBindMobile.bind(this)
+    this.matchComp = this.matchComp.bind(this)
 
     store.subscribe(() => {
-      let state = store.getState();
+      let state = store.getState()
       this.setState(
         {
           userInfo: state.userInfo,
           sToken: state.userInfo ? state.userInfo.token : ''
         },
         function() {
-          this.matchComp();
+          this.matchComp()
         }
-      );
-    });
+      )
+    })
   }
 
   matchComp() {
-    let state = this.state;
+    let state = this.state
     if (!state.sToken || !state.userInfo) {
       this.setState({
         showLogin: true,
         showMobile: false,
         showBindMobile: false
-      });
+      })
     } else {
       if (state.userInfo.mobile && !state.goChangeMobile) {
         if (!state.userInfo.mobileAck) {
@@ -61,7 +61,7 @@ class Login extends Component {
             showLogin: false,
             showMobile: true,
             showBindMobile: false
-          });
+          })
         } else {
           // createHashHistory().push('/main/home');
         }
@@ -70,19 +70,19 @@ class Login extends Component {
           showLogin: false,
           showMobile: false,
           showBindMobile: true
-        });
+        })
       }
       if (localStorage.getItem('goChangeMobile')) {
         this.setState({
           showLogin: false,
           showMobile: false,
           showBindMobile: true
-        });
+        })
       }
       if (state.userInfo.mobileAck) {
         this.setState({
           showNote: !state.userInfo.notesAck
-        });
+        })
       }
     }
   }
@@ -94,31 +94,31 @@ class Login extends Component {
         sToken: this.props.userInfo ? this.props.userInfo.token : ''
       },
       function() {
-        this.matchComp();
+        this.matchComp()
       }
-    );
+    )
   }
 
   /* 绑定手机号成功 */
   handleBindMobile(data) {
     if (data) {
       if (this.state.userInfo.notesAck) {
-        createHashHistory().push('/main/home');
+        createHashHistory().push('/home')
       } else {
         this.setState({
           showNote: true
-        });
+        })
       }
     } else {
-      localStorage.removeItem('goChangeMobile');
+      localStorage.removeItem('goChangeMobile')
       this.setState(
         {
           goChangeMobile: false
         },
         function() {
-          this.matchComp();
+          this.matchComp()
         }
-      );
+      )
     }
   }
 
@@ -129,17 +129,17 @@ class Login extends Component {
         goChangeMobile: true
       },
       function() {
-        localStorage.setItem('goChangeMobile', true);
-        this.matchComp();
+        localStorage.setItem('goChangeMobile', true)
+        this.matchComp()
       }
-    );
+    )
   }
 
   render() {
-    let userInfo = this.state.userInfo;
-    let com = <LoginForm />;
+    let userInfo = this.state.userInfo
+    let com = <LoginForm />
     if (this.state.showBindMobile) {
-      com = <MobileBind handleBindMobile={this.handleBindMobile} />;
+      com = <MobileBind handleBindMobile={this.handleBindMobile} />
     }
     if (this.state.showMobile && userInfo) {
       com = (
@@ -148,14 +148,14 @@ class Login extends Component {
           goBindMobile={this.goBindMobile}
           handleBindMobile={this.handleBindMobile}
         />
-      );
+      )
     }
     if (this.state.showLogin) {
-      com = <LoginForm />;
+      com = <LoginForm />
     }
-    let atten;
+    let atten
     if (this.state.showNote) {
-      atten = <Attention />;
+      atten = <Attention />
     }
     return (
       <div className="login">
@@ -166,12 +166,12 @@ class Login extends Component {
         <div className="login-main">{com}</div>
         {atten}
       </div>
-    );
+    )
   }
 }
 
 const mapStateToProps = state => ({
   userInfo: state.userInfo
-});
+})
 
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps)(Login)

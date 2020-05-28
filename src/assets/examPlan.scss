@@ -1,0 +1,195 @@
+.exam-plan-mian {
+  overflow: hidden;
+  .exam-plan-right {
+    height: 100%;
+    width: 465px;
+    float: right;
+    margin-left: 20px;
+  }
+  .exam-right-top {
+    padding: 20px;
+    background: #fff;
+    margin-bottom: 20px;
+  }
+  .exam-right-bottom {
+    padding: 20px;
+    background: #fff;
+    .exer-right-bottom-content {
+      font-size: 14px;
+      font-family: PingFang SC Regular;
+      text-align: left;
+      color: #333333;
+      line-height: 28px;
+
+      &.close {
+        height: 84px;
+        word-break: break-all;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        overflow: hidden;
+      }
+    }
+  }
+
+  .exam-times {
+    width: 50%;
+    float: left;
+    text-align: center;
+    padding: 10px 0;
+    float: left;
+    .exam-times-num {
+      font-size: 20px;
+      font-family: PingFang SC Bold;
+      text-align: center;
+      color: #333333;
+      line-height: 30px;
+    }
+    .exam-times-label {
+      margin-top: 10px;
+      font-size: 14px;
+      font-family: PingFang SC Regular;
+      text-align: center;
+      color: #999999;
+      line-height: 22px;
+    }
+  }
+
+  .exam-card {
+    font-size: 16px;
+    font-family: PingFang SC Bold;
+    text-align: left;
+    color: #333333;
+    line-height: 18px;
+    padding-left: 15px;
+    position: relative;
+    margin-bottom: 20px;
+    &::before {
+      content: ' ';
+      display: block;
+      width: 4px;
+      height: 18px;
+      background: #1890ff;
+      position: absolute;
+      left: 0;
+      // right: 0;
+      // bottom: 0;
+    }
+    a {
+      float: right;
+      font-size: 14px;
+      font-family: PingFang SC Regular;
+      text-align: right;
+      color: #3f8dff;
+      line-height: 18px;
+    }
+  }
+}
+.exam-plan {
+  overflow: hidden;
+  background: #fff;
+  padding: 20px;
+  padding-right: 0px;
+  .exam-plan-title {
+    font-size: 20px;
+    font-family: PingFang SC Regular;
+    text-align: left;
+    color: #333333;
+    line-height: 30px;
+    span {
+      display: inline-block;
+      width: 55px;
+      height: 24px;
+      background: rgba(63, 141, 255, 0.1);
+      border: 1px solid rgba(63, 141, 255, 0.3);
+      border-radius: 2px;
+      text-align: center;
+      font-size: 14px;
+      font-family: PingFang SC Regular;
+      color: #1890ff;
+      line-height: 22px;
+    }
+  }
+
+  .exam-plan-item {
+    width: 400px;
+    height: 156px;
+    background: #ffffff;
+    border: 1px solid #eeeeee;
+    border-radius: 4px;
+    box-shadow: 0px 2px 23px 0px rgba(0, 0, 0, 0.02);
+    margin: 20px 20px 0 0;
+    float: left;
+    // &:nth-child(3n) {
+    //   // margin-right: 0px;
+    // }
+    .exam-plan-top {
+      clear: both;
+      margin-top: 20px;
+      .left {
+        width: 4px;
+        height: 24px;
+        background: #1890ff;
+        float: left;
+      }
+      .title {
+        margin-left: 26px;
+        float: left;
+        font-size: 18px;
+        font-family: PingFang SC Bold;
+        text-align: left;
+        color: #333333;
+        line-height: 32px;
+        font-weight: 600;
+      }
+      .right {
+        float: right;
+        margin-right: 20px;
+        font-size: 14px;
+        font-family: PingFang SC Regular;
+        text-align: right;
+        line-height: 28px;
+        &.status1 {
+          color: #1890ff;
+        }
+        &.status2 {
+          color: #ffab3c;
+        }
+        &.status3 {
+          color: #999999;
+        }
+      }
+    }
+    .exam-time {
+      margin-top: 4px;
+      margin-left: 30px;
+      font-size: 14px;
+      font-family: PingFang SC Regular;
+      text-align: left;
+      color: #666666;
+      line-height: 24px;
+    }
+    .exam-oper {
+      text-align: right;
+      margin-right: 20px;
+      .score {
+        font-size: 14px;
+        font-family: PingFang SC Regular;
+        color: #999999;
+        line-height: 36px;
+        span {
+          font-size: 24px;
+          font-family: PingFang SC Bold;
+          text-align: right;
+          color: #1fcb8e;
+          line-height: 36px;
+          float: right;
+          &.denger {
+            color: #ff3638;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,242 @@
+.exam {
+  width: 100%;
+  height: 100%;
+  .exam-left {
+    height: 100%;
+    margin-right: 485px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    .exam-title {
+      height: 56px;
+      background: #fafafa;
+      padding: 0 20px;
+      line-height: 56px;
+      font-size: 18px;
+      font-family: PingFang SC Bold;
+      text-align: left;
+      color: #333333;
+      font-weight: 600;
+      span {
+        float: right;
+        font-size: 14px;
+        font-family: PingFang SC Regular;
+        text-align: right;
+        color: #333333;
+        font-weight: 300;
+        &.title-score {
+          margin-right: 30px;
+        }
+      }
+    }
+    .exam-paper {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      box-sizing: border-box;
+      .paper-item {
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #eeeeee;
+        .big-title {
+          font-size: 16px;
+          font-family: PingFang SC Bold;
+          text-align: left;
+          color: #333333;
+          line-height: 24px;
+          font-weight: 600;
+        }
+        .little-exer {
+          margin-top: 15px;
+          margin-bottom: 15px;
+          .description-tit {
+            overflow: hidden;
+            span {
+              float: left;
+            }
+            .description {
+              padding-left: 10px;
+            }
+          }
+        }
+        .objective {
+          overflow: hidden;
+          margin-top: 8px;
+          &:first-child {
+            margin-top: 6px;
+          }
+          .choice {
+            float: left;
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background: #ffffff;
+            border: 1px solid #dddddd;
+            font-size: 14px;
+            font-family: PingFang SC Regular;
+            text-align: center;
+            color: #666666;
+            line-height: 22px;
+            border-radius: 50%;
+            margin-right: 8px;
+            cursor: pointer;
+            &.checked {
+              background: #1890ff;
+              color: #fff;
+            }
+            &.multiple {
+              border-radius: 8px;
+            }
+          }
+          .choice-text {
+            overflow: hidden;
+            &.checked {
+              color: #1890ff;
+            }
+          }
+        }
+
+        .subjective {
+          margin-top: 10px;
+        }
+
+        .childList {
+          padding-left: 20px;
+        }
+      }
+    }
+  }
+  .exam-right {
+    height: 100%;
+    width: 465px;
+    float: right;
+    display: flex;
+    flex-direction: column;
+
+    .card-main {
+      flex: 1;
+      background: #fff;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      .exer-card-main {
+        padding: 20px;
+        flex: 1;
+        overflow-y: auto;
+      }
+      .card-tips {
+        height: 48px;
+        border-top: 1px solid #ddd;
+        text-align: center;
+        padding-top: 10px;
+        .card-tips-item {
+          font-size: 14px;
+          font-family: PingFang SC Medium;
+          text-align: left;
+          color: #333333;
+          line-height: 20px;
+          display: inline-block;
+          // float: left;
+          // margin: 0 auto;
+          span {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background: #1890ff;
+            float: left;
+            margin-right: 13px;
+          }
+          &.tips2 {
+            margin-left: 30px;
+            span {
+              background: #fff;
+              border: 1px solid #dddddd;
+            }
+          }
+        }
+      }
+      .exer-card {
+        font-size: 18px;
+        font-family: PingFang SC Bold;
+        text-align: left;
+        color: #333333;
+        line-height: 20px;
+        font-weight: 600;
+        padding-left: 15px;
+        position: relative;
+        margin-bottom: 20px;
+        &::before {
+          content: ' ';
+          display: block;
+          width: 4px;
+          height: 20px;
+          background: #1890ff;
+          position: absolute;
+          left: 0;
+          // right: 0;
+          // bottom: 0;
+        }
+      }
+      .card-item {
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #eeeeee;
+        .card-title {
+          font-size: 14px;
+          font-family: PingFang SC Bold;
+          text-align: left;
+          color: #333333;
+          line-height: 22px;
+          font-weight: 600;
+        }
+
+        .card-box {
+          .card {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            background: #ffffff;
+            border: 1px solid #dddddd;
+            border-radius: 2px;
+            font-size: 16px;
+            font-family: PingFang SC Regular;
+            text-align: center;
+            color: #666666;
+            line-height: 30px;
+            margin-right: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+            &.checked {
+              background: #1890ff;
+              color: #fff;
+            }
+          }
+        }
+      }
+    }
+    .exam-time {
+      height: 75px;
+      background: #fff;
+      padding: 20px;
+      .last-time {
+        font-size: 16px;
+        font-family: PingFang SC Regular;
+        text-align: left;
+        color: #333333;
+        line-height: 30px;
+        span {
+          font-size: 20px;
+          font-family: PingFang SC Bold;
+          text-align: left;
+          color: #ff3638;
+          line-height: 30px;
+        }
+      }
+      button {
+        float: right;
+        width: 150px;
+      }
+    }
+  }
+}

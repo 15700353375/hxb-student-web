@@ -4,57 +4,60 @@
  * @Description: 顶部栏
  */
 
-import React, { Component } from 'react';
-import { Menu, Dropdown } from 'antd';
-import '@assets/home.scss';
-import { connect } from 'react-redux';
-import homeUrl from '@assets/img/home.png';
-import avatarUrl from '@assets/img/avatar.png';
-import store from '@store';
-import { createHashHistory } from 'history'; // 是hash路由 history路由 自己根据需求来定
-import common from '@utils/common';
+import React, { Component } from 'react'
+import { Menu, Dropdown } from 'antd'
+import '@assets/home.scss'
+import { connect } from 'react-redux'
+import homeUrl from '@assets/img/home.png'
+import avatarUrl from '@assets/img/avatar.png'
+import store from '@store'
+import { createHashHistory } from 'history' // 是hash路由 history路由 自己根据需求来定
+import common from '@utils/common'
+import Camera from '@components/camera'
 class TopBar extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       currentRoute: ''
-    };
-    this.goHome = this.goHome.bind(this);
-    this.loginOut = this.loginOut.bind(this);
+    }
+    this.goHome = this.goHome.bind(this)
+    this.loginOut = this.loginOut.bind(this)
     store.subscribe(() => {
-      let state = store.getState();
+      let state = store.getState()
+      console.log(1111111111, state.currentRoute)
       this.setState({
         currentRoute: state.currentRoute
-      });
-    });
+      })
+    })
   }
   componentDidMount() {
+    console.log(111111111, this.props.currentRoute)
     this.setState({
       currentRoute: this.props.currentRoute
-    });
+    })
   }
 
   goHome() {
-    createHashHistory().push('/main/home');
+    createHashHistory().push('/home')
   }
   loginOut() {
-    common.loginOut();
+    common.loginOut()
   }
 
   render() {
     let userInfo = {
       name: ''
-    };
-    userInfo = this.props.userInfo || userInfo;
-    let leftComp;
-    let currentRoute = this.state.currentRoute;
-    if (currentRoute && currentRoute.pathname != '/main/home') {
+    }
+    userInfo = this.props.userInfo || userInfo
+    let leftComp
+    let currentRoute = this.state.currentRoute
+    if (currentRoute && currentRoute.pathname != '/home') {
       leftComp = (
         <div className="topbar-home" onClick={this.goHome}>
           <img src={homeUrl} className="topbar-icon-home" alt="home" />
           <span>首页</span>
         </div>
-      );
+      )
     }
     const menu = (
       <Menu>
@@ -64,11 +67,12 @@ class TopBar extends Component {
           </a>
         </Menu.Item>
       </Menu>
-    );
+    )
 
     return (
       <div className="topbar">
         {leftComp}
+        {/* <Camera /> */}
         <span className="topbar-title">论文管理系统</span>
         <div className="topbar-user">
           <img className="topbar-icon-home" src={avatarUrl} alt="home" />
@@ -78,13 +82,13 @@ class TopBar extends Component {
           </Dropdown>
         </div>
       </div>
-    );
+    )
   }
 }
 
 const mapStateToProps = state => ({
   userInfo: state.userInfo,
   currentRoute: state.currentRoute
-});
+})
 
-export default connect(mapStateToProps)(TopBar);
+export default connect(mapStateToProps)(TopBar)

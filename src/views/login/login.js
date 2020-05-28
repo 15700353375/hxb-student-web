@@ -3,61 +3,61 @@
  * description: 登录表单组件
  * time: 2019-12-12
  */
-import React from 'react';
-import { Form, Input, Button } from 'antd';
-import { createHashHistory } from 'history';
-import http from '@utils/http';
-import { urls } from '@utils/api';
-import verification from '@utils/verification';
+import React from 'react'
+import { Form, Input, Button } from 'antd'
+import { createHashHistory } from 'history'
+import http from '@utils/http'
+import { urls } from '@utils/api'
+import verification from '@utils/verification'
 
 // connect方法的作用：将额外的props传递给组件，并返回新的组件，组件在该过程中不会受到影响
-import { connect } from 'react-redux';
-import { setUserInfo } from '@store/actions';
+import { connect } from 'react-redux'
+import { setUserInfo } from '@store/actions'
 
-import '@assets/login.scss';
-import idCardUrl from '@assets/img/login-idCard.png';
-import passwordUrl from '@assets/img/login-password.png';
+import '@assets/login.scss'
+import idCardUrl from '@assets/img/login-idCard.png'
+import passwordUrl from '@assets/img/login-password.png'
 
 class LoginForm extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       loading: false
-    };
-    this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
   componentDidMount() {}
 
   handleSubmit = e => {
-    e.preventDefault();
+    e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({
           loading: true
-        });
+        })
         http.postJson(urls.LOGIN, values).then(res => {
           if (res) {
-            localStorage.setItem('userInfo', JSON.stringify(res.body));
-            this.props.dispatch(setUserInfo(res.body));
-            sessionStorage.setItem('sToken', res.body.token);
+            localStorage.setItem('userInfo', JSON.stringify(res.body))
+            this.props.dispatch(setUserInfo(res.body))
+            sessionStorage.setItem('sToken', res.body.token)
             if (res.body) {
               if (res.body.mobileAck && res.body.notesAck) {
-                createHashHistory().push('/main/home');
+                createHashHistory().push('/home')
               }
             }
           }
           this.setState({
             loading: false
-          });
-        });
+          })
+        })
       }
-    });
-  };
+    })
+  }
 
   render() {
-    const { getFieldDecorator } = this.props.form;
-    const validator_idCard = verification.validator_idCard;
-    const validator_login_password = verification.validator_login_password;
+    const { getFieldDecorator } = this.props.form
+    const validator_idCard = verification.validator_idCard
+    const validator_login_password = verification.validator_login_password
     return (
       <div>
         <h2>欢迎登录论文管理系统</h2>
@@ -106,8 +106,8 @@ class LoginForm extends React.Component {
           </Form.Item>
         </Form>
       </div>
-    );
+    )
   }
 }
-const Comp = connect()(LoginForm);
-export default Form.create({ name: 'normal_login' })(Comp);
+const Comp = connect()(LoginForm)
+export default Form.create({ name: 'normal_login' })(Comp)

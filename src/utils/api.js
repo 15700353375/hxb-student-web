@@ -4,17 +4,17 @@
  * @Description: api接口
  */
 
-let baseUrl = 'http://192.168.0.12:9130/';
+let baseUrl = 'http://192.168.0.12:9130/'
 
 if (process.env.NODE_ENV === 'production') {
   // 测试部使用的生产环境，上线时改为发布环境
-  baseUrl = 'http://api.huixuebang.com/';
+  baseUrl = 'http://api.huixuebang.com/'
   // baseUrl = 'http://192.168.0.12:9130/';
 } else {
   // 开发环境
   // baseUrl = 'http://api.huixuebang.com/'
-  // baseUrl = 'http://192.168.0.38:9130/'
-  baseUrl = 'http://api.huixuebang.com/';
+  baseUrl = 'http://192.168.0.12:9130/'
+  // baseUrl = 'http://api.huixuebang.com/';
   // baseUrl = 'http://192.168.0.12:9130/';
   // baseUrl = '/api/';
 }
@@ -80,8 +80,28 @@ export const urls = {
   ONLINE_ANSWER: 'org-backend/student/paper/online/answer',
 
   // 下载学生专属文件
-  DOWN_SELF: 'org-backend/student/paper/down/self'
-};
+  DOWN_SELF: 'org-backend/student/paper/down/self',
+
+  /* 省考 */
+
+  // 获取当前用户所有批次/选择批次
+  EXAM_BATCH: 'org-backend/student/exam/batch',
+
+  // 获取当前用户所有机构
+  EXAM_ORG: 'org-backend/student/exam/org',
+
+  // 考试计划列表
+  EXAM_BATCH_PLAN: 'org-backend/student/exam/plan',
+
+  // 考试试卷
+  EXAM_PLAN_PAPER: 'org-backend/student/exam/plan/{0}/paper',
+
+  // 提交答案
+  EXAM_PLAN_ANSWER: 'org-backend/student/exam/plan/{0}/exercise/{1}/answer',
+
+  // 成绩单
+  EXAM_SCOREREPORT: 'org-backend/student/exam/scoreReport'
+}
 
 // 不需要token的请求
-export const noTokenReq = [urls.LOGIN];
+export const noTokenReq = [urls.LOGIN]

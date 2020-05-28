@@ -7,6 +7,20 @@
   .user-block-top {
     border-bottom: 1px solid rgba(238, 238, 238, 1);
     padding-bottom: 30px;
+    &.exam-detail-user {
+      border-bottom: 0px;
+      padding-bottom: 0px;
+      .user-info {
+        font-size: 16px;
+        font-family: PingFang SC Regular;
+        text-align: left;
+        color: #333333;
+        line-height: 32px;
+        span {
+          margin-right: 40px;
+        }
+      }
+    }
     img {
       width: 80px;
       height: 80px;

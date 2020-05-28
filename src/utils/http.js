@@ -4,11 +4,11 @@
  * @Description: 统一请求或返回API层
  */
 
-import axios from 'axios';
-import qs from 'qs';
-import { message } from 'antd';
-import { urls, noTokenReq } from './api';
-import common from '@utils/common';
+import axios from 'axios'
+import qs from 'qs'
+import { message } from 'antd'
+import { urls, noTokenReq } from './api'
+import common from '@utils/common'
 
 // 创建axios实例
 // const service = axios.create({
@@ -21,18 +21,18 @@ import common from '@utils/common';
 // 字符串格式化
 String.prototype.format = function() {
   // eslint-disable-line
-  let args = arguments;
+  let args = arguments
   return this.replace(/\{(\d+)\}/g, function(m, i) {
-    return args[i];
-  });
-};
+    return args[i]
+  })
+}
 
 const service = axios.create({
   baseURL: urls.baseUrl,
   timeout: 30000
-});
-axios.defaults.headers.post['Content-Type'] = 'application/json';
-axios.defaults.headers.common['X-Auth-Token'] = '';
+})
+axios.defaults.headers.post['Content-Type'] = 'application/json'
+axios.defaults.headers.common['X-Auth-Token'] = ''
 
 /* 请求拦截 */
 service.interceptors.request.use(
@@ -40,21 +40,24 @@ service.interceptors.request.use(
     // 需要带token的接口 请求带上token
     if (noTokenReq.indexOf(config.url) == -1) {
       // 验证浏览器localStorage缓存中是否存在token
-      let sToken = sessionStorage.getItem('sToken');
-      config.headers.common['X-Auth-Token'] = sToken;
+      let sToken = sessionStorage.getItem('sToken')
+      config.headers.common['X-Auth-Token'] = sToken
 
       // return !!sToken;
     } else {
-      config.headers.common['X-Auth-Token'] = '';
+      config.headers.common['X-Auth-Token'] = ''
       // return true;
     }
+
+    config.headers.common['X-Client-Version'] = '1.1.2'
+    config.headers.common['X-Client-Type'] = 'org'
     // config.headers['Content-Type'] = 'application/json;charset=UTF-8';
-    return config;
+    return config
   },
   function(error) {
-    return error;
+    return error
   }
-);
+)
 
 // 需要退出的状态码
 const exitCode = [
@@ -65,7 +68,7 @@ const exitCode = [
   '999997',
   '999998',
   '999999'
-];
+]
 
 /* 响应拦截 */
 service.interceptors.response.use(
@@ -77,23 +80,23 @@ service.interceptors.response.use(
      * @return {[type]}          [description]
      */
     if (response.status !== 200) {
-      return Promise.reject(new Error('网络异常，请稍后重试'));
+      return Promise.reject(new Error('网络异常，请稍后重试'))
     }
-    const res = response.data;
+    const res = response.data
     // 正常返回
     if (res.code === '000000') {
-      return res;
+      return res
     } else if (exitCode.indexOf(res.code) > -1) {
-      common.loginOut();
-      return Promise.reject(res.message);
+      common.loginOut()
+      return Promise.reject(res.message)
     } else {
-      return Promise.reject(res.message);
+      return Promise.reject(res.message)
     }
   },
   error => {
-    return Promise.reject(error);
+    return Promise.reject(error)
   }
-);
+)
 
 /* ********************* all request methods ************************** */
 const http = {
@@ -102,7 +105,7 @@ const http = {
   postJson: '',
   put: '',
   delete: ''
-};
+}
 
 /* ********************* 封装get请求 ************************** */
 
@@ -112,91 +115,91 @@ http.get = function(url, data) {
   url =
     arguments.length > 2
       ? url.format(...[].slice.call(arguments).slice(2))
-      : url;
+      : url
   return service
     .get(url, { params: data })
     .then(res => {
-      return res;
+      return res
     })
     .catch(error => {
-      message.error(error);
-    });
-};
+      message.error(error)
+    })
+}
 
 /* ********************* 封装post请求 ************************** */
 
 http.post = function(url, data) {
-  let params = qs.stringify(data);
+  let params = qs.stringify(data)
   url =
     arguments.length > 2
       ? url.format(...[].slice.call(arguments).slice(2))
-      : url;
+      : url
 
   return service
     .post(url, params)
     .then(res => {
-      return res;
+      return res
     })
     .catch(error => {
-      message.error(error);
-    });
-};
+      message.error(error)
+    })
+}
 
 /* ********************* 封装post请求 json格式 ************************** */
 
 http.postJson = function(url, data) {
-  let params = data;
+  let params = data
   url =
     arguments.length > 2
       ? url.format(...[].slice.call(arguments).slice(2))
-      : url;
+      : url
 
   return service
     .post(url, params)
     .then(res => {
-      return res;
+      return res
     })
     .catch(error => {
-      message.error(error);
-    });
-};
+      message.error(error)
+    })
+}
 
 /* ********************* 封装put请求 ************************** */
 
 http.put = function(url, data) {
-  let params = data;
+  let params = data
   url =
     arguments.length > 2
       ? url.format(...[].slice.call(arguments).slice(2))
-      : url;
+      : url
 
   return service
     .put(url, params)
     .then(res => {
-      return res;
+      return res
     })
     .catch(error => {
-      message.error(error);
-    });
-};
+      message.error(error)
+    })
+}
 
 /* ********************* 封装delete请求 ************************** */
 
 http.delete = function(url, data) {
-  let params = data;
+  let params = data
   url =
     arguments.length > 2
       ? url.format(...[].slice.call(arguments).slice(2))
-      : url;
+      : url
 
   return service
     .delete(url, params)
     .then(res => {
-      return res;
+      return res
     })
     .catch(error => {
-      message.error(error);
-    });
-};
+      message.error(error)
+    })
+}
 
-export default http;
+export default http

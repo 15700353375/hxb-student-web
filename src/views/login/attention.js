@@ -3,59 +3,59 @@
  * description: 注意事项（弹窗）
  * time: 2019-12-12
  */
-import React from 'react';
-import { Modal, Button } from 'antd';
-import '@assets/attention.scss';
-import http from '@utils/http';
-import { urls } from '@utils/api';
-import { createHashHistory } from 'history';
+import React from 'react'
+import { Modal, Button } from 'antd'
+import '@assets/attention.scss'
+import http from '@utils/http'
+import { urls } from '@utils/api'
+import { createHashHistory } from 'history'
 export default class Attention extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       visible: true,
       loading: false,
       times: 8,
       isClick: false
-    };
+    }
   }
   componentDidMount() {
     let timer = setInterval(() => {
-      let times = this.state.times;
+      let times = this.state.times
 
       if (times <= 0) {
-        clearInterval(timer);
+        clearInterval(timer)
         this.setState({
           isClick: true
-        });
+        })
       } else {
         this.setState({
           times: times - 1
-        });
+        })
       }
-    }, 1000);
+    }, 1000)
   }
 
   handleOk = e => {
-    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    let userInfo = JSON.parse(localStorage.getItem('userInfo'))
     this.setState({
       loading: true
-    });
+    })
     http.put(urls.NOTES_ACK, null).then(res => {
       if (res) {
-        userInfo.notesAck = true;
-        localStorage.setItem('userInfo', JSON.stringify(userInfo));
-        createHashHistory().push('/main/home');
+        userInfo.notesAck = true
+        localStorage.setItem('userInfo', JSON.stringify(userInfo))
+        createHashHistory().push('/home')
       }
       this.setState({
         loading: false
-      });
-    });
+      })
+    })
 
     this.setState({
       visible: false
-    });
-  };
+    })
+  }
 
   render() {
     return (
@@ -106,6 +106,6 @@ export default class Attention extends React.Component {
           (九)毕业论文模板、毕业论文格式及规范、毕业论文示例、毕业论文管理办法详情见附件,请学生仔细阅读,学生必须按照格式及规范撰写论。
         </p>
       </Modal>
-    );
+    )
   }
 }
