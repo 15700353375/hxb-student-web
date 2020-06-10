@@ -3,43 +3,44 @@
  * description: 确认手机号
  * time: 2019-12-12
  */
-import React from 'react';
-import { Button } from 'antd';
-import http from '@utils/http';
-import { urls } from '@utils/api';
-import { connect } from 'react-redux';
-import { setUserInfo } from '@store/actions';
-import common from '@utils/common';
+import React from 'react'
+import { Button } from 'antd'
+import http from '@utils/http'
+import { urls } from '@utils/api'
+import { connect } from 'react-redux'
+import { setUserInfo } from '@store/actions'
+import common from '@utils/common'
 class Mobile extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       loading: false
-    };
-    this.sureMobile = this.sureMobile.bind(this);
-    this.loginOut = this.loginOut.bind(this);
+    }
+    this.sureMobile = this.sureMobile.bind(this)
+    this.loginOut = this.loginOut.bind(this)
   }
 
   loginOut() {
-    common.loginOut();
+    common.loginOut()
   }
 
   sureMobile() {
-    let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    let userInfo = JSON.parse(localStorage.getItem('userInfo'))
     this.setState({
       loading: true
-    });
+    })
     http.put(urls.MOBILE_ACK, null).then(res => {
       if (res) {
-        userInfo.mobileAck = true;
-        localStorage.setItem('userInfo', JSON.stringify(userInfo));
-        this.props.handleBindMobile(userInfo);
-        this.props.dispatch(setUserInfo(userInfo));
+        userInfo.mobileAck = true
+        // 用户信息存在本地和redux
+        localStorage.setItem('userInfo', JSON.stringify(userInfo))
+        this.props.handleBindMobile(userInfo)
+        this.props.dispatch(setUserInfo(userInfo))
       }
       this.setState({
         loading: false
-      });
-    });
+      })
+    })
   }
 
   render() {
@@ -69,10 +70,10 @@ class Mobile extends React.Component {
           </Button>
         </div>
       </div>
-    );
+    )
   }
 }
 const mapStateToProps = state => ({
   userInfo: state.userInfo
-});
-export default connect(mapStateToProps)(Mobile);
+})
+export default connect(mapStateToProps)(Mobile)

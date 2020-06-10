@@ -1,4 +1,5 @@
 .exam-plan-mian {
+  height: 100%;
   overflow: hidden;
   .exam-plan-right {
     height: 100%;
@@ -88,9 +89,20 @@
 }
 .exam-plan {
   overflow: hidden;
+  // height: 400px;
   background: #fff;
   padding: 20px;
   padding-right: 0px;
+  &.noPlan {
+    text-align: center;
+    > div {
+      font-size: 14px;
+      font-family: PingFang SC Regular;
+      text-align: center;
+      color: #666666;
+      line-height: 22px;
+    }
+  }
   .exam-plan-title {
     font-size: 20px;
     font-family: PingFang SC Regular;
@@ -124,6 +136,7 @@
     // &:nth-child(3n) {
     //   // margin-right: 0px;
     // }
+
     .exam-plan-top {
       clear: both;
       margin-top: 20px;
@@ -132,6 +145,18 @@
         height: 24px;
         background: #1890ff;
         float: left;
+        &.status1 {
+          background: #1890ff;
+        }
+        &.status2 {
+          background: #ffab3c;
+        }
+        &.status3 {
+          background: #ccc;
+        }
+        &.status4 {
+          background: #ff3638;
+        }
       }
       .title {
         margin-left: 26px;
@@ -158,6 +183,21 @@
         }
         &.status3 {
           color: #999999;
+        }
+        &.status4 {
+          color: #ff3638;
+        }
+        .status1 {
+          color: #1890ff;
+        }
+        .status2 {
+          color: #ffab3c;
+        }
+        .status3 {
+          color: #999999;
+        }
+        .status4 {
+          color: #ff3638;
         }
       }
     }
@@ -190,6 +230,22 @@
           }
         }
       }
+      .noScore {
+        font-size: 16px;
+        font-family: PingFang SC, PingFang SC-Bold;
+        font-weight: 700;
+        text-align: right;
+        color: #1890ff;
+        line-height: 24px;
+      }
     }
   }
+}
+
+.countdown {
+  font-size: 14px;
+  font-family: PingFang SC Regular;
+  text-align: right;
+  // color: #ff3638;
+  line-height: 28px;
 }

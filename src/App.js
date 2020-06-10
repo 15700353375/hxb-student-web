@@ -39,17 +39,12 @@ function routeInterception() {
   // let current = history.location.pathname;
   let sToken = sessionStorage.getItem('sToken')
   let userInfo = JSON.parse(localStorage.getItem('userInfo'))
-  if (
-    sToken &&
-    userInfo &&
-    userInfo.notesAck == true &&
-    userInfo.mobileAck == true
-  ) {
+  if (sToken && userInfo && userInfo.mobileAck == true) {
     if (location.pathname == '/login' || location.hash == '#/') {
-      createHashHistory().push('/main/home')
+      createHashHistory().replace('/home')
     }
   } else {
-    createHashHistory().push('/login')
+    createHashHistory().replace('/login')
   }
 }
 

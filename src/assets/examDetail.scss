@@ -21,4 +21,10 @@
   .status {
     color: #ff3638;
   }
+  .ant-table-empty {
+    .ant-table-placeholder {
+      border-left: 1px solid #e8e8e8;
+      border-right: 1px solid #e8e8e8;
+    }
+  }
 }

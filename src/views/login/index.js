@@ -9,7 +9,6 @@ import React, { Component } from 'react'
 import LoginForm from './login'
 import Mobile from './mobile'
 import MobileBind from './mobileBind'
-import Attention from './attention'
 import '@assets/login.scss'
 import src from '@assets/img/login.png'
 import store from '@store/index'
@@ -25,8 +24,7 @@ class Login extends Component {
       goChangeMobile: false,
       showBindMobile: false,
       showMobile: false,
-      showLogin: false,
-      showNote: false
+      showLogin: false
     }
     this.handleBindMobile = this.handleBindMobile.bind(this)
     this.goBindMobile = this.goBindMobile.bind(this)
@@ -55,7 +53,9 @@ class Login extends Component {
         showBindMobile: false
       })
     } else {
+      // 有手机号、没有去更改手机号
       if (state.userInfo.mobile && !state.goChangeMobile) {
+        // 没有确认手机号 ， 去确认手机号
         if (!state.userInfo.mobileAck) {
           this.setState({
             showLogin: false,
@@ -63,7 +63,7 @@ class Login extends Component {
             showBindMobile: false
           })
         } else {
-          // createHashHistory().push('/main/home');
+          // createHashHistory().push('/home')
         }
       } else {
         this.setState({
@@ -79,11 +79,9 @@ class Login extends Component {
           showBindMobile: true
         })
       }
-      if (state.userInfo.mobileAck) {
-        this.setState({
-          showNote: !state.userInfo.notesAck
-        })
-      }
+      // if (state.userInfo.mobileAck) {
+      //   createHashHistory().push('/main/home')
+      // }
     }
   }
 
@@ -102,13 +100,7 @@ class Login extends Component {
   /* 绑定手机号成功 */
   handleBindMobile(data) {
     if (data) {
-      if (this.state.userInfo.notesAck) {
-        createHashHistory().push('/home')
-      } else {
-        this.setState({
-          showNote: true
-        })
-      }
+      createHashHistory().replace('/home')
     } else {
       localStorage.removeItem('goChangeMobile')
       this.setState(
@@ -153,10 +145,6 @@ class Login extends Component {
     if (this.state.showLogin) {
       com = <LoginForm />
     }
-    let atten
-    if (this.state.showNote) {
-      atten = <Attention />
-    }
     return (
       <div className="login">
         <div className="login-left">
@@ -164,7 +152,6 @@ class Login extends Component {
         </div>
         <img src={src} className="App-logo" alt="logo" />
         <div className="login-main">{com}</div>
-        {atten}
       </div>
     )
   }

@@ -8,9 +8,12 @@ import { connect } from 'react-redux'
 import http from '@utils/http'
 import { urls } from '@utils/api'
 import '@assets/examPlan.scss'
-import { Modal, Button } from 'antd'
+import { Modal, Button, message } from 'antd'
 import { createHashHistory } from 'history'
 import common from '@utils/common'
+import Countdown from '@components/countdown'
+import kongUrl from '@assets/img/web1x_kaoshijihua_kong.png'
+
 class ExamPlan extends React.Component {
   constructor(prop) {
     super(prop)
@@ -23,6 +26,7 @@ class ExamPlan extends React.Component {
     }
     this.getData = this.getData.bind(this)
     this.changeOpen = this.changeOpen.bind(this)
+    this.timeOver = this.timeOver.bind(this)
   }
   componentDidMount() {
     this.getData()
@@ -49,8 +53,9 @@ class ExamPlan extends React.Component {
   }
 
   /* 考试 */
-  goTest(item) {
+  goTest(item, continueExam) {
     console.log(item, this.props.history)
+    let that = this
     Modal.warning({
       title: '摄像头授权提醒！',
       content: (
@@ -63,14 +68,34 @@ class ExamPlan extends React.Component {
       ),
       okText: '我知道了',
       onOk() {
-        console.log('OK考试去')
-        createHashHistory().push({
-          pathname: 'exam',
-          search: `?planId=${item.id}`,
-          state: { model: true },
-          query: { planId: item.id }
+        if (!continueExam) {
+          that.examTodo(item)
+        } else {
+          common.checkOpenCamera().then(res => {
+            createHashHistory().push({
+              pathname: 'exam',
+              search: `?planId=${item.id}`,
+              state: { model: true },
+              query: { planId: item.id }
+            })
+          })
+        }
+      }
+    })
+  }
+
+  /* 开始考试 */
+  examTodo(item) {
+    http.put(urls.EXAM_PAPER_TODO, null, item.id).then(res => {
+      if (res && res.body) {
+        common.checkOpenCamera().then(res => {
+          createHashHistory().push({
+            pathname: 'exam',
+            search: `?planId=${item.id}`,
+            state: { model: true },
+            query: { planId: item.id }
+          })
         })
-        // this.props.history.push({ path: '/province/exam', query: { name: ' sunny' } })
       }
     })
   }
@@ -91,8 +116,31 @@ class ExamPlan extends React.Component {
     })
   }
 
+  /* 倒计时结束 */
+  timeOver() {
+    this.getData()
+  }
+
+  dealStyle(item) {
+    let classname = ''
+    if (item.status == 1) {
+      classname = 'status1'
+    } else if (item.status == 2) {
+      // 已经开始了
+      if (item.continueExam) {
+        classname = 'status4'
+      } else {
+        classname = 'status2'
+      }
+    } else if (item.status == 3) {
+      classname = 'status3'
+    }
+    return classname
+  }
+
   render() {
     const { list, loading, isOpen, allExamTime, actualExamTime } = this.state
+    const { userInfo } = this.props
     return (
       <div className="exam-plan-mian clearfix">
         <div className="exam-plan-right">
@@ -126,62 +174,113 @@ class ExamPlan extends React.Component {
             <div
               className={`exer-right-bottom-content ${isOpen ? '' : 'close'}`}
             >
-              (一)参加论文写作和答辩的学生须严格按照规定时间及流程完成此项工作。
-              否则将顺延至下一批次重新完成此项工作。
+              （一）考生应诚信考试，按时参加考试。
               <br />
-              (二)论文写作的论文稿件,请学生自行备份底稿,以备遗失弥补。
+              （二）考生在答题时，要求考生在考试期间务必打开摄像头，如果系统没有检测到摄像头，则不允许参加考试。
+              <br />
+              （三）考生在考试期间不得脱离电脑摄像头区域，后台将会对正在作答的考生进行抓拍存档备案。
+              <br />
+              （四）打开摄像头后，监考官可以在后台查看同步的监控画面，对监控画面进行截图，如果发现考生有作弊行为，可以在线发送作弊警告。
+              <br />
+              （五)考生在作答过程中严格按照系统提示完成题目输入及上传，确认答题完毕后方可交卷。
+              <br />
+              （六）考试过程中系统问题处理，及时联系相关工作人员。
             </div>
           </div>
         </div>
         <div className="exam-plan">
           <div className="exam-plan-title">
-            考试计划：<span>191次</span>
+            考试计划：{userInfo ? <span>{userInfo.chooseBatch}</span> : null}
           </div>
-          <div className="exam-plan-list clearfix">
-            {list.map((item, index) => (
-              <div key={index} className="exam-plan-item">
-                <div className="exam-plan-top clearfix">
-                  <span className="left"></span>
-                  <div className="title">{item.courseName}</div>
-                  {/* status 1未开始  2正在考试  3已结束 */}
-                  {item.status == 1 ? (
-                    <span className="right status1">未开始</span>
-                  ) : item.status == 2 ? (
-                    <span className="right status2">正在考试</span>
-                  ) : (
-                    <span className="right status3">考试结束</span>
-                  )}
+          {list && list.length ? (
+            <div className="exam-plan-list clearfix">
+              {list.map((item, index) => (
+                <div key={index} className="exam-plan-item">
+                  <div className="exam-plan-top clearfix">
+                    <span className={`left ${this.dealStyle(item)}`}></span>
+                    <div className="title">{item.courseName}</div>
+                    {/* status 1未开始  2正在考试  3已结束 */}
+                    {item.status == 1 ? (
+                      <span className="right status1">未开始</span>
+                    ) : item.status == 2 ? (
+                      <span className="right status4">
+                        {item.continueExam ? (
+                          <Countdown
+                            surplusSeconds={item.surplusSeconds}
+                            timeOver={this.timeOver}
+                          />
+                        ) : (
+                          <span className="status2">
+                            {!item.surplusSeconds ? (
+                              <span className="status2">已开始</span>
+                            ) : (
+                              <Countdown
+                                surplusSeconds={item.surplusSeconds}
+                                timeOver={this.timeOver}
+                              />
+                            )}
+                          </span>
+                        )}
+                      </span>
+                    ) : (
+                      <span className="right status3">考试结束</span>
+                    )}
+                  </div>
+                  <div className="exam-time">
+                    考试时间：
+                    {common.formatTime(item.examAt, 'YYYY/MM/DD HH:mm')} -{' '}
+                    {common.formatTime(item.examEndAt, 'YYYY/MM/DD HH:mm')}
+                  </div>
+                  <div className="exam-time">
+                    考试时长：{item.examDuration}分钟
+                  </div>
+                  <div className="exam-oper">
+                    {item.status == 2 ? (
+                      <div>
+                        {item.continueExam ? (
+                          <Button
+                            key="submit"
+                            type="primary"
+                            loading={loading}
+                            onClick={() => this.goTest(item, true)}
+                          >
+                            继续考试
+                          </Button>
+                        ) : (
+                          <Button
+                            key="submit"
+                            type="primary"
+                            loading={loading}
+                            onClick={() => this.goTest(item)}
+                          >
+                            开始考试
+                          </Button>
+                        )}
+                      </div>
+                    ) : item.status == 3 ? (
+                      <div>
+                        {item.score != null ? (
+                          <span className="score">
+                            最终分数：
+                            <span className={item.score < 60 ? 'denger' : null}>
+                              {item.score}分
+                            </span>
+                          </span>
+                        ) : (
+                          <span className="noScore">成绩未公布</span>
+                        )}
+                      </div>
+                    ) : null}
+                  </div>
                 </div>
-                <div className="exam-time">
-                  考试时间：{common.formatTime(item.examAt)}
-                </div>
-                <div className="exam-time">
-                  考试时长：{item.examDuration}分钟
-                </div>
-                <div className="exam-oper">
-                  {item.status == 2 ? (
-                    <Button
-                      key="submit"
-                      type="primary"
-                      loading={loading}
-                      onClick={() => this.goTest(item)}
-                    >
-                      进入
-                    </Button>
-                  ) : item.status == 3 ? (
-                    <span className="score">
-                      最终分数：
-                      {item.score != null ? (
-                        <span className={item.score < 60 ? 'denger' : null}>
-                          {item.score}分
-                        </span>
-                      ) : null}
-                    </span>
-                  ) : null}
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="exam-plan noPlan">
+              <img src={kongUrl} />
+              <div>暂时还没有考试计划哦！</div>
+            </div>
+          )}
         </div>
       </div>
     )

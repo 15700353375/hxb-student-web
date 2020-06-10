@@ -4,19 +4,19 @@
  * @Description: 首页-个人信息组件
  */
 
-import React from 'react';
-import { connect } from 'react-redux';
-import '@assets/user.scss';
+import React from 'react'
+import { connect } from 'react-redux'
+import '@assets/user.scss'
 
-import http from '../../utils/http';
-import { urls } from '../../utils/api';
-import avatarUrl from '@assets/img/avatar.png';
-import qqUrl from '@assets/img/qq.png';
-import phoneUrl from '@assets/img/phone.png';
+import http from '../../utils/http'
+import { urls } from '../../utils/api'
+import avatarUrl from '@assets/img/avatar.png'
+import qqUrl from '@assets/img/qq.png'
+import phoneUrl from '@assets/img/phone.png'
 
 class User extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       schoolManager: {
         mobile: '',
@@ -28,12 +28,12 @@ class User extends React.Component {
         name: '',
         qq: ''
       }
-    };
-    this.getData = this.getData.bind(this);
+    }
+    this.getData = this.getData.bind(this)
   }
 
   componentDidMount() {
-    this.getData();
+    this.getData()
   }
 
   getData() {
@@ -44,17 +44,17 @@ class User extends React.Component {
             res.body.thesisSupervisionTeacher ||
             this.state.thesisSupervisionTeacher,
           schoolManager: res.body.schoolManager || this.state.schoolManager
-        });
+        })
       }
-    });
+    })
   }
   render() {
     let user = {
       name: '',
       majorName: ''
-    };
-    let userInfo = this.props.userInfo || user;
-    let { thesisSupervisionTeacher, schoolManager } = this.state;
+    }
+    let userInfo = this.props.userInfo || user
+    let { thesisSupervisionTeacher, schoolManager } = this.state
     return (
       <div className="user-block">
         <div className="user-block-top clearfix">
@@ -93,11 +93,11 @@ class User extends React.Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
 const mapStateToProps = state => ({
   userInfo: state.userInfo
-});
+})
 
-export default connect(mapStateToProps)(User);
+export default connect(mapStateToProps)(User)

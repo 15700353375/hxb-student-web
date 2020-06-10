@@ -13,7 +13,7 @@ import avatarUrl from '@assets/img/avatar.png'
 import store from '@store'
 import { createHashHistory } from 'history' // 是hash路由 history路由 自己根据需求来定
 import common from '@utils/common'
-import Camera from '@components/camera'
+
 class TopBar extends Component {
   constructor(props) {
     super(props)
@@ -24,17 +24,21 @@ class TopBar extends Component {
     this.loginOut = this.loginOut.bind(this)
     store.subscribe(() => {
       let state = store.getState()
-      console.log(1111111111, state.currentRoute)
       this.setState({
         currentRoute: state.currentRoute
       })
     })
   }
   componentDidMount() {
-    console.log(111111111, this.props.currentRoute)
     this.setState({
       currentRoute: this.props.currentRoute
     })
+  }
+
+  componentWillUnmount = () => {
+    this.setState = (state, callback) => {
+      return
+    }
   }
 
   goHome() {
@@ -51,6 +55,15 @@ class TopBar extends Component {
     userInfo = this.props.userInfo || userInfo
     let leftComp
     let currentRoute = this.state.currentRoute
+
+    let titleName = '欢迎来到学生系统'
+    if (currentRoute) {
+      if (currentRoute.pathname.indexOf('province') > -1) {
+        titleName = '学生省考系统'
+      } else if (currentRoute.pathname.indexOf('main') > -1) {
+        titleName = '学生论文系统'
+      }
+    }
     if (currentRoute && currentRoute.pathname != '/home') {
       leftComp = (
         <div className="topbar-home" onClick={this.goHome}>
@@ -58,6 +71,8 @@ class TopBar extends Component {
           <span>首页</span>
         </div>
       )
+    } else {
+      leftComp = <div className="topbar-home"></div>
     }
     const menu = (
       <Menu>
@@ -72,8 +87,7 @@ class TopBar extends Component {
     return (
       <div className="topbar">
         {leftComp}
-        {/* <Camera /> */}
-        <span className="topbar-title">论文管理系统</span>
+        <span className="topbar-title">{titleName}</span>
         <div className="topbar-user">
           <img className="topbar-icon-home" src={avatarUrl} alt="home" />
           {/* <span>{userInfo.name}</span> */}

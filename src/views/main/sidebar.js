@@ -4,21 +4,21 @@
  * @Description: 右侧侧边栏
  */
 
-import React, { Component } from 'react';
-import '@assets/sideBar.scss';
-import http from '../../utils/http';
-import { urls } from '../../utils/api';
-import { connect } from 'react-redux';
-import { Button } from 'antd';
-import store from '@store';
+import React, { Component } from 'react'
+import '@assets/sideBar.scss'
+import http from '../../utils/http'
+import { urls } from '../../utils/api'
+import { connect } from 'react-redux'
+import { Button } from 'antd'
+import store from '@store'
 
-import { createHashHistory } from 'history'; // 是hash路由 history路由 自己根据需求来定
-const history = createHashHistory();
+import { createHashHistory } from 'history' // 是hash路由 history路由 自己根据需求来定
+const history = createHashHistory()
 // 路由切换-获取我的文件
 
 class SideBar extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       currentRoute: null,
       attention: [
@@ -65,30 +65,36 @@ class SideBar extends Component {
       ],
       list: [],
       selfFileList: []
-    };
-    this.getData = this.getData.bind(this);
-    this.getSelfFile = this.getSelfFile.bind(this);
+    }
+    this.getData = this.getData.bind(this)
+    this.getSelfFile = this.getSelfFile.bind(this)
 
     store.subscribe(() => {
-      let state = store.getState();
+      let state = store.getState()
       this.setState({
         currentRoute: state.currentRoute
-      });
-    });
+      })
+    })
   }
   componentWillMount() {
     // 路由切换-获取我的文件
     history.listen((location, action) => {
-      if (location.pathname == '/login') return;
-      this.getSelfFile();
-    });
+      if (location.pathname == '/login') return
+      this.getSelfFile()
+    })
   }
   componentDidMount() {
-    this.getData();
-    this.getSelfFile();
+    this.getData()
+    this.getSelfFile()
     this.setState({
       currentRoute: this.props.currentRoute
-    });
+    })
+  }
+
+  componentWillUnmount = () => {
+    this.setState = (state, callback) => {
+      return
+    }
   }
 
   getSelfFile() {
@@ -96,9 +102,9 @@ class SideBar extends Component {
       if (res) {
         this.setState({
           selfFileList: res.body.files
-        });
+        })
       }
-    });
+    })
   }
 
   getData() {
@@ -106,38 +112,38 @@ class SideBar extends Component {
       if (res) {
         this.setState({
           list: res.body.files
-        });
+        })
       }
-    });
+    })
   }
 
   render() {
-    const selfFileList = this.state.selfFileList;
-    const list = this.state.list;
+    const selfFileList = this.state.selfFileList
+    const list = this.state.list
     const listItems = list.map((item, index) => (
       <a key={index} href={item.value} download={item.value}>
         <Button>{item.key}</Button>
       </a>
-    ));
-    let attention = this.state.attention;
-    let current = attention[0];
-    let currentRoute = this.state.currentRoute;
+    ))
+    let attention = this.state.attention
+    let current = attention[0]
+    let currentRoute = this.state.currentRoute
     if (currentRoute && currentRoute.pathname == '/main/topic') {
-      current = attention[1];
+      current = attention[1]
     } else if (
       currentRoute &&
       currentRoute.pathname.toLowerCase().indexOf('paper') > -1
     ) {
-      current = attention[2];
+      current = attention[2]
     } else if (
       currentRoute &&
       currentRoute.pathname.toLowerCase().indexOf('defence') > -1
     ) {
-      current = attention[3];
+      current = attention[3]
     }
 
     function createMarkup() {
-      return { __html: current.content };
+      return { __html: current.content }
     }
     return (
       <div className="sidebar">
@@ -179,13 +185,13 @@ class SideBar extends Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
 
 const mapStateToProps = state => ({
   userInfo: state.userInfo,
   currentRoute: state.currentRoute
-});
+})
 
-export default connect(mapStateToProps)(SideBar);
+export default connect(mapStateToProps)(SideBar)

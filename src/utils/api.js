@@ -8,8 +8,8 @@ let baseUrl = 'http://192.168.0.12:9130/'
 
 if (process.env.NODE_ENV === 'production') {
   // 测试部使用的生产环境，上线时改为发布环境
-  baseUrl = 'http://api.huixuebang.com/'
-  // baseUrl = 'http://192.168.0.12:9130/';
+  // baseUrl = 'http://api.huixuebang.com/'
+  baseUrl = 'http://192.168.0.12:9130/'
 } else {
   // 开发环境
   // baseUrl = 'http://api.huixuebang.com/'
@@ -100,7 +100,22 @@ export const urls = {
   EXAM_PLAN_ANSWER: 'org-backend/student/exam/plan/{0}/exercise/{1}/answer',
 
   // 成绩单
-  EXAM_SCOREREPORT: 'org-backend/student/exam/scoreReport'
+  EXAM_SCOREREPORT: 'org-backend/student/exam/scoreReport',
+
+  // 申请复查
+  EXAM_PLAN_REVIEW: 'org-backend/student/exam/plan/{0}/batchNo/{1}/review',
+
+  // 上传照片
+  EXAM_PLAN_PICTURE: 'org-backend/student/exam/plan/{0}/picture',
+
+  // 获取当前用户所有批次-论文
+  PAPER_BATCH: 'org-backend/student/paper/batch',
+
+  // 开始考试
+  EXAM_PAPER_TODO: 'org-backend/student/exam/plan/{0}/paper/to-do',
+
+  // 省考注意事项确认
+  EXAM_NOTES_ACK: 'org-backend/student/exam/notes/ack'
 }
 
 // 不需要token的请求

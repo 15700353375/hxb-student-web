@@ -36,14 +36,14 @@ class LoginForm extends React.Component {
           loading: true
         })
         http.postJson(urls.LOGIN, values).then(res => {
-          if (res) {
+          if (res && res.body) {
+            // 用户信息存在本地和redux
             localStorage.setItem('userInfo', JSON.stringify(res.body))
             this.props.dispatch(setUserInfo(res.body))
+            // token存在session
             sessionStorage.setItem('sToken', res.body.token)
-            if (res.body) {
-              if (res.body.mobileAck && res.body.notesAck) {
-                createHashHistory().push('/home')
-              }
+            if (res.body.mobileAck) {
+              createHashHistory().replace('/home')
             }
           }
           this.setState({
@@ -60,7 +60,7 @@ class LoginForm extends React.Component {
     const validator_login_password = verification.validator_login_password
     return (
       <div>
-        <h2>欢迎登录论文管理系统</h2>
+        <h2>欢迎登录</h2>
         <Form onSubmit={this.handleSubmit} className="login-form login-content">
           <Form.Item>
             {getFieldDecorator('idCard', {

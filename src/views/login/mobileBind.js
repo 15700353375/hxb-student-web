@@ -3,38 +3,38 @@
  * description: 绑定手机号
  * time: 2019-12-12
  */
-import React from 'react';
-import { Form, Input, Button } from 'antd';
-import http from '@utils/http';
-import { urls } from '@utils/api';
-import verification from '@utils/verification';
+import React from 'react'
+import { Form, Input, Button } from 'antd'
+import http from '@utils/http'
+import { urls } from '@utils/api'
+import verification from '@utils/verification'
 
-import '@assets/login.scss';
-import img_mobile from '@assets/img/mobile.png';
-import img_code from '@assets/img/code.png';
+import '@assets/login.scss'
+import img_mobile from '@assets/img/mobile.png'
+import img_code from '@assets/img/code.png'
 
-import { connect } from 'react-redux';
-import { setUserInfo } from '@store/actions';
+import { connect } from 'react-redux'
+import { setUserInfo } from '@store/actions'
 
-let timers;
+let timers
 class MobileBind extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       loading: false,
       // 是否可点击获取验证码
       flag: true,
       timer: 60
-    };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.getCode = this.getCode.bind(this);
-    this.dealTime = this.dealTime.bind(this);
-    this.goBack = this.goBack.bind(this);
+    }
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.getCode = this.getCode.bind(this)
+    this.dealTime = this.dealTime.bind(this)
+    this.goBack = this.goBack.bind(this)
   }
 
   componentDidMount() {}
   componentWillUnmount() {
-    clearInterval(timers);
+    clearInterval(timers)
   }
 
   /* 获取验证码 */
@@ -43,65 +43,66 @@ class MobileBind extends React.Component {
       if (!err) {
         http.post(urls.GETCODE, { mobile: values.newMobile }).then(res => {
           if (res) {
-            this.dealTime();
+            this.dealTime()
           }
-        });
+        })
       }
-    });
+    })
   }
 
   dealTime() {
     this.setState({
       flag: false
-    });
+    })
     timers = setInterval(() => {
-      let timer = this.state.timer;
+      let timer = this.state.timer
       this.setState({
         timer: timer - 1
-      });
+      })
       if (timer <= 0) {
-        clearInterval(timers);
+        clearInterval(timers)
         this.setState({
           timer: 60,
           flag: true
-        });
+        })
       }
-    }, 1000);
+    }, 1000)
   }
 
   handleSubmit = e => {
-    e.preventDefault();
+    e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.setState({
           loading: true
-        });
+        })
         http.put(urls.MOBILE_BIND, values).then(res => {
           if (res) {
-            let userInfo = JSON.parse(localStorage.getItem('userInfo'));
-            userInfo.mobile = values.newMobile;
-            userInfo.mobileAck = true;
-            localStorage.setItem('userInfo', JSON.stringify(userInfo));
-            this.props.handleBindMobile(userInfo);
-            this.props.dispatch(setUserInfo(userInfo));
-            localStorage.removeItem('goChangeMobile');
+            let userInfo = JSON.parse(localStorage.getItem('userInfo'))
+            userInfo.mobile = values.newMobile
+            userInfo.mobileAck = true
+            // 用户信息存在本地和redux
+            localStorage.setItem('userInfo', JSON.stringify(userInfo))
+            this.props.handleBindMobile(userInfo)
+            this.props.dispatch(setUserInfo(userInfo))
+            localStorage.removeItem('goChangeMobile')
           }
           this.setState({
             loading: false
-          });
-        });
+          })
+        })
       }
-    });
-  };
+    })
+  }
 
   goBack() {
-    this.props.handleBindMobile();
+    this.props.handleBindMobile()
   }
 
   render() {
-    const { getFieldDecorator } = this.props.form;
-    const validator_mobile = verification.validator_mobile;
-    const validator_code = verification.validator_code;
+    const { getFieldDecorator } = this.props.form
+    const validator_mobile = verification.validator_mobile
+    const validator_code = verification.validator_code
     return (
       <div className="mobile">
         <h2>绑定手机号</h2>
@@ -171,9 +172,9 @@ class MobileBind extends React.Component {
           </Form.Item>
         </Form>
       </div>
-    );
+    )
   }
 }
 
-const comp = connect()(MobileBind);
-export default Form.create({ name: 'normal_mobile' })(comp);
+const comp = connect()(MobileBind)
+export default Form.create({ name: 'normal_mobile' })(comp)

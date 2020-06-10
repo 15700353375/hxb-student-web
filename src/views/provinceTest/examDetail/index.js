@@ -30,7 +30,22 @@ class ExamDetail extends React.Component {
           dataIndex: 'examStartTime',
           defaultSortOrder: 'descend',
           sorter: (a, b) => a.examStartTime - b.examStartTime,
-          render: text => <span>{common.formatTime(text)}</span>
+          render: (text, record, index) => {
+            return (
+              <span>
+                {common.formatTime(record.examStartTime, 'YYYY/MM/DD HH:mm')} -{' '}
+                {common.formatTime(record.examEndTime, 'YYYY/MM/DD HH:mm')}
+              </span>
+            )
+          }
+        },
+        {
+          title: '参考时间',
+          dataIndex: 'joinTime',
+          defaultSortOrder: 'descend',
+          render: text => (
+            <span>{common.formatTime(text, 'YYYY/MM/DD HH:mm')}</span>
+          )
         },
         /* status 1未开始  2正在考试  3已结束 4缺考 */
         {
@@ -46,17 +61,35 @@ class ExamDetail extends React.Component {
           render: (text, record, index) => {
             return record.status == 4 ? (
               <span className="status">缺考</span>
-            ) : record.status == 3 ? (
-              <span>{record.score}</span>
+            ) : record.status == 3 && record.score != null ? (
+              <span>{record.score}分</span>
+            ) : record.status == 3 && record.score == null ? (
+              <span>待公布</span>
             ) : (
               <span>--</span>
             )
           }
         },
         {
+          title: '复查状态',
+          dataIndex: 'review',
+          render: (text, record, index) =>
+            !record.review && record.reviewScore == null ? (
+              <span>--</span>
+            ) : record.review && record.reviewScore == null ? (
+              <span>复查中</span>
+            ) : (
+              <span>已申请/复查结果：{record.reviewScore}分</span>
+            )
+        },
+        {
           title: '操作',
           render: (text, record, index) => {
-            return <a onClick={() => this.reCheck(record)}>申请复查</a>
+            return record.canApplyReview && !record.review ? (
+              <a onClick={() => this.reCheck(record)}>申请复查</a>
+            ) : (
+              <span>--</span>
+            )
           }
         }
       ],
@@ -96,17 +129,33 @@ class ExamDetail extends React.Component {
 
   /* 申请复查 */
   reCheck(item) {
-    message.success('申请成功')
+    http
+      .put(urls.EXAM_PLAN_REVIEW, null, item.planId, item.batchNo)
+      .then(res => {
+        if (res) {
+          message.success('申请成功')
+          this.getData()
+        }
+      })
   }
 
   getData() {
     http.get(urls.EXAM_SCOREREPORT, null).then(res => {
       if (res) {
         this.setState({
-          data: res.body
+          data: this.dealList(res.body)
         })
       }
     })
+  }
+
+  dealList(data) {
+    if (!data || !data.length) return []
+    data.forEach((item, index) => {
+      item['ind'] = index
+    })
+
+    return data
   }
   render() {
     const { columns, data } = this.state
@@ -119,6 +168,8 @@ class ExamDetail extends React.Component {
             dataSource={data}
             onChange={this.onChange}
             size="middle"
+            rowKey="ind"
+            pagination={false}
           />
           ,
         </div>

@@ -12,11 +12,13 @@ import common from '@utils/common'
 import { createHashHistory } from 'history'
 import { Input, Button, Modal, message } from 'antd'
 const { confirm } = Modal
+import Camera from '@components/camera'
 
 class Exam extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      isShowCamera: true,
       loading: false,
       planId: null,
       surplusSeconds: null,
@@ -60,6 +62,10 @@ class Exam extends React.Component {
             this.dealTimer()
           }
         )
+      } else {
+        this.setState({
+          isShowCamera: false
+        })
       }
     })
   }
@@ -67,7 +73,26 @@ class Exam extends React.Component {
   /* 处理倒计时 */
   dealTimer() {
     this.state.timer = setInterval(() => {
-      // debugger
+      if (this.state.surplusSeconds < 1) {
+        this.postData()
+        clearInterval(this.state.timer)
+
+        Modal.warning({
+          title: '考试已结束！',
+          okText: '我知道了',
+          content: (
+            <div>
+              <p>系统已为你自动交卷。</p>
+            </div>
+          ),
+          onOk() {
+            createHashHistory().push({
+              pathname: 'examPlan'
+            })
+          }
+        })
+        return
+      }
       //需要定时执行的方法
       let surplusSeconds = this.state.surplusSeconds - 1
       let lastTime = common.sec_to_time(surplusSeconds)
@@ -105,6 +130,15 @@ class Exam extends React.Component {
       })
     })
     return list
+  }
+
+  /* 点击答题卡左侧滚动到指定题 */
+  goView(view) {
+    let element = document.getElementById(view)
+    let scrollIntoViewOptions = {
+      behavior: 'smooth' //滚动
+    }
+    element.scrollIntoView(scrollIntoViewOptions)
   }
 
   /* 点击了选项 */
@@ -179,7 +213,7 @@ class Exam extends React.Component {
     http
       .put(urls.EXAM_PLAN_ANSWER, data, this.state.planId, current.exercisesNo)
       .then(res => {
-        if (res) {
+        if (res && res.body) {
           this.setState({
             list: list
           })
@@ -211,7 +245,7 @@ class Exam extends React.Component {
     http
       .put(urls.EXAM_PLAN_ANSWER, data, this.state.planId, current.exercisesNo)
       .then(res => {
-        if (res) {
+        if (res && res.body) {
           this.setState({
             list: list
           })
@@ -226,7 +260,7 @@ class Exam extends React.Component {
     let tipText = '考试尚未结束，是否继续交卷？'
     if (!flag) {
       tipText = '还有未答的题目，是否继续交卷？'
-    } else if (this.state.paperData.examDuration) {
+    } else if (this.state.paperData.surplusSeconds) {
       tipText = '考试尚未结束，是否继续交卷？'
     }
     let that = this
@@ -271,16 +305,18 @@ class Exam extends React.Component {
   }
 
   render() {
-    const { paperData, list, loading, lastTime } = this.state
+    const { paperData, list, loading, lastTime, isShowCamera } = this.state
 
     return (
       <div className="exam clearfix">
+        {/* {isShowCamera ? <Camera /> : null} */}
+
         <div className="exam-right">
           <div className="card-main">
             <div className="exer-card-main scrollStyle">
               <div className="exer-card">答题卡</div>
-              {list.map((ele, index) => (
-                <div className="card-item" key={index}>
+              {list.map((ele, ind) => (
+                <div className="card-item" key={ind}>
                   <div className="card-title">{ele.description}</div>
                   <div className="clearfix card-box">
                     {ele.exercises.map((item, index) => (
@@ -288,6 +324,7 @@ class Exam extends React.Component {
                         className="card"
                         className={`card ${item.hasAnswer ? 'checked' : null}`}
                         key={index}
+                        onClick={() => this.goView(`${ind + 1}-${index + 1}`)}
                       >
                         {index + 1}
                       </span>
@@ -308,7 +345,7 @@ class Exam extends React.Component {
           <div className="exam-time">
             <span className="last-time">
               剩余时间:
-              <span>{lastTime}</span>
+              <span>{lastTime || 0}</span>
             </span>
             <Button
               key="submit"
@@ -329,14 +366,19 @@ class Exam extends React.Component {
             </span>
             <span className="title-score">满分：{paperData.fullScore}分</span>
           </div>
-          <div className="exam-paper scrollStyle">
+          <div className="exam-paper scrollStyle" ref="examPaper">
+            {isShowCamera ? <Camera /> : null}
+
             {list.map((ele, ind) => (
               <div className="paper-item" key={ind}>
                 <div className="big-title">{ele.description}</div>
                 {/* 大题里面的小题 */}
                 {ele.exercises.map((item, index) => (
                   <div className="little-exer" key={index}>
-                    <div className="description-tit">
+                    <div
+                      className="description-tit"
+                      id={`${ind + 1}-${index + 1}`}
+                    >
                       <span>{index + 1}、</span>
                       <div
                         className="description"

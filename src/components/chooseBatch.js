@@ -8,6 +8,8 @@ import { Modal, Button } from 'antd'
 import http from '@utils/http'
 import { urls } from '@utils/api'
 import '@assets/chooseBatch.scss'
+import { connect } from 'react-redux'
+import { setUserInfo } from '@store/actions'
 import { createHashHistory } from 'history'
 class ChooseBatch extends React.Component {
   constructor(props) {
@@ -55,12 +57,6 @@ class ChooseBatch extends React.Component {
     http.put(urls.EXAM_ORG + `/${item.key}`).then(res => {
       if (res) {
         sessionStorage.setItem('sToken', res.body.token)
-        let userInfo = localStorage.getItem('userInfo')
-        userInfo = JSON.parse(userInfo)
-        userInfo.idCard = res.body.idCard
-        userInfo.orgId = res.body.orgId
-        userInfo.orgName = res.body.orgName
-        localStorage.setItem('userInfo', JSON.stringify(userInfo))
         this.getBatch()
         this.setState({
           currentOrg: item
@@ -81,7 +77,19 @@ class ChooseBatch extends React.Component {
     http.put(urls.EXAM_BATCH + `/${this.state.currentBatch.key}`).then(res => {
       if (res) {
         sessionStorage.setItem('sToken', res.body.token)
-        createHashHistory().push('/province/examPlan')
+        let userInfo = localStorage.getItem('userInfo')
+        userInfo = JSON.parse(userInfo)
+        userInfo.examNo = res.body.examNo
+        userInfo.chooseBatch = this.state.currentBatch.value
+        localStorage.setItem('userInfo', JSON.stringify(userInfo))
+        this.props.dispatch(setUserInfo(userInfo))
+
+        // 如果没有确认注意事项、就去确认，否则直接进入
+        if (res.body.notesAck) {
+          createHashHistory().push('/province/examPlan')
+        } else {
+          this.props.closeModal(true)
+        }
       }
     })
   }
@@ -162,4 +170,4 @@ class ChooseBatch extends React.Component {
   }
 }
 
-export default ChooseBatch
+export default connect()(ChooseBatch)
