@@ -31,6 +31,87 @@
         height: 100%;
         overflow-y: auto;
       }
+      .clearfix::after {
+        content: '.';
+        clear: both;
+        display: block;
+        overflow: hidden;
+        font-size: 0;
+        height: 0;
+      }
+      .clearfix {
+        zoom: 1;
+      }
+      body {
+        position: relative;
+      }
+      .browser-main {
+        display: none;
+        width: 1000px;
+        height: 600px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -540px;
+        margin-top: -300px;
+        /* -ms-margin-top: 200px;
+        -webkit-margin-top: 200px;
+        -moz-margin-top: 200px;
+        -o-margin-top: 200px;
+        margin-top: 200px; */
+        /* -ms-border-radius: 10px; */
+      }
+      .browser {
+        height: 113px;
+        font-size: 38px;
+        font-family: PingFang SC, PingFang SC-Bold;
+        font-weight: 700;
+        text-align: center;
+        color: #333333;
+        line-height: 60px;
+      }
+      .browserList {
+        width: 1080px;
+        margin-left: -40px;
+        margin: 0 auto;
+        margin-top: 100px;
+      }
+      .browser-item {
+        width: 160px;
+        margin: 0 100px;
+        float: left;
+      }
+      .browser-item img {
+        width: 160px;
+        height: 160px;
+      }
+      .browser-item .tit {
+        height: 60px;
+        font-size: 20px;
+        font-family: PingFang SC, PingFang SC-Bold;
+        font-weight: 700;
+        text-align: center;
+        color: #333333;
+        line-height: 30px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
+      .browser-item a {
+        display: inline-block;
+        width: 160px;
+        height: 40px;
+        background: #1890ff;
+        border-radius: 4px;
+        font-size: 16px;
+        font-family: PingFang SC, PingFang SC-Regular;
+        font-weight: 400;
+        text-align: center;
+        color: #ffffff;
+        line-height: 40px;
+      }
+      .browser-item a:hover {
+        color: #fff;
+      }
     </style>
   </head>
   <body>
@@ -46,5 +127,56 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+
+    <!-- 
+      谷歌：https://www.google.cn/chrome/
+
+火狐：http://www.firefox.com.cn
+
+edge：https://www.microsoft.com/zh-cn/edge
+     -->
+
+    <!-- ie10,11 -->
+    <div class="browser-main" id="browser">
+      <div class="browser">
+        为了保证您正常使用该系统<br />
+        请使用以下浏览器进行访问
+      </div>
+      <div class="browserList clearfix">
+        <div class="browser-item">
+          <img src="./web1x_火狐.png" />
+          <div class="tit">火狐浏览器</div>
+          <a href="http://www.firefox.com.cn">点击下载</a>
+        </div>
+        <div class="browser-item">
+          <img src="./web1x_谷歌.png" />
+          <div class="tit">谷歌浏览器<br />（推荐）</div>
+          <a href="https://www.google.cn/chrome/">点击下载</a>
+        </div>
+        <div class="browser-item">
+          <img src="./web1x_Edge.png" />
+          <div class="tit">Edge浏览器</div>
+          <a href="https://www.microsoft.com/zh-cn/edge">点击下载</a>
+        </div>
+      </div>
+    </div>
   </body>
+  <script>
+    var browser = document.getElementById('browser')
+    var root = document.getElementById('root')
+    var ms_ie = true
+    var ua = window.navigator.userAgent
+    // 判断是否是ie浏览器
+    var old_ie = ua.indexOf('MSIE ')
+    var new_ie = ua.indexOf('Trident/')
+
+    if (old_ie > -1 || new_ie > -1) {
+      ms_ie = true
+    }
+
+    if (ms_ie) {
+      browser.style.display = 'block'
+      root.remove()
+    }
+  </script>
 </html>

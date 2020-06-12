@@ -8,11 +8,11 @@ let baseUrl = 'http://192.168.0.12:9130/'
 
 if (process.env.NODE_ENV === 'production') {
   // 测试部使用的生产环境，上线时改为发布环境
-  // baseUrl = 'http://api.huixuebang.com/'
-  baseUrl = 'http://192.168.0.12:9130/'
+  baseUrl = 'https://api.huixuebang.com/'
+  // baseUrl = 'http://192.168.0.12:9130/'
 } else {
   // 开发环境
-  // baseUrl = 'http://api.huixuebang.com/'
+  // baseUrl = 'https://api.huixuebang.com/'
   baseUrl = 'http://192.168.0.12:9130/'
   // baseUrl = 'http://api.huixuebang.com/';
   // baseUrl = 'http://192.168.0.12:9130/';

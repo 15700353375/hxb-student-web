@@ -114,3 +114,17 @@
 .diaplayNone {
   display: none;
 }
+.float_left {
+  float: left;
+}
+.float_right {
+  float: right;
+}
+
+.marginB-20 {
+  margin-bottom: 20px;
+}
+
+.marginB-30 {
+  margin-bottom: 30px;
+}

@@ -79,7 +79,7 @@ class ExamDetail extends React.Component {
             ) : record.review && record.reviewScore == null ? (
               <span>复查中</span>
             ) : (
-              <span>已申请/复查结果：{record.reviewScore}分</span>
+              <span>复查结果：{record.reviewScore}分</span>
             )
         },
         {
@@ -169,9 +169,9 @@ class ExamDetail extends React.Component {
             onChange={this.onChange}
             size="middle"
             rowKey="ind"
+            locale={{ emptyText: '暂无数据' }}
             pagination={false}
           />
-          ,
         </div>
       </div>
     )

@@ -12,7 +12,9 @@ import { Modal, Button, message } from 'antd'
 import { createHashHistory } from 'history'
 import common from '@utils/common'
 import Countdown from '@components/countdown'
+import TestCamera from '@components/testCamera'
 import kongUrl from '@assets/img/web1x_kaoshijihua_kong.png'
+import cameraUrl from '@assets/img/web1x_shexiangtou.png'
 
 class ExamPlan extends React.Component {
   constructor(prop) {
@@ -20,6 +22,7 @@ class ExamPlan extends React.Component {
     this.state = {
       loading: false,
       isOpen: false,
+      isShowCamera: true,
       allExamTime: 0,
       actualExamTime: 0,
       list: []
@@ -27,6 +30,8 @@ class ExamPlan extends React.Component {
     this.getData = this.getData.bind(this)
     this.changeOpen = this.changeOpen.bind(this)
     this.timeOver = this.timeOver.bind(this)
+    this.testCamera = this.testCamera.bind(this)
+    this.closeModal = this.closeModal.bind(this)
   }
   componentDidMount() {
     this.getData()
@@ -38,6 +43,19 @@ class ExamPlan extends React.Component {
     let isOpen = this.state.isOpen
     this.setState({
       isOpen: !isOpen
+    })
+  }
+
+  /* 摄像头测试 */
+  testCamera() {
+    this.setState({
+      isShowCamera: true
+    })
+  }
+  /* 关闭摄像头弹窗 */
+  closeModal() {
+    this.setState({
+      isShowCamera: false
     })
   }
 
@@ -69,7 +87,9 @@ class ExamPlan extends React.Component {
       okText: '我知道了',
       onOk() {
         if (!continueExam) {
-          that.examTodo(item)
+          common.checkOpenCamera().then(res => {
+            that.examTodo(item)
+          })
         } else {
           common.checkOpenCamera().then(res => {
             createHashHistory().push({
@@ -88,13 +108,11 @@ class ExamPlan extends React.Component {
   examTodo(item) {
     http.put(urls.EXAM_PAPER_TODO, null, item.id).then(res => {
       if (res && res.body) {
-        common.checkOpenCamera().then(res => {
-          createHashHistory().push({
-            pathname: 'exam',
-            search: `?planId=${item.id}`,
-            state: { model: true },
-            query: { planId: item.id }
-          })
+        createHashHistory().push({
+          pathname: 'exam',
+          search: `?planId=${item.id}`,
+          state: { model: true },
+          query: { planId: item.id }
         })
       }
     })
@@ -106,7 +124,7 @@ class ExamPlan extends React.Component {
       if (res) {
         let list = res.body
         let actualList = _.filter(list, function(o) {
-          return o.score != null
+          return o.joinTime != null
         })
         this.setState({
           allExamTime: list.length,
@@ -139,10 +157,18 @@ class ExamPlan extends React.Component {
   }
 
   render() {
-    const { list, loading, isOpen, allExamTime, actualExamTime } = this.state
+    const {
+      list,
+      loading,
+      isOpen,
+      allExamTime,
+      actualExamTime,
+      isShowCamera
+    } = this.state
     const { userInfo } = this.props
     return (
       <div className="exam-plan-mian clearfix">
+        {isShowCamera ? <TestCamera closeModal={this.closeModal} /> : null}
         <div className="exam-plan-right">
           <div className="exam-right-top">
             <div className="exam-card">成绩查询</div>
@@ -190,7 +216,17 @@ class ExamPlan extends React.Component {
         </div>
         <div className="exam-plan">
           <div className="exam-plan-title">
-            考试计划：{userInfo ? <span>{userInfo.chooseBatch}</span> : null}
+            考试计划：
+            {userInfo ? (
+              <span className="batch">{userInfo.chooseBatch}</span>
+            ) : null}
+            <a className="float_right" onClick={this.testCamera}>
+              <img src={cameraUrl} />
+              摄像头测试
+            </a>
+            <span className="timer">
+              本次考试成绩公布时间：2020年10月10日 10:00
+            </span>
           </div>
           {list && list.length ? (
             <div className="exam-plan-list clearfix">
