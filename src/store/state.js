@@ -4,12 +4,14 @@
  * @Description: redux basic state
  */
 
-let userInfo = localStorage.getItem('userInfo');
-let topic = localStorage.getItem('topic');
-import { createHashHistory } from 'history'; // 是hash路由 history路由 自己根据需求来定
-const history = createHashHistory();
+let userInfo = localStorage.getItem('userInfo')
+let topic = localStorage.getItem('topic')
+let exam = localStorage.getItem('exam')
+import { createHashHistory } from 'history' // 是hash路由 history路由 自己根据需求来定
+const history = createHashHistory()
 export default {
   userInfo: JSON.parse(userInfo),
   currentRoute: history.location,
-  topic: JSON.parse(topic)
-};
+  topic: JSON.parse(topic),
+  exam: JSON.parse(exam)
+}

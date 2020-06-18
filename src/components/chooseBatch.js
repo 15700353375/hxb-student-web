@@ -80,6 +80,7 @@ class ChooseBatch extends React.Component {
         let userInfo = localStorage.getItem('userInfo')
         userInfo = JSON.parse(userInfo)
         userInfo.examNo = res.body.examNo
+        userInfo.scorePublishAt = res.body.scorePublishAt
         userInfo.chooseBatch = this.state.currentBatch.value
         localStorage.setItem('userInfo', JSON.stringify(userInfo))
         this.props.dispatch(setUserInfo(userInfo))

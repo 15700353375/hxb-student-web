@@ -9,6 +9,7 @@ import http from '@utils/http'
 import { urls } from '@utils/api'
 import '@assets/exam.scss'
 import common from '@utils/common'
+import { setExam } from '@store/actions'
 import { createHashHistory } from 'history'
 import { Input, Button, Modal, message } from 'antd'
 const { confirm } = Modal
@@ -62,6 +63,11 @@ class Exam extends React.Component {
             this.dealTimer()
           }
         )
+        let data = {
+          courseName: res.body.courseName
+        }
+        localStorage.setItem('exam', JSON.stringify(data))
+        this.props.dispatch(setExam(data))
       } else {
         this.setState({
           isShowCamera: false
@@ -305,7 +311,14 @@ class Exam extends React.Component {
   }
 
   render() {
-    const { paperData, list, loading, lastTime, isShowCamera } = this.state
+    const {
+      paperData,
+      list,
+      loading,
+      lastTime,
+      isShowCamera,
+      surplusSeconds
+    } = this.state
 
     return (
       <div className="exam clearfix">
@@ -313,6 +326,7 @@ class Exam extends React.Component {
 
         <div className="exam-right">
           <div className="card-main">
+            {isShowCamera ? <Camera /> : null}
             <div className="exer-card-main scrollStyle">
               <div className="exer-card">答题卡</div>
               {list.map((ele, ind) => (
@@ -350,25 +364,28 @@ class Exam extends React.Component {
             <Button
               key="submit"
               type="primary"
+              disabled={
+                paperData.examDuration - Math.floor(surplusSeconds / 60) < 30
+              }
               loading={loading}
               onClick={this.finish}
             >
-              交卷
+              {paperData.examDuration - Math.floor(surplusSeconds / 60) < 30
+                ? '30分钟后可交卷'
+                : '交卷'}
             </Button>
           </div>
         </div>
 
         <div className="exam-left">
           <div className="exam-title">
-            高级财务会计考试
+            {paperData.courseName}考试
             <span className="title-time">
               考试时间：{paperData.examDuration}分钟
             </span>
             <span className="title-score">满分：{paperData.fullScore}分</span>
           </div>
           <div className="exam-paper scrollStyle" ref="examPaper">
-            {isShowCamera ? <Camera /> : null}
-
             {list.map((ele, ind) => (
               <div className="paper-item" key={ind}>
                 <div className="big-title">{ele.description}</div>
@@ -391,19 +408,17 @@ class Exam extends React.Component {
                     {item.exercisesCategory == 1 ? (
                       <div className="clearfix">
                         {item.choices.map((child, childIndex) => (
-                          <div className="objective clearfix" key={childIndex}>
+                          <div
+                            className="objective clearfix"
+                            key={childIndex}
+                            onClick={() =>
+                              this.choice(ind, index, childIndex, child.checked)
+                            }
+                          >
                             <span
                               className={`choice ${
                                 item.multipleChoice ? 'multiple' : ''
                               } ${child.checked ? 'checked' : null}`}
-                              onClick={() =>
-                                this.choice(
-                                  ind,
-                                  index,
-                                  childIndex,
-                                  child.checked
-                                )
-                              }
                             >
                               {child.choice}
                             </span>
@@ -453,20 +468,20 @@ class Exam extends React.Component {
                                 <div
                                   className="objective clearfix"
                                   key={choiceIndex}
+                                  onClick={() =>
+                                    this.hasChildChoice(
+                                      ind,
+                                      index,
+                                      childIndex,
+                                      choiceIndex,
+                                      choiceItem.checked
+                                    )
+                                  }
                                 >
                                   <span
                                     className={`choice  ${
                                       child.multipleChoice ? 'multiple' : ''
                                     } ${choiceItem.checked ? 'checked' : null}`}
-                                    onClick={() =>
-                                      this.hasChildChoice(
-                                        ind,
-                                        index,
-                                        childIndex,
-                                        choiceIndex,
-                                        choiceItem.checked
-                                      )
-                                    }
                                   >
                                     {choiceItem.choice}
                                   </span>

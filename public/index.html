@@ -42,24 +42,16 @@
       .clearfix {
         zoom: 1;
       }
-      body {
-        position: relative;
-      }
       .browser-main {
         display: none;
         width: 1000px;
         height: 600px;
+        margin: auto;
         position: absolute;
-        top: 50%;
-        left: 50%;
-        margin-left: -540px;
-        margin-top: -300px;
-        /* -ms-margin-top: 200px;
-        -webkit-margin-top: 200px;
-        -moz-margin-top: 200px;
-        -o-margin-top: 200px;
-        margin-top: 200px; */
-        /* -ms-border-radius: 10px; */
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
       }
       .browser {
         height: 113px;
@@ -117,24 +109,6 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-
-    <!-- 
-      谷歌：https://www.google.cn/chrome/
-
-火狐：http://www.firefox.com.cn
-
-edge：https://www.microsoft.com/zh-cn/edge
-     -->
 
     <!-- ie10,11 -->
     <div class="browser-main" id="browser">
@@ -164,7 +138,7 @@ edge：https://www.microsoft.com/zh-cn/edge
   <script>
     var browser = document.getElementById('browser')
     var root = document.getElementById('root')
-    var ms_ie = true
+    var ms_ie = false
     var ua = window.navigator.userAgent
     // 判断是否是ie浏览器
     var old_ie = ua.indexOf('MSIE ')

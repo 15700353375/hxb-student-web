@@ -22,7 +22,7 @@ class ExamPlan extends React.Component {
     this.state = {
       loading: false,
       isOpen: false,
-      isShowCamera: true,
+      isShowCamera: false,
       allExamTime: 0,
       actualExamTime: 0,
       list: []
@@ -225,7 +225,10 @@ class ExamPlan extends React.Component {
               摄像头测试
             </a>
             <span className="timer">
-              本次考试成绩公布时间：2020年10月10日 10:00
+              本次考试成绩公布时间：
+              {userInfo && userInfo.scorePublishAt
+                ? common.formatTime(userInfo.scorePublishAt)
+                : ''}
             </span>
           </div>
           {list && list.length ? (

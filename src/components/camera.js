@@ -9,6 +9,7 @@ import { connect } from 'react-redux'
 import common from '@utils/common'
 import http from '@utils/http'
 import { urls } from '@utils/api'
+import '@assets/camera.scss'
 class Camera extends React.Component {
   constructor(props) {
     super(props)
@@ -52,7 +53,7 @@ class Camera extends React.Component {
           video.play()
 
           setTimeout(() => {
-            context.drawImage(video, 0, 0, 800, 600)
+            context.drawImage(video, 0, 0, 400, 300)
             that.convertCanvasToImage(canvas)
           }, 1000)
         }
@@ -74,7 +75,7 @@ class Camera extends React.Component {
         video.onloadedmetadata = function(e) {
           video.play()
           setTimeout(() => {
-            context.drawImage(video, 0, 0, 800, 600)
+            context.drawImage(video, 0, 0, 400, 300)
             that.convertCanvasToImage(canvas)
           }, 1000)
         }
@@ -90,7 +91,7 @@ class Camera extends React.Component {
   /* 定时拍照 */
   takePhoto(context, canvas, video) {
     this.state.timer = setInterval(() => {
-      context.drawImage(video, 0, 0, 800, 600)
+      context.drawImage(video, 0, 0, 400, 300)
       this.convertCanvasToImage(canvas)
     }, 480000)
   }
@@ -136,13 +137,20 @@ class Camera extends React.Component {
 
   render() {
     return (
-      <div className="diaplayNone">
-        <video ref="video" width="800" height="600" autoPlay></video>
+      <div className="camera-main">
+        <video ref="video" width="200" height="150" autoPlay></video>
         <canvas
+          className="diaplayNone"
           ref={node => (this.canvas = node)}
-          width="800"
-          height="600"
+          width="400"
+          height="300"
         ></canvas>
+        <div className="camera-tips">
+          <div className="tits">实时监控中</div>
+          <div className="content">
+            请勿遮挡脸部，确保您的正脸在拍摄画面范围内！
+          </div>
+        </div>
       </div>
     )
   }

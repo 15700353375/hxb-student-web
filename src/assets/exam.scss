@@ -89,6 +89,7 @@
             }
           }
           .choice-text {
+            cursor: pointer;
             overflow: hidden;
             &.checked {
               color: #1890ff;

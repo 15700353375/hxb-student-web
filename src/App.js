@@ -13,6 +13,19 @@ import routes from './router'
 import { setRoutes } from '@store/actions'
 import store from './store/index.js'
 
+if (process.env.NODE_ENV === 'production') {
+  // 测试部使用的生产环境，上线时改为发布环境
+  redirect()
+}
+
+function redirect() {
+  var loc = location.href.split(':')
+  if (loc[0] == 'http') {
+    location.href = 'https:' + loc[1]
+    // console.log('https:' + loc[1])
+  }
+}
+
 window.Moment = moment
 window.qs = qs
 window._ = _

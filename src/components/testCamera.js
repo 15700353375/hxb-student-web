@@ -13,15 +13,21 @@ class TestCamera extends React.Component {
     this.state = {
       visible: true,
       hasCamera: true,
-      index: 0
+      index: 0,
+      localMediaStream: null
     }
     this.start = this.start.bind(this)
     this.handleCancel = this.handleCancel.bind(this)
   }
   componentDidMount() {
     // setTimeout(() => {
-    //   this.start()
+    //   this.startNew()
     // }, 1000)
+  }
+  componentWillUnmount() {
+    if (this.state.localMediaStream) {
+      this.state.localMediaStream.getTracks()[0].stop()
+    }
   }
 
   start() {
@@ -37,6 +43,9 @@ class TestCamera extends React.Component {
         video: true
       })
       p.then(function(mediaStream) {
+        that.setState({
+          localMediaStream: mediaStream
+        })
         video.srcObject = mediaStream
         video.onloadedmetadata = function(e) {
           video.play()
